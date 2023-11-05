@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.qty-container{
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 10rem;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  color: $primary-color-light;
+  border: 1px solid $gray-5;
+  height: 3rem;
+
+  input{
+    width: 4rem;
+    border-left: 1px solid $gray-5;
+    border-right: 1px solid $gray-5;
+    background: transparent;
+    text-align: center;
+  }
+
+  button{
+    width: 3rem;
+    min-height: inherit !important;
+    height: 100%;
+    //border: 1px solid $secondary-color-light;
+  }
+
+}

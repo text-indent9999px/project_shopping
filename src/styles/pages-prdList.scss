@@ -1,0 +1,59 @@
+@import 'variables';
+
+
+.custom-page-banner-wrap{
+  overflow: hidden;
+  height: 50vh;
+  margin-bottom: 5rem;
+
+  .custom-page-banners{
+    width: 100%;
+    height: 100%;
+
+    .custom-page-banner{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      &:after{
+        position: absolute;
+        display: block;
+        content: "";
+        background: rgba(0,0,0,0.5);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .custom-page-title-box{
+        position: absolute;
+        top: calc(87px + 20%);
+        left: calc(5rem + 60px + 2rem + 2rem);
+        z-index: 1;
+        color: $quaternary-color-light;
+
+        h3{
+          font-size: $font-size-page-heading;
+        }
+        p{
+          margin-top: 2rem;
+          font-size: $font-size-page-subheading;
+        }
+      }
+
+    }
+  }
+
+
+
+}

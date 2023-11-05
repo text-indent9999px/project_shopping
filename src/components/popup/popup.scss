@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+
+
+.custom-popup-container{
+  position: fixed;
+  z-index: $z-index-modal;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: calc(100% - $padding-basic);
+  max-width: 50rem;
+  background: $bg1-light;
+  border: 2px solid $primary-color-light;
+
+
+  .custom-popup-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $padding-narrow $padding-basic;
+    background: $secondary-color-light;
+
+    h4{
+      font-size: $font-size-title;
+      font-weight: $font-weight-medium;
+    }
+
+  }
+
+  .custom-popup-body{
+
+    .custom-popup-message{
+      padding: $padding-wide $padding-basic;
+
+      p{
+        font-size: $font-size-desc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .custom-popup-actions{
+      padding: 0 $padding-basic $padding-basic $padding-basic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+  }
+
+}

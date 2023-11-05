@@ -1,0 +1,136 @@
+@import '../../styles/variables';
+
+.custom-button-area{
+  display: inline-flex;
+  column-gap: 1rem;
+  row-gap: 1rem;
+
+  &[column-gap='small']{
+    column-gap: 0.5rem;
+  }
+
+}
+
+
+.custom-button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+
+
+  &[data-disabled="disabled"]{
+    pointer-events: none !important;
+    color: $color-cancel !important;
+    background: $gray-1 !important;
+    border-color: $color-cancel !important;
+  }
+
+
+  &[width='xs']{
+    font-size: $font-size-button-xs;
+  }
+  &[width='sm']{
+    font-size: $font-size-button-sm;
+  }
+  &[width='md']{
+    font-size: $font-size-button-md;
+  }
+  &[width='lg']{
+    font-size: $font-size-button-lg;
+  }
+  &[width='xl']{
+    font-size: $font-size-button-xl;
+  }
+
+
+  &[data-type*='icon' i] {
+    svg{
+      font-size: $font-size-button-lg;
+    }
+
+    &[width='xs']{
+      min-width: $button-fixed-width-xs;
+      min-height: $button-fixed-height-xs;
+    }
+    &[width='sm']{
+      min-width: $button-fixed-width-sm;
+      min-height: $button-fixed-height-sm;
+    }
+    &[width='md']{
+      min-width: $button-fixed-width-md;
+      min-height: $button-fixed-height-md;
+    }
+    &[width='lg']{
+      min-width: $button-fixed-width-lg;
+      min-height: $button-fixed-height-lg;
+    }
+    &[width='xl']{
+      min-width: $button-fixed-width-xl;
+      min-height: $button-fixed-height-xl;
+
+      svg{
+        font-size: $font-size-button-xl;
+      }
+    }
+
+  }
+
+  &[data-type*='underline' i] {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid currentColor;
+  }
+
+  &[data-type*='button' i] {
+    border: 1px solid $gray-2;
+    background: $quaternary-color-light;
+    color: $primary-color-light;
+
+    &[color='color1']{
+      background: $primary-color-light;
+      border-color: $primary-color-light;
+      color: $quaternary-color-light;
+    }
+
+    &[color='color2']{
+      background: $secondary-color-light;
+      border-color: $secondary-color-light;
+      color: $quaternary-color-light;
+    }
+
+    &[color='color3']{
+      background: $tertiary-color-light;
+      border-color: $primary-color-light;
+      color: $primary-color-light;
+    }
+
+    &[color='color4']{
+      background: $quaternary-color-light;
+      border-color: $gray-2;
+      color: $primary-color-light;
+    }
+
+
+
+
+    &[width='xs']{
+      padding: 0.8rem;
+    }
+    &[width='sm']{
+      padding: 1rem;
+    }
+    &[width='md']{
+      padding: 1rem;
+    }
+    &[width='lg']{
+      padding: 1.5rem;
+    }
+    &[width='xl']{
+      padding: 2rem;
+    }
+
+  }
+
+
+
+}

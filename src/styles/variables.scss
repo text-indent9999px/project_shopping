@@ -1,0 +1,109 @@
+@import 'fonts';
+
+//main-color
+$primary-color-light: #393E46;
+$secondary-color-light: #6D9886;
+$tertiary-color-light: #F2E7D5;
+$quaternary-color-light: #F7F7F7;
+
+//gray-color
+$gray-1: #e4e4e4;
+$gray-2: #D3D3D3;
+$gray-3: #C0C0C0;
+$gray-4: #B4B6C2;
+$gray-5: #aaa;
+$gray-6: #808069;
+$gray-7: #708090;
+$gray-8: #555;
+$gray-9: #444;
+$gray-10: #333;
+
+//use-color
+$color-cancel: $gray-4;
+$color-highlight: $secondary-color-light;
+$color-alert: #E19898;
+//A2678A, 4D3C77, 3F1D38
+
+//bg
+$bg1-light: #F2E7D5;
+$bg1-dark: #393E46;
+
+//font color
+$font1-color-light: #393E46;
+$font1-color-dark: #F7F7F7;
+
+//font style
+$font-kor-basic: 'SCoreDream';
+$font-eng-basic: 'SCoreDream';
+
+//font weight
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+//font size
+$font-size-heading: 2.4rem;
+$font-size-subheading: 1.8rem;
+$font-size-title: 1.8rem;
+$font-size-contents: 1.6rem;
+$font-size-desc: 1.5rem;
+$font-size-small: 1.4rem;
+$font-size-xsmall: 1.2rem;
+$font-size-button-xs: 1.2rem;
+$font-size-button-sm: 1.4rem;
+$font-size-button-md: 1.6rem;
+$font-size-button-lg: 1.8rem;
+$font-size-button-xl: 2.0rem;
+$font-size-page-heading: 3.0rem;
+$font-size-page-subheading: 1.8rem;
+
+//z-index
+$z-index-header: 100;
+$z-index-modal: 200;
+$z-index-dropdown: 300;
+$z-index-overlay: 400;
+
+//inner
+$inner-basic: 120rem;
+$inner-wide: 140rem;
+$inner-narrow: 96rem;
+$inner-full: 100%;
+
+//button
+$button-fixed-width-xs: 2.0rem;
+$button-fixed-width-sm: 3.0rem;
+$button-fixed-width-md: 5.0rem;
+$button-fixed-width-lg: 6.0rem;
+$button-fixed-width-xl: 8.0rem;
+
+$button-fixed-height-xs: 3.0rem;
+$button-fixed-height-sm: 3.2rem;
+$button-fixed-height-md: 3.4rem;
+$button-fixed-height-lg: 3.6rem;
+$button-fixed-height-xl: 3.8rem;
+
+//line-height
+$line-height-min: 1;
+$line-height-narrow: 1.2;
+$line-height-basic: 1.4;
+$line-height-wide: 1.7;
+$line-height-max: 3;
+
+//padding
+$padding-min : 0;
+$padding-narrow : 1rem;
+$padding-basic : 2rem;
+$padding-wide : 4rem;
+
+
+//mixin
+@function hexToRgba($hex, $opacity: 1) {
+  // Hex 코드에서 R, G, B를 추출
+  $r: red($hex);
+  $g: green($hex);
+  $b: blue($hex);
+
+  // RGB 형식으로 반환하면서 opacity 적용
+  @return rgba($r, $g, $b, $opacity);
+}

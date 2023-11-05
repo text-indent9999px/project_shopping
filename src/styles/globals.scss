@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import 'variables';
+
+html {
+  overflow-x: auto;
+  font-size: 62.5%;
+  *visibility: hidden;
+}
+
+@media screen and (min-width: 0\0) {
+  :root,html {
+    font-size:10px;
+  }
+}
+
+@media screen and (-ms-high-contrast:active),(-ms-high-contrast: none) {
+  :root,html {
+    font-size: 10px;
+  }
+}
+
+body {
+  background: $bg1-light;
+  color: $font1-color-light;
+  font-family: $font-kor-basic, $font-eng-basic, sans-serif;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-contents;
+  line-height: $line-height-min;
+}
+
+html, body, div, p, span, strong, b, em, iframe, pre, h1, h2, h3, h4, h5, h6,
+img, dl, dt, dd, fieldset, form, legend, label, table, caption, thead, tbody, tfoot, tr, th, td,
+ul, ol, li, a, input, select, textarea, button {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ul, ol, li {
+  list-style: none;
+}
+
+a {
+  display: inline-block;
+  color: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  text-decoration: none;
+  font-weight: inherit;
+}
+
+a:hover, a:focus, a:active {
+  text-decoration: none;
+}
+
+em, address, i, span, label{
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: normal;
+}
+
+b,strong{
+  font-weight: inherit;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  vertical-align: middle;
+  line-height: 0;
+  border: 0 none;
+  font-size: 0;
+}
+
+input, select{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0 none;
+}
+
+button{
+  margin: 0;
+  padding: 0;
+  background: none;
+  border:none;
+  line-height: inherit;
+  color: inherit;
+  font-size: inherit;
+  outline: 0 none;
+}
+
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button[disabled], input[disabled] {
+  cursor: default;
+}
+
+textarea{
+  outline: 0 none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing:0;
+}
+
+caption {
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+th, td {
+  vertical-align: middle;
+}
+
+input[type=number], input[type=password], input[type=tel], input[type=text], textarea{
+  font: inherit;
+  color: inherit;
+}
+
+label{
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.custom-inner-basic{
+  width: 100%;
+  max-width: $inner-basic;
+  margin: 0 auto;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  /*
+  body {
+    background: $bg1-dark;
+    color: $font1-color-dark;
+  }*/
+}

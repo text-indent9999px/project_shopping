@@ -1,0 +1,62 @@
+@import '../../styles/variables';
+
+.basket-sidebar-container{
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 500px;
+  background: $bg1-light;
+  height: 100vh;
+  z-index: 1;
+  border-left: 2px solid $primary-color-light;
+  padding: $padding-basic;
+  color: $primary-color-light;
+  transition: .8s ease-in-out;
+
+  &.is-open{
+    right: 0;
+  }
+
+
+  .basket-sidebar-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .baket-sidebar-header{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 2rem;
+    }
+
+    .baket-sidebar-actions{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $primary-color-light;
+
+      button{
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    .basket-sidebar-products{
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: $padding-basic 0;
+    }
+
+    .basket-sidebar-footer{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      button{
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+}
