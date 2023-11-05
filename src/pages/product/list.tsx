@@ -7,7 +7,6 @@ import {AppState, ProductData} from "@/types/types";
 import '../../styles/pages-prdList.scss';
 import {intersectionObserve, calculateBrightness} from "@/function/Common";
 import {useDispatch} from "react-redux";
-import {Prefix} from "@/config/config";
 
 const metadata = {
     title: 'Prd List Page',
@@ -41,7 +40,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                         </div>
                         <img
                             ref={imgRef}
-                            src={`${Prefix}/images/prdList-banner01.jpg`}
+                            src={`/images/prdList-banner01.jpg`}
                             alt="My Image"
                         />
                     </li>

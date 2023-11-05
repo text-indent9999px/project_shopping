@@ -13,8 +13,6 @@ const metadata = {
     description: 'This is the test page',
 };
 
-import {Prefix} from "@/config/config";
-
 
 export default function Index() {
 
@@ -34,7 +32,7 @@ export default function Index() {
                 <ul className="main-banner-wrapper">
                     <li className="main-banner">
                         <Link href="/product/list">
-                            <img src={`${Prefix}/images/main-img01.jpg`} alt="My Image" ref={imgRef} />
+                            <img src={`/images/main-img01.jpg`} alt="My Image" ref={imgRef} />
                             <div className="text-box">
                                 <h3>신규 회원 이벤트 <br /> WELCOME</h3>
                                 <p>지금 회원 가입하면 할인 쿠폰 지급!</p>

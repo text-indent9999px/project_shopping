@@ -1,5 +1,5 @@
 {
-  "name": "foodorder",
+  "name": "project_shopping",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://text-indent9999px.github.io/project_shopping",
@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && git add -f out/ && git commit -m 'deploy to gh-pages' && git subtree push --prefix out origin gh-pages"
+    "deploy": "shx rm -rf node_modules/.cache && next build && git add out/ && git commit -m \"Deploy Next.js to gh-pages\" && git subtree push --prefix out origin gh-pages"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -34,6 +34,7 @@
     "eslint-config-next": "14.0.0",
     "gh-pages": "^6.0.0",
     "postcss": "^8",
+    "shx": "^0.3.4",
     "tailwindcss": "^3",
     "typescript": "^5"
   }

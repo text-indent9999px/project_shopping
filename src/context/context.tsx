@@ -1,7 +1,6 @@
 import React from "react";
 
-// @ts-ignore
-const ProjectContext = React.createContext();
+const ProjectContext = React.createContext<{ prefix: string }>({ prefix: ""});
 
 export const ProjectProvider = ProjectContext.Provider;
 export const ProjectConsumer = ProjectContext.Consumer;
