@@ -10,6 +10,9 @@ import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/Button";
 import BasketSidebar from "@/components/layout/BasketSidebar";
 import {checkBasketSidebarOpen} from "@/actions/actions";
+import {initializeApp} from "firebase/app";
+import {firebaseConfig} from "@/firebase/firebaseConfig";
+import {get, getDatabase, ref} from "firebase/database";
 
 
 interface LayoutProps {
@@ -53,6 +56,7 @@ const menuData: MenuItem[] = [
 
 const Header: React.FC<LayoutProps> = ({ children }) => {
 
+    const [cateList, setCateList] = useState([]);
 
     // @ts-ignore
     const isScrolled = useSelector((state) => state.scroll.isScrolled);
@@ -198,6 +202,39 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         }
     }
 
+
+    useEffect(() => {
+        // Firebase 앱 초기화
+        const app = initializeApp(firebaseConfig);
+
+        // Firebase 데이터베이스 객체 가져오기
+        const database = getDatabase(app);
+
+        // 'cate_list' 경로에 대한 참조 생성
+        const cateListRef = ref(database, 'cate_list');
+
+        get(cateListRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    setCateList(Object.values(data));
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch((error) => {
+                console.error('Error reading data from the database:', error);
+            });
+    }, [])
+
+    // Firebase에서 데이터를 가져온 후에 renderMenuItems 함수 호출
+    useEffect(() => {
+        // cateList 상태가 업데이트될 때 renderMenuItems 함수 호출
+        renderMenuItems(cateList, 1, 1);
+    }, [cateList]);
+
+
+
     return (
         <>
             <div className={`header-container${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''}${isHeaderFixed ? ' is-fixed' : ''}`}
@@ -208,7 +245,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                     <Link href={'/'}><LogoBasic width={60} /></Link>
                 </div>
                 <div className="gnb-container">
-                    {renderMenuItems(menuData, 1, 1)}
+                    {renderMenuItems(cateList, 1, 1)}
                 </div>
                 <div className="util-container">
                     <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>

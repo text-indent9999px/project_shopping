@@ -8,6 +8,8 @@ import {useSelector} from "react-redux";
 import {AppState, ProductData} from "@/types/types";
 import {calculateBrightness, intersectionObserve} from "@/function/Common";
 
+
+
 const metadata = {
     title: 'Index Page',
     description: 'This is the test page',

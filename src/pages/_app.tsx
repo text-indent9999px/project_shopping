@@ -6,7 +6,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
 function MyApp({ Component, pageProps }: AppProps) {
-
     return (
         <Provider store={store}>
             <Component {...pageProps} />
