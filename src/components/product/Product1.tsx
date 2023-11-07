@@ -38,10 +38,17 @@ const Product1: React.FC<Product1Props> = (
         case 'old' :
             data.sort((a, b) => new Date(a.update_date).getTime() - new Date(b.update_date).getTime());
         case 'best' :
-            data.sort((a, b) => new Date(b.hit_count).getTime() - new Date(a.hit_count).getTime());
+            data.sort((a, b) => b.hit_count - a.hit_count);
             break;
         case 'review' :
-            data.sort((a, b) => new Date(b.review_count).getTime() - new Date(a.review_count).getTime());
+            data.sort((a, b) => b.review_count - a.review_count);
+            break;
+        case 'lower' :
+            data.sort((a, b) => Number(a.sale_price) - Number(b.sale_price));
+            break;
+        case 'higher' :
+            data.sort((a, b) => Number(b.sale_price) - Number(a.sale_price));
+            break;
         default :
             break;
     }

@@ -10,9 +10,8 @@ import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/Button";
 import BasketSidebar from "@/components/layout/BasketSidebar";
 import {checkBasketSidebarOpen} from "@/actions/actions";
-import {initializeApp} from "firebase/app";
-import {firebaseConfig} from "@/firebase/firebaseConfig";
-import {get, getDatabase, ref} from "firebase/database";
+
+import {get, ref} from "firebase/database";
 
 
 interface LayoutProps {
@@ -21,42 +20,15 @@ interface LayoutProps {
 
 interface MenuItem {
     name: string;
-    cate_no: number;
-    parent_cate_no: number;
+    menu_no: number;
+    parent_menu_no: number;
+    href: string,
 }
-
-const menuData: MenuItem[] = [
-    {
-        name: 'BEST',
-        cate_no: 10,
-        parent_cate_no: 1,
-    },
-    {
-        name: 'NEW',
-        cate_no: 11,
-        parent_cate_no: 1,
-    },
-    {
-        name: 'PRODUCTS',
-        cate_no: 12,
-        parent_cate_no: 1,
-    },
-    {
-        name: 'TREE',
-        cate_no: 13,
-        parent_cate_no: 12,
-    },
-    {
-        name: 'FLOWER',
-        cate_no: 14,
-        parent_cate_no: 12,
-    },
-];
 
 
 const Header: React.FC<LayoutProps> = ({ children }) => {
 
-    const [cateList, setCateList] = useState([]);
+    const [menuList, setMenuList] = useState([]);
 
     // @ts-ignore
     const isScrolled = useSelector((state) => state.scroll.isScrolled);
@@ -70,23 +42,23 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const dispatch = useDispatch();
 
-    function renderMenuItems(data: MenuItem[], parentCateNo: number, depth: number): JSX.Element | null {
-        const menuItems = data.filter((item) => item.parent_cate_no === parentCateNo);
+    function renderMenuItems(data: MenuItem[], parentmenuNo: number, depth: number): JSX.Element | null {
+        const menuItems = data.filter((item) => item.parent_menu_no === parentmenuNo);
         if (menuItems.length === 0) return null;
 
         return (
             <ul className={`menu_${depth}ul`}>
                 {menuItems.map((item) => {
-                    const subMenu = renderMenuItems(data, item.cate_no, depth + 1);
+                    const subMenu = renderMenuItems(data, item.menu_no, depth + 1);
                     return (
                         <li
-                            key={item.cate_no}
+                            key={item.menu_no}
                             className={`menu_${depth}li`}
-                            data-cate={item.cate_no}
-                            onMouseEnter={() => handleMenuEnter(item.cate_no)}
-                            onMouseLeave={() => handleMenuLeave(item.cate_no)}
+                            data-menu={item.menu_no}
+                            onMouseEnter={() => handleMenuEnter(item.menu_no)}
+                            onMouseLeave={() => handleMenuLeave(item.menu_no)}
                         >
-                            <Link href={`/product/list?cate_no=${item.cate_no}`}>{item.name}</Link>
+                            <Link href={`${item.href}`}>{item.name}</Link>
                             {subMenu}
                         </li>
                     );
@@ -95,26 +67,26 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         );
     }
 
-    function handleMenuEnter(cateNo: number) {
+    function handleMenuEnter(menuNo: number) {
         setIsHovered(true);
-        updateMenuState(cateNo, true);
+        updateMenuState(menuNo, true);
     }
 
-    function handleMenuLeave(cateNo: number) {
-        if(cateNo !== 1){
-            let chkData = menuData.filter((item) => item.cate_no === cateNo);
-            if(chkData[0].parent_cate_no == 1){
+    function handleMenuLeave(menuNo: number) {
+        if(menuNo !== 1){
+            let chkData = menuList.filter((item) => item.menu_no === menuNo);
+            if(chkData[0].parent_menu_no == 1){
                 setIsHovered(false);
-                updateMenuState(cateNo, false);
+                updateMenuState(menuNo, false);
             }else{
-                updateMenuState(cateNo, false);
+                updateMenuState(menuNo, false);
             }
         }else{
-            updateMenuState(cateNo, false);
+            updateMenuState(menuNo, false);
         }
     }
 
-    function updateMenuState(cateNo: number, isHover: boolean) {
+    function updateMenuState(menuNo: number, isHover: boolean) {
         const gnbContainer = document.querySelector('.gnb-container');
         if(gnbContainer){
             const allLiElements = gnbContainer.querySelectorAll('li');
@@ -122,8 +94,8 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
             if(isHover){
                 allLiElements.forEach((li) => {
-                    const currentCateNo = parseInt(li.getAttribute('data-cate') || '');
-                    const isAncestor = isCateAncestor(currentCateNo, cateNo);
+                    const currentmenuNo = parseInt(li.getAttribute('data-menu') || '');
+                    const isAncestor = ismenuAncestor(currentmenuNo, menuNo);
                     if (isAncestor) {
                         li.classList.add('is-hover');
                         const directChildUl = li.querySelector(':scope > ul');
@@ -150,7 +122,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                     }
                 });
             }else{
-                if(cateNo == 1){
+                if(menuNo == 1){
                     setIsHovered(false);
                     allLiElements.forEach((li) => {
                         const directChildUl = li.querySelector(':scope > ul');
@@ -161,7 +133,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                         }
                     });
                 }else{
-                    let target = gnbContainer.querySelectorAll('[data-cate="'+ cateNo +'"]')[0];
+                    let target = gnbContainer.querySelectorAll('[data-menu="'+ menuNo +'"]')[0];
                     target.classList.remove('is-hover');
                     // @ts-ignore
                     if(target.querySelectorAll(':scope > ul').length > 0) target.querySelectorAll(':scope > ul')[0].style.maxHeight = '';
@@ -172,24 +144,24 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         }
     }
 
-    function isCateAncestor(ancestorCateNo: number, currentCateNo: number): boolean {
-        return currentCateNo === ancestorCateNo || isAncestorOf(ancestorCateNo, currentCateNo);
+    function ismenuAncestor(ancestormenuNo: number, currentmenuNo: number): boolean {
+        return currentmenuNo === ancestormenuNo || isAncestorOf(ancestormenuNo, currentmenuNo);
     }
 
-    function isAncestorOf(ancestorCateNo: number, currentCateNo: number): boolean {
-        let chkData = function(cateNo:number, ancestorCateNo:number) {
-            let data = menuData.find((item) => item.cate_no === cateNo);
+    function isAncestorOf(ancestormenuNo: number, currentmenuNo: number): boolean {
+        let chkData = function(menuNo:number, ancestormenuNo:number) {
+            let data = menuList.find((item) => item.menu_no === menuNo);
             if (data) {
-                if (data.cate_no === ancestorCateNo) {
+                if (data.menu_no === ancestormenuNo) {
                     return true; // 조상 카테고리인 경우 true 반환
                 } else {
                     // 재귀 호출에서 반환 값을 반환
-                    return chkData(data.parent_cate_no, ancestorCateNo);
+                    return chkData(data.parent_menu_no, ancestormenuNo);
                 }
             }
             return false; // 조상 카테고리가 아닌 경우 false 반환
         };
-        let result = chkData(currentCateNo, ancestorCateNo);
+        let result = chkData(currentmenuNo, ancestormenuNo);
         return result;
     }
 
@@ -202,36 +174,29 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         }
     }
 
+    // @ts-ignore
+    const database = useSelector((state) => state.firebase.database);
+    //'menu_list' 경로에 대한 참조 생성
+    const menuListRef = ref(database, 'menu_list');
 
-    useEffect(() => {
-        // Firebase 앱 초기화
-        const app = initializeApp(firebaseConfig);
-
-        // Firebase 데이터베이스 객체 가져오기
-        const database = getDatabase(app);
-
-        // 'cate_list' 경로에 대한 참조 생성
-        const cateListRef = ref(database, 'cate_list');
-
-        get(cateListRef)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    setCateList(Object.values(data));
-                } else {
-                    console.log('No data available');
-                }
-            })
-            .catch((error) => {
-                console.error('Error reading data from the database:', error);
-            });
-    }, [])
+    get(menuListRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                setMenuList(Object.values(data));
+            } else {
+                console.log('No data available');
+            }
+        })
+        .catch((error) => {
+            console.error('Error reading data from the database:', error);
+        });
 
     // Firebase에서 데이터를 가져온 후에 renderMenuItems 함수 호출
     useEffect(() => {
-        // cateList 상태가 업데이트될 때 renderMenuItems 함수 호출
-        renderMenuItems(cateList, 1, 1);
-    }, [cateList]);
+        // menuList 상태가 업데이트될 때 renderMenuItems 함수 호출
+        renderMenuItems(menuList, 1, 1);
+    }, [menuList]);
 
 
 
@@ -245,7 +210,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                     <Link href={'/'}><LogoBasic width={60} /></Link>
                 </div>
                 <div className="gnb-container">
-                    {renderMenuItems(cateList, 1, 1)}
+                    {renderMenuItems(menuList, 1, 1)}
                 </div>
                 <div className="util-container">
                     <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>

@@ -33,7 +33,7 @@ const Pagination: React.FC<PaginationProps> = ({current=1, length = 0, onPageCha
         }
     }
     const nextClickHandler = (nextPage:number) => {
-        if(nextPage > (length / output)){
+        if(nextPage > Math.ceil(length / output)){
             //disabled
         }else{
             onPageChange(nextPage);

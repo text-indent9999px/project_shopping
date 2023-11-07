@@ -7,7 +7,7 @@ import Product1 from "@/components/product/Product1";
 import {useSelector} from "react-redux";
 import {AppState, ProductData} from "@/types/types";
 import {calculateBrightness, intersectionObserve} from "@/function/Common";
-
+import {get, ref} from "firebase/database";
 
 
 const metadata = {
@@ -20,6 +20,28 @@ export default function Index() {
 
     // @ts-ignore
     const productData = useSelector((state: ProductData) => state.product.product);
+
+    // @ts-ignore
+    const database = useSelector((state) => state.firebase.database);
+    const productListRef = ref(database, 'product_list');
+    const [testData, setTestData] = useState(null);
+    const [testData2, setTestData2] = useState(null);
+
+    get(productListRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                setTestData(data.category['10']);
+                setTestData2(data.category['11']);
+            } else {
+                console.log('No data available');
+            }
+        })
+        .catch((error) => {
+            console.error('Error reading data from the database:', error);
+        });
+
+
     const imgRef = useRef(null);
 
     useEffect(() => {
@@ -49,7 +71,7 @@ export default function Index() {
                     <p>신상품을 만나보세요.</p>
                 </div>
                 <div className="main-contents-box">
-                    <Product1 data={productData} grid={4} output={4} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'new'}/>
+                    {testData && <Product1 data={testData} grid={4} output={4} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'new'}/>}
                 </div>
             </div>
             <div className="main-prd-container2 main-section">
@@ -58,7 +80,7 @@ export default function Index() {
                     <p>가장 인기있는 제품을 보여드려요.</p>
                 </div>
                 <div className="main-contents-box">
-                    <Product1 data={productData} grid={3} output={3} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'best'}/>
+                    {testData2 && <Product1 data={testData2} grid={3} output={3} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'best'}/>}
                 </div>
             </div>
         </BasicLayout>

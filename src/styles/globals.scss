@@ -148,6 +148,17 @@ label{
   margin: 0 auto;
 }
 
+.custom-page-nodata{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30rem;
+
+  p{
+    font-weight: $font-weight-medium;
+    font-size: $font-size-page-subheading;
+  }
+}
 
 
 @media (prefers-color-scheme: dark) {

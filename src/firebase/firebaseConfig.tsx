@@ -7,18 +7,19 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyARsFovtYO5yepR5OrX7vujn2QJXlAMMm4",
-    authDomain: "projectshopping-ec984.firebaseapp.com",
-    databaseURL: "https://projectshopping-ec984-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "projectshopping-ec984",
-    storageBucket: "projectshopping-ec984.appspot.com",
-    messagingSenderId: "280208855300",
-    appId: "1:280208855300:web:baa4c65ce41b32d3280051",
-    measurementId: "G-HHZB9WPV7Z"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASURMENT_ID
 };
 
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
+
 
 export {firebaseConfig};

@@ -7,6 +7,8 @@ import {AppState, ProductData} from "@/types/types";
 import '../../styles/pages-prdList.scss';
 import {intersectionObserve, calculateBrightness} from "@/function/Common";
 import {useDispatch} from "react-redux";
+import { useRouter } from 'next/router';
+import {get, ref} from "firebase/database";
 
 const metadata = {
     title: 'Prd List Page',
@@ -19,15 +21,53 @@ interface LayoutProps {
 
 const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
+    const router = useRouter();
+    const { cate_no } = router.query;
+
+    const [cateSort, setCateSort] = useState('basic');
+    const [cateGrid, setCateGrid] = useState(3);
+
+
     // @ts-ignore
-    const productData = useSelector((state) => state.product.product);
+    const database = useSelector((state) => state.firebase.database);
+    const productListRef = ref(database, 'product_list');
+    const cateListRef = ref(database, 'cate_list');
 
-    const imgRef = useRef(null);
+    const [cateData, setCateData] = useState(null);
+    const [cateInfo, setCateInfo] = useState(null);
 
-    useEffect(() => {
-        const element = imgRef.current;
-        intersectionObserve(element, calculateBrightness);
-    }, []);
+    get(productListRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                setCateData(data.category[cate_no]);
+            } else {
+                console.log('No data available');
+            }
+        })
+        .catch((error) => {
+            console.error('Error reading data from the database:', error);
+        });
+
+    get(cateListRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                setCateInfo(data[cate_no]);
+            } else {
+                console.log('No data available');
+            }
+        })
+        .catch((error) => {
+            console.error('Error reading data from the database:', error);
+        });
+
+    // const imgRef = useRef(null);
+    //
+    // useEffect(() => {
+    //     const element = imgRef.current;
+    //     intersectionObserve(element, calculateBrightness);
+    // }, []);
 
     return (
         <BasicLayout metadata={metadata}>
@@ -35,35 +75,67 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                 <ul className="custom-page-banners">
                     <li className="custom-page-banner">
                         <div className={`custom-page-title-box`}>
-                            <h3>카테고리 이름</h3>
-                            <p>카테고리 설명</p>
+                            <h3>{cateInfo ? cateInfo.name : ''}</h3>
+                            <p>{cateInfo ? cateInfo.desc : ''}</p>
                         </div>
-                        <img
-                            ref={imgRef}
-                            src={`/images/prdList-banner01.jpg`}
-                            alt="My Image"
-                        />
+                        {cateInfo && (
+                            <ul className={`custom-page-banner_box`}>
+                                {cateInfo.banner_img.map((item, index) => {
+                                    if (item) {
+                                        return (
+                                            <li key={index}>
+                                                <img
+                                                    src={item}
+                                                    alt={cateInfo.name}
+                                                />
+                                            </li>
+                                        );
+                                    }else{
+                                        return (
+                                            <li key={index}>
+                                                <img
+                                                    src='/images/main-img01.jpg'
+                                                    alt={cateInfo.name}
+                                                />
+                                            </li>
+                                        );
+                                    }
+                                })}
+                            </ul>
+                        )}
                     </li>
                 </ul>
             </div>
 
             <div className="custom-page-product-list">
                 <div className="custom-inner-basic">
-                    {/*<div className={`custom-page-product-actions`}>*/}
-                    {/*    <div className={`custom-page-product-sort`}>*/}
-                    {/*        <select>*/}
-                    {/*            <option>Test</option>*/}
-                    {/*        </select>*/}
-                    {/*    </div>*/}
-                    {/*    <div className={`custom-page-product-grid`}>*/}
-                    {/*        <ul>*/}
-                    {/*            <li>1열</li>*/}
-                    {/*            <li>2열</li>*/}
-                    {/*            <li>3열</li>*/}
-                    {/*        </ul>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    <Product1 data={productData} grid={3} output={9} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'basic'}/>
+                    <div className={"custom-page-product-top"}>
+                        <div className={"custom-page-product-info"}>
+                            <p>총 <strong>{cateData ? cateData.length : 0}</strong>개</p>
+                        </div>
+                        <div className={`custom-page-product-actions`}>
+                            <div className={`custom-page-product-sort`}>
+                                <ul>
+                                    <li className={`${cateSort == 'new' ? 'is-active' : ''}`} onClick={(e) => setCateSort('new')}>신상품 순</li>
+                                    <li className={`${cateSort == 'best' ? 'is-active' : ''}`} onClick={(e) => setCateSort('best')}>인기상품 순</li>
+                                    <li className={`${cateSort == 'review' ? 'is-active' : ''}`} onClick={(e) => setCateSort('review')}>리뷰 많은 순</li>
+                                    <li className={`${cateSort == 'lower' ? 'is-active' : ''}`} onClick={(e) => setCateSort('lower')}>낮은 가격 순</li>
+                                    <li className={`${cateSort == 'higher' ? 'is-active' : ''}`} onClick={(e) => setCateSort('higher')}>높은 가격 순</li>
+                                </ul>
+                            </div>
+                            {/*<div className={`custom-page-product-grid`}>*/}
+                            {/*    <ul>*/}
+                            {/*        <li className={`${cateGrid == 1 ? 'is-active' : ''}`} onClick={(e) => setCateGrid(1)}></li>*/}
+                            {/*        <li className={`${cateGrid == 2 ? 'is-active' : ''}`} onClick={(e) => setCateGrid(2)}></li>*/}
+                            {/*        <li className={`${cateGrid == 3 ? 'is-active' : ''}`} onClick={(e) => setCateGrid(3)}></li>*/}
+                            {/*    </ul>*/}
+                            {/*</div>*/}
+                        </div>
+                    </div>
+                    {cateData && <Product1 data={cateData} grid={cateGrid} output={12} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={cateSort}/>}
+                    {cateData == null && <div className={"custom-page-nodata"}>
+                        <p>해당하는 내용이 없습니다.</p>
+                    </div>}
                 </div>
             </div>
 

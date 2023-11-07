@@ -64,4 +64,7 @@ export interface BasketData {
     option_name: string,
 }
 
-
+export interface fireBaseState{
+    database: object,
+    storage: object,
+}
