@@ -13,11 +13,12 @@
   padding: $padding-basic;
   color: $primary-color-light;
   transition: .8s ease-in-out;
+  display: none;
 
   &.is-open{
     right: 0;
+    display: block;
   }
-
 
   .basket-sidebar-wrapper{
     display: flex;

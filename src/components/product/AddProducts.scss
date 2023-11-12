@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+
+.custom-add-products-container{
+
+  ul{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    li{
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      padding: 2rem;
+      border: 2px solid $primary-color-light;
+      position: relative;
+
+      p{
+        font-size: $font-size-desc;
+        font-weight: $font-weight-medium;
+      }
+
+      span{
+        font-size: $font-size-small;
+      }
+
+      .close{
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+      }
+
+    }
+  }
+}
+

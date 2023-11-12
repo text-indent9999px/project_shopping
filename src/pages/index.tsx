@@ -7,7 +7,7 @@ import Product1 from "@/components/product/Product1";
 import {useSelector} from "react-redux";
 import {AppState, ProductData} from "@/types/types";
 import {calculateBrightness, intersectionObserve} from "@/function/Common";
-import {get, ref} from "firebase/database";
+import {get, onValue, ref} from "firebase/database";
 
 
 const metadata = {
@@ -27,20 +27,18 @@ export default function Index() {
     const [testData, setTestData] = useState(null);
     const [testData2, setTestData2] = useState(null);
 
-    get(productListRef)
-        .then((snapshot) => {
+    useEffect(() => {
+        onValue(productListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 setTestData(data.category['10']);
                 setTestData2(data.category['11']);
+                console.log('index data load complete');
             } else {
                 console.log('No data available');
             }
-        })
-        .catch((error) => {
-            console.error('Error reading data from the database:', error);
         });
-
+    }, []);
 
     const imgRef = useRef(null);
 
@@ -48,7 +46,6 @@ export default function Index() {
         const element = imgRef.current;
         intersectionObserve(element, calculateBrightness);
     }, []);
-
 
     return (
         <BasicLayout metadata={metadata}>

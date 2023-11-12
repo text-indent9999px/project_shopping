@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
 import Link from "next/link";
-import './product.scss';
+import './Product.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import Pagination from "@/components/pagination/pagination";
@@ -77,10 +77,19 @@ const Product1: React.FC<Product1Props> = (
                                     </Link>
                                 </div>
                                 <div className="info-area">
-                                    <div className="review-box">
-                                        <Button className="review" data-type={'text'} width={'sm'}>
-                                            <b>리뷰 <CurrencyDisplay amount={item.review_count} />개</b>
-                                        </Button>
+                                    {/*<div className="review-box">*/}
+                                    {/*    <Button className="review" data-type={'text'} width={'sm'}>*/}
+                                    {/*        <b>리뷰 <CurrencyDisplay amount={item.review_count} />개</b>*/}
+                                    {/*    </Button>*/}
+                                    {/*</div>*/}
+                                    <div className="hash-box">
+                                        {item.hash_tag.map((item) => {
+                                            return (
+                                                <span key={item}>
+                                                    {'#' + item}
+                                                </span>
+                                            );
+                                        })}
                                     </div>
                                     <Link href={`/product/detail?product_no=${item.product_no}`}>
                                         <div className="text-box">
@@ -91,11 +100,11 @@ const Product1: React.FC<Product1Props> = (
                                             <PriceList price1={item.retail_price} price2={item.sell_price} price3={item.sale_price}>.</PriceList>
                                         </div>
                                     </Link>
-                                    <div className="action-box">
-                                        <Button className="cart" data-type={'icon'} width={'sm'} onClick={(e) => addToCart(item, e)}>
-                                            <FontAwesomeIcon icon={faCartShopping} />
-                                        </Button>
-                                    </div>
+                                    {/*<div className="action-box">*/}
+                                    {/*    <Button className="cart" data-type={'icon'} width={'sm'} onClick={(e) => addToCart(item, e)}>*/}
+                                    {/*        <FontAwesomeIcon icon={faCartShopping} />*/}
+                                    {/*    </Button>*/}
+                                    {/*</div>*/}
                                 </div>
                             </li>
                         ))}

@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+
+.custom-fixedFollow-page-wrap{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  column-gap: 5rem;
+  padding-top: 3rem;
+
+  .custom-fixedFollow-fixed{
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 200vh;
+  }
+
+  .custom-fixedFollow-follow{
+    width: 50%;
+    min-width: 45rem;
+
+    .custom-detail-follow-floating{
+      position: sticky;
+      top: calc(78px + 2rem);
+      padding: 5rem;
+      border: 2px solid $primary-color-light;
+      overflow: hidden;
+    }
+  }
+}

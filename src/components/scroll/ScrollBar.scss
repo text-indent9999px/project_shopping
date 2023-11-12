@@ -1,0 +1,50 @@
+
+.custom-scroll-container{
+  width: 100%;
+  height: 100%;
+  max-height: inherit;
+  position: relative;
+}
+
+
+.custom-scroll-wrapper{
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative;
+}
+
+.custom-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scroll-thumb{
+  position: absolute;
+  right: -30px;
+  top: 0;
+}
+
+.custom-page-scroll-thumb{
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+
+}
+
+.custom-scroll-thumb,
+.custom-page-scroll-thumb{
+  width: 8px;
+  background: #aaa;
+  border-radius: 4px;
+  opacity: 0;
+
+
+  &.is-scrolling{
+    opacity: 1;
+  }
+  &:not(.is-scrolling){
+    transition: .4s ease-out;
+  }
+
+}

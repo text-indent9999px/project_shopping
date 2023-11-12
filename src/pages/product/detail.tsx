@@ -1,3 +1,4 @@
+import React, {useRef, useEffect, useState} from "react";
 import BasicLayout from '@/components/layout/BasicLayout';
 import Link from "next/link";
 import Product1 from "@/components/product/Product1";
@@ -9,75 +10,188 @@ const metadata = {
     description: 'This is the test page',
 };
 
-import { getDatabase, ref, set } from "firebase/database";
-
+import {get, getDatabase, onValue, ref, set} from "firebase/database";
+import FixedFollowLayout from "@/components/layout/FixedFollowLayout";
+import '../../styles/pages-prdDetail.scss';
+import PriceList from "@/components/common/PriceList";
+import ButtonArea from "@/components/button/ButtonArea";
+import Button from "@/components/button/Button";
+import AddProducts from "@/components/product/AddProducts";
+import {useRouter} from "next/router";
+import CurrencyDisplay from "@/components/common/CurrencyDisplay";
+import Select from 'react-select';
+import {addToCart} from "@/function/Common";
 
 export default function PrdDetail() {
 
-// @ts-ignore
-    const storage = useSelector((state) => state.firebase.storage);
-
-// // 이미지 경로를 가리키는 참조 생성
-//     const imageRef = ref(storage, "product/prd-img01.jpg"); // 여기서 "images/image.jpg"는 업로드한 이미지의 경로에 해당하는 부분입니다.
-//
-// // 이미지 URL 가져오기
-//     getDownloadURL(imageRef)
-//         .then((url) => {
-//             // 이미지 URL을 사용하여 이미지를 표시하거나 다른 용도로 활용할 수 있습니다.
-//             console.log("Image URL:", url);
-//         })
-//         .catch((error) => {
-//             console.error("Error getting image URL:", error);
-//         });
-
-
-
+    const router = useRouter();
+    const { product_no } = router.query;
     const database = useSelector((state) => state.firebase.database);
-    const productListRef = ref(database, 'product_list/category/11');
+    const productRef = ref(database, 'product_list/all');
+    const [productData, setProductData] = useState(null);
+    const [addOptionData, setAddOptionData] = useState([]);
+    const [productOption, setProductOption] = useState([]);
 
-    const productData = [];
+    useEffect(() => {
+        get(productRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    let productItem = data.filter(function(e){
+                        if(e.product_no == product_no){
+                            return true;
+                        }
+                    })[0];
+                    setProductData(productItem);
+                    let testArray = [];
+                    productItem.option.map((e)=>{
+                        let testItem = {
+                            value : e.option_code,
+                            label : e.option_name,
+                        }
+                        testArray.push(testItem);
+                    })
+                    setProductOption(testArray);
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch((error) => {
+                console.error('Error reading data from the database:', error);
+            });
+    }, [product_no]);
 
-    for (let i = 22; i <= 40; i++) {
-
-        const randomValue = (Math.floor(Math.random() * 1000) + 1);
-        const randomValue2 = (Math.floor(Math.random() * 1000) + 1);
-        const randomValue3 = (Math.floor(Math.random() * 1000) + 1);
-
-        const retailPrice = randomValue * 1000;
-        const sellPrice = retailPrice - (randomValue2 * 100)
-        const salePrice = sellPrice - (randomValue3 * 100)
-
-        const randomTime = new Date(2023, 10, 1, Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60));
-
-        productData.push({
-            product_no: i,
-            name: '상품명 ' + i,
-            eng_name: 'english name ' + i,
-            image_main: `https://firebasestorage.googleapis.com/v0/b/projectshopping-ec984.appspot.com/o/product%2Fprd-img${i.toString().padStart(2, '0')}.jpg?alt=media&token=01f6a147-5825-4720-bd16-34b481eefc3a`,
-            retail_price: retailPrice,
-            sell_price: sellPrice,
-            sale_price: salePrice,
-            summary_desc: '상품 설명 ' + i,
-            review_count: Math.floor(Math.random() * 100),
-            update_date: randomTime.toISOString(),
-            hit_count: Math.floor(Math.random() * 100)
+    const addOptionOnChangeHandler = (selectValue:object) => {
+        let newProductData = Object.assign(productData, {});
+        let totalValue = newProductData.option.filter((e)=>{
+            if(e.option_code === selectValue.value){
+                return true;
+            }
+        })[0];
+        newProductData = {...newProductData, option_select: totalValue, qty_num: 1};
+        let chkData = addOptionData.filter((item)=>{
+            if(item.option_select === totalValue){
+                return true;
+            }
         });
+        let newAddOptionData = [];
+        if(chkData.length > 0){
+            newAddOptionData = addOptionData.map(item => {
+                if (item.option_select === totalValue) {
+                    item.qty_num = item.qty_num + 1;
+                    return item;
+                }
+                return item;
+            });
+        }else{
+            newAddOptionData = [...addOptionData, newProductData];
+        }
+        setAddOptionData(newAddOptionData);
+    };
+
+    const addOptionChangeHandler = (type:string, modifyData:object) => {
+        let newAddOptionData = [];
+
+        switch(type){
+            case 'delete':
+                newAddOptionData = addOptionData.filter(item => {
+                    if (item.option_select.option_code !== modifyData.option_select.option_code) {
+                        return item;
+                    }
+                });
+                setAddOptionData(newAddOptionData);
+                break;
+            case 'modify' :
+                newAddOptionData = addOptionData.map(item => {
+                    if (item.option_select.option_code === modifyData.option_select.option_code) {
+                        return modifyData;
+                    }
+                    return item;
+                });
+                setAddOptionData(newAddOptionData);
+                break;
+            default:
+                break;
+        }
     }
-
-
-// // 제품 데이터를 Firebase Realtime Database에 추가
-// set(productListRef, productData)
-//     .then(() => {
-//         console.log("Products data added to the database.");
-//     })
-//     .catch((error) => {
-//         console.error("Error adding products data to the database:", error);
-//     });
 
 
     return (
         <BasicLayout metadata={metadata}>
-            작업중
+            <FixedFollowLayout>
+                <>
+                    <div className={"custom-detail-img-area"}>
+                        <div className={'custom-detail-img-box'}>
+                            <img src={productData ? productData.image_main : ''} alt={""} />
+                        </div>
+                    </div>
+                    <div className={"custom-detail-desc-area"}>
+                        <div className={'custom-detail-desc-box'}>
+                            <img src={"../images/prd-detail-img01.jpg"} alt={""} />
+                            <img src={"../images/prd-detail-img01.jpg"} alt={""} />
+                            <img src={"../images/prd-detail-img01.jpg"} alt={""} />
+                        </div>
+                    </div>
+                </>
+                <>
+                    <div className={"custom-detail-info-box"}>
+                        <ul>
+                            <li className="custom-info-item custom-info-hash">
+                                <strong>해시태그</strong>
+                                <div>
+                                    {productData ? productData.hash_tag.map((item) => {
+                                        if (item) {
+                                            return (
+                                                '#'+item
+                                            );
+                                        }
+                                    }) : ''}
+                                </div>
+                            </li>
+                            <li className="custom-info-item custom-info-name">
+                                <strong>상품명</strong>
+                                <div>{productData ? productData.name : ''}</div>
+                            </li>
+                            <li className={"custom-info-item"}>
+                                <strong>가격</strong>
+                                <div>
+                                    <PriceList price1={productData ? productData.retail_price : ''} price2={productData ? productData.sell_price : ''} price3={productData ? productData.sale_price : ''}>.</PriceList>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li className="custom-info-item">
+                                <strong>배송비</strong>
+                                <div><CurrencyDisplay amount={productData ? productData.shipping_fee : ''} /></div>
+                            </li>
+                            <li className="custom-info-item">
+                                <strong>상품 설명</strong>
+                                <div>{productData ? productData.summary_desc : ''}</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className={"custom-detail-option-box"}>
+                        {productData && <Select key={Math.random()}
+                                                options={productOption}
+                                                className="react-select-container"
+                                                classNamePrefix="react-select"
+                                                placeholder="원하는 옵션을 선택하세요"
+                                                onChange={addOptionOnChangeHandler}
+                        ></Select>}
+                    </div>
+
+                    <AddProducts data={addOptionData} onDataChange={(type, modifyData) => addOptionChangeHandler(type, modifyData)}></AddProducts>
+
+                    <div className={"custom-detail-action-box"}>
+                        <ButtonArea className={'width-full'} width={'full'}>
+                            <Button color={'color1'} width={'lg'} data-type={'textButton'} onClick={(e) => addToCart(addOptionData, e)}>장바구니 담기</Button>
+                            <Button color={'color2'} width={'lg'} data-type={'textButton'}>바로 구매하기</Button>
+                        </ButtonArea>
+                    </div>
+
+                </>
+            </FixedFollowLayout>
         </BasicLayout>
     );
 }

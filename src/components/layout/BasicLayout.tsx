@@ -11,6 +11,7 @@ import Dimmed from "@/components/common/Dimmed";
 import Popup from "@/components/popup/popup";
 import {RootState} from "@/types/types";
 
+
 interface LayoutProps {
     children: React.ReactNode;
     metadata: {
@@ -42,7 +43,9 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
             </Head>
             <div id="wrap">
                 <Header>.</Header>
-                <div className="contents-container">{children}</div>
+                <div className="contents-container">
+                    {children}
+                </div>
                 <Footer>.</Footer>
                 {isDimmedOpen && <Dimmed>.</Dimmed>}
                 {isPopupOpen && <Popup>.</Popup>}

@@ -7,14 +7,17 @@ const ScrollHandler = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            // 스크롤 이벤트를 처리하고 스크롤 상태를 업데이트합니다.
-            if (window.scrollY > 0) {
-                dispatch(scrollAction(true)); // 스크롤 시 스크롤 액션 dispatch
-            } else {
-                dispatch(scrollAction(false)); // 스크롤이 최상단에 도달하면 false로 설정
+            let getBodyPositionTop = Math.abs(parseInt(document.body.style.top, 10));
+            if(isNaN(getBodyPositionTop)){
+                if (window.scrollY > 0) {
+                    dispatch(scrollAction(true));
+                } else {
+                    dispatch(scrollAction(false));
+                }
+            }else{
+                dispatch(scrollAction(true));
             }
         };
-
         window.addEventListener('scroll', handleScroll);
 
         return () => {

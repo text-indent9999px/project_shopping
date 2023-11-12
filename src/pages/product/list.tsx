@@ -8,7 +8,7 @@ import '../../styles/pages-prdList.scss';
 import {intersectionObserve, calculateBrightness} from "@/function/Common";
 import {useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
-import {get, ref} from "firebase/database";
+import {get, onValue, ref} from "firebase/database";
 
 const metadata = {
     title: 'Prd List Page',
@@ -26,41 +26,45 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
     const [cateSort, setCateSort] = useState('basic');
     const [cateGrid, setCateGrid] = useState(3);
-
+    const [cateData, setCateData] = useState(null);
+    const [cateInfo, setCateInfo] = useState(null);
 
     // @ts-ignore
     const database = useSelector((state) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
     const cateListRef = ref(database, 'cate_list');
 
-    const [cateData, setCateData] = useState(null);
-    const [cateInfo, setCateInfo] = useState(null);
 
-    get(productListRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                setCateData(data.category[cate_no]);
-            } else {
-                console.log('No data available');
-            }
-        })
-        .catch((error) => {
-            console.error('Error reading data from the database:', error);
-        });
+    useEffect(() => {
+        get(productListRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    setCateData(data['category'][cate_no]);
+                    console.log('prd list data complete');
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch((error) => {
+                console.error('Error reading data from the database:', error);
+            });
 
-    get(cateListRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                setCateInfo(data[cate_no]);
-            } else {
-                console.log('No data available');
-            }
-        })
-        .catch((error) => {
-            console.error('Error reading data from the database:', error);
-        });
+        get(cateListRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    setCateInfo(data[cate_no]);
+                    console.log('prd cate data complete');
+                } else {
+                    console.log('No data available');
+                }
+            })
+            .catch((error) => {
+                console.error('Error reading data from the database:', error);
+            });
+
+    }, [cate_no]);
 
     // const imgRef = useRef(null);
     //
@@ -68,6 +72,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
     //     const element = imgRef.current;
     //     intersectionObserve(element, calculateBrightness);
     // }, []);
+
 
     return (
         <BasicLayout metadata={metadata}>
@@ -141,6 +146,11 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
         </BasicLayout>
     );
+
+
+
+
+
 }
 
 export default PrdList;

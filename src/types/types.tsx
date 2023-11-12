@@ -46,6 +46,16 @@ export interface ProductData {
     review_count: number
     update_date: string,
     hit_count: number,
+    image_add: [],
+    hash_tag: [],
+    option_select: {
+        option_code: string,
+        option_name: string,
+        option_value: number,
+        sold_out: boolean,
+    }
+    qty_num: number,
+    shipping_fee: number,
 }
 
 export interface BasketData {
@@ -60,8 +70,16 @@ export interface BasketData {
     review_count: number
     update_date: string,
     hit_count: number,
+    image_add: [],
+    hash_tag: [],
+    option_select: {
+        option_code: string,
+        option_name: string,
+        option_value: number,
+        sold_out: boolean,
+    }
     qty_num: number,
-    option_name: string,
+    shipping_fee: number,
 }
 
 export interface fireBaseState{

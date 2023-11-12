@@ -12,7 +12,7 @@ import BasketSidebar from "@/components/layout/BasketSidebar";
 import {checkBasketSidebarOpen} from "@/actions/actions";
 
 import {get, ref} from "firebase/database";
-
+import { onValue } from "firebase/database";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -41,6 +41,8 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const dispatch = useDispatch();
+
+    const [loading, setLoading] = useState(true);
 
     function renderMenuItems(data: MenuItem[], parentmenuNo: number, depth: number): JSX.Element | null {
         const menuItems = data.filter((item) => item.parent_menu_no === parentmenuNo);
@@ -174,59 +176,57 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         }
     }
 
+
     // @ts-ignore
     const database = useSelector((state) => state.firebase.database);
     //'menu_list' 경로에 대한 참조 생성
     const menuListRef = ref(database, 'menu_list');
 
-    get(menuListRef)
-        .then((snapshot) => {
+    useEffect(() => {
+        onValue(menuListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 setMenuList(Object.values(data));
+                setLoading(false);
+                console.log('header data load complete');
             } else {
                 console.log('No data available');
             }
-        })
-        .catch((error) => {
-            console.error('Error reading data from the database:', error);
         });
-
-    // Firebase에서 데이터를 가져온 후에 renderMenuItems 함수 호출
-    useEffect(() => {
-        // menuList 상태가 업데이트될 때 renderMenuItems 함수 호출
-        renderMenuItems(menuList, 1, 1);
-    }, [menuList]);
+    }, []);
 
 
-
-    return (
-        <>
-            <div className={`header-container${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''}${isHeaderFixed ? ' is-fixed' : ''}`}
-                 onMouseLeave={() => handleMenuLeave(1)}
-                 data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
-            >
-                <div className="logo-container">
-                    <Link href={'/'}><LogoBasic width={60} /></Link>
+    if (loading) {
+        return <div>Loading...</div>;
+    }else{
+        return (
+            <>
+                <div className={`header-container${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''}${isHeaderFixed ? ' is-fixed' : ''}`}
+                     onMouseLeave={() => handleMenuLeave(1)}
+                     data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
+                >
+                    <div className="logo-container">
+                        <Link href={'/'}><LogoBasic width={60} /></Link>
+                    </div>
+                    <div className="gnb-container">
+                        {menuList && renderMenuItems(menuList, 1, 1)}
+                    </div>
+                    <div className="util-container">
+                        <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
+                            <FontAwesomeIcon icon={faCartShopping} />
+                            <span>
+                                <i>{basketProductData.length}</i>
+                            </span>
+                        </Button>
+                    </div>
+                    <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
+                    <BasketSidebar>.</BasketSidebar>
                 </div>
-                <div className="gnb-container">
-                    {renderMenuItems(menuList, 1, 1)}
-                </div>
-                <div className="util-container">
-                    <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
-                        <FontAwesomeIcon icon={faCartShopping} />
-                        <span>
-                            <i>{basketProductData.length}</i>
-                        </span>
-                    </Button>
-                </div>
-                <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
-                <BasketSidebar>.</BasketSidebar>
-            </div>
-            <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
-        </>
+                <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
+            </>
 
-    );
+        );
+    }
 };
 
 export default Header;

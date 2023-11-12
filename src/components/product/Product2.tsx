@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
 import Link from "next/link";
-import './product.scss';
+import './Product.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import Pagination from "@/components/pagination/pagination";
@@ -63,7 +63,7 @@ const Product2: React.FC<Product2Props> = (
                         {productItems.map((item) => {
                             return (
                                 <li
-                                    key={item.product_no}
+                                    key={item.option_select.option_code}
                                     className={`product-item product-item2 product-item_${item.product_no}`}>
                                     <div className="img-area">
                                         <Link href={`/product/detail?product_no=${item.product_no}`}>
@@ -73,15 +73,24 @@ const Product2: React.FC<Product2Props> = (
                                         </Link>
                                     </div>
                                     <div className="info-area">
-                                        <div className="review-box">
-                                            <Button className="review" data-type={'text'} width={'xs'}>
-                                                <b>리뷰 <CurrencyDisplay amount={item.review_count} />개</b>
-                                            </Button>
+                                        {/*<div className="review-box">*/}
+                                        {/*    <Button className="review" data-type={'text'} width={'xs'}>*/}
+                                        {/*        <b>리뷰 <CurrencyDisplay amount={item.review_count} />개</b>*/}
+                                        {/*    </Button>*/}
+                                        {/*</div>*/}
+                                        <div className="hash-box">
+                                            {item.hash_tag.map((item) => {
+                                                return (
+                                                    <span key={item}>
+                                                    {'#' + item}
+                                                </span>
+                                                );
+                                            })}
                                         </div>
                                         <Link href={`/product/detail?product_no=${item.product_no}`}>
                                             <div className="text-box">
                                                 <strong className="name">{item.name}</strong>
-                                                <p className="desc">[옵션: 1000ml(대용량)]</p>
+                                                <p className="desc">{item.option_select.option_name}</p>
                                             </div>
                                             <div className="price-box">
                                                 <PriceList price1={(item.retail_price)*item.qty_num} price2={(item.sell_price)*item.qty_num} price3={(item.sale_price)*item.qty_num}>.</PriceList>

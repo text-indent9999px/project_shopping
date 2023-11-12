@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react";
-import './product.scss';
+import './Product.scss';
 import Button from "@/components/button/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faMinus} from "@fortawesome/free-solid-svg-icons";

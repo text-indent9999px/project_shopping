@@ -10,7 +10,7 @@ interface LayoutProps {
 const Footer: React.FC<LayoutProps> = ({ children }) => {
     return (
         <div className="footer-container">
-            <div className={"custom-inner-basic"}>
+            <div className={"custom-inner-wide"}>
                 <div className="logo-container">
                     <Link href={'/'}><LogoBasic width={60} /></Link>
                 </div>

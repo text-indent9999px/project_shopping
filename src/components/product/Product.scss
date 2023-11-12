@@ -113,6 +113,21 @@
         }
       }
 
+
+      .hash-box{
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        display: flex;
+        column-gap: 0.5rem;
+
+        span{
+          color: $color-highlight;
+          font-size: $font-size-small;
+          font-weight: $font-weight-medium;
+        }
+
+      }
+
       .price-box{
 
         .sale-percent{
