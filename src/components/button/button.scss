@@ -32,6 +32,7 @@
   align-items: center;
   justify-content: center;
   column-gap: 0.5rem;
+  transition: .2s ease;
 
 
   &[data-disabled="disabled"]{
@@ -40,6 +41,7 @@
     background: $gray-1 !important;
     border-color: $color-cancel !important;
   }
+
 
 
   &[width='xs']{
@@ -58,6 +60,14 @@
     font-size: $font-size-button-xl;
   }
 
+
+  &[data-type*="textButton" i]{
+
+    &:hover{
+      transform: translateY(-0.3rem);
+      box-shadow: 3px 3px 10px hexToRgba($primary-color-light, 0.3);
+    }
+  }
 
   &[data-type*='icon' i] {
     svg{

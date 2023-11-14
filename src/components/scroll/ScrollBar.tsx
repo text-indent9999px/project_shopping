@@ -10,6 +10,34 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
 
     const scrollContainer = useRef<HTMLDivElement | null>(null);
     const [scrollCheck, setScrollCheck] = useState(false);
+    let chkFull = false;
+    let scrollContentsFlag = true;
+    const [viewCheck, setViewCheck] = useState(false);
+
+    useEffect(() => {
+        const options = {
+            root: null, // use the viewport as the root
+            rootMargin: '0px',
+            threshold: 0.5, // percentage of target element which should be visible
+        };
+        const observer = new IntersectionObserver(handleIntersection, options);
+        if (scrollContainer.current !== null) {
+            observer.observe(scrollContainer.current);
+        }
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                setViewCheck(true);
+            } else {
+                setViewCheck(false);
+            }
+        });
+    };
 
     useEffect(() => {
         if(scrollContainer.current != null){
@@ -25,49 +53,64 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
 
                 if(contentsElement !== null && thumbElement !== null && standardElement !== null){
                     const standardComputedStyle = getComputedStyle(standardElement);
-                    const standardMaxHeight = Math.max(parseFloat(standardComputedStyle.maxHeight), standardElement.clientHeight);
-                    const standardPaddingTop = parseFloat(standardComputedStyle.paddingTop);
-                    const standardPaddingBottom = parseFloat(standardComputedStyle.paddingBottom);
-                    const standardBorderWidth = parseFloat(standardComputedStyle.borderWidth);
-                    const standardScrollContentMaxInnerHeight = standardMaxHeight - standardPaddingBottom - standardPaddingTop - (2*standardBorderWidth);
+                    let standardMaxHeight = Math.max(parseFloat(standardComputedStyle.maxHeight), standardElement.clientHeight);
 
-                    parentElement.style.maxHeight = standardScrollContentMaxInnerHeight + 'px';
+                    if(standardComputedStyle.maxHeight == 'none'){
+                        scrollContentsFlag = false;
+                    }
 
-                    const observer = new ResizeObserver((entries, observer) => {
-                        for (const entry of entries) {
-
-                            const contentsHeight = contentsElement.clientHeight;
-
-                            const parentComputedStyle = getComputedStyle(parentElement);
-                            const parentClientHeight = parentElement.clientHeight;
-                            const parentMaxHeight = Math.max(standardScrollContentMaxInnerHeight, parentClientHeight);
-                            const parentPaddingTop = parseFloat(parentComputedStyle.paddingTop);
-                            const parentPaddingBottom = parseFloat(parentComputedStyle.paddingBottom);
-                            const parentBorderWidth = parseFloat(parentComputedStyle.borderWidth);
-                            const scrollContentMaxInnerHeight = parentMaxHeight - parentPaddingBottom - parentPaddingTop - (2*parentBorderWidth);
-
-                            let thumbHeight;
-
-                            if(scrollContentMaxInnerHeight <= contentsHeight) {
-                                scrollElement.style.height = scrollContentMaxInnerHeight + 'px';
-                                thumbHeight = scrollContentMaxInnerHeight**2 / contentsHeight;
-                            }else{
-                                scrollElement.style.height = contentsHeight + 'px';
-                                thumbHeight = 0;
-                            }
-                            // @ts-ignore
-                            thumbElement.style.height = thumbHeight + 'px';
-                            thumbPosition(scrollElement);
+                    if(scrollContentsFlag){
+                        if(isNaN(standardMaxHeight) || standardMaxHeight == 0){
+                            standardMaxHeight = standardElement.clientHeight;
+                            chkFull = true;
                         }
-                    });
-                    observer.observe(contentsElement);
-                    return () => {
-                        observer.disconnect();
-                    };
+                        const standardPaddingTop = parseFloat(standardComputedStyle.paddingTop);
+                        const standardPaddingBottom = parseFloat(standardComputedStyle.paddingBottom);
+                        const standardBorderWidth = parseFloat(standardComputedStyle.borderWidth);
+                        const standardScrollContentMaxInnerHeight = standardMaxHeight - standardPaddingBottom - standardPaddingTop - (2*standardBorderWidth);
+                        parentElement.style.maxHeight = standardScrollContentMaxInnerHeight + 'px';
+
+                        const observer = new ResizeObserver((entries, observer) => {
+                            for (const entry of entries) {
+
+                                const contentsHeight = contentsElement.clientHeight;
+                                const parentComputedStyle = getComputedStyle(parentElement);
+                                const parentClientHeight = parentElement.clientHeight;
+                                const parentMaxHeight = Math.max(standardScrollContentMaxInnerHeight, parentClientHeight);
+                                const parentPaddingTop = parseFloat(parentComputedStyle.paddingTop);
+                                const parentPaddingBottom = parseFloat(parentComputedStyle.paddingBottom);
+                                const parentBorderWidth = parseFloat(parentComputedStyle.borderWidth);
+                                const scrollContentMaxInnerHeight = parentMaxHeight - parentPaddingBottom - parentPaddingTop - (2*parentBorderWidth);
+
+                                let thumbHeight;
+
+                                if(chkFull){
+                                    scrollElement.style.height = scrollContentMaxInnerHeight + 'px';
+                                    thumbHeight = scrollContentMaxInnerHeight**2 / contentsHeight;
+                                }else{
+                                    if(scrollContentMaxInnerHeight <= contentsHeight) {
+                                        scrollElement.style.height = scrollContentMaxInnerHeight + 'px';
+                                        thumbHeight = scrollContentMaxInnerHeight**2 / contentsHeight;
+                                    }else{
+                                        scrollElement.style.height = contentsHeight + 'px';
+                                        thumbHeight = 0;
+                                    }
+                                }
+
+                                // @ts-ignore
+                                thumbElement.style.height = thumbHeight + 'px';
+                                thumbPosition(scrollElement);
+                            }
+                        });
+                        observer.observe(contentsElement);
+                        return () => {
+                            observer.disconnect();
+                        };
+                    }
                 }
             }
         }
-    }, []);
+    }, [viewCheck]);
 
     const scrollHandler = (e: any) => {
 

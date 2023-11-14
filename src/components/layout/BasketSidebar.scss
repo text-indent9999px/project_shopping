@@ -25,35 +25,34 @@
     flex-direction: column;
     height: 100%;
 
-    .baket-sidebar-header{
+
+    .basket-sidebar-header{
       display: flex;
       align-items: center;
       justify-content: flex-end;
       margin-bottom: 2rem;
+      flex-shrink: 0;
     }
 
-    .baket-sidebar-actions{
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid $primary-color-light;
-
-      button{
-        font-weight: $font-weight-medium;
-      }
+    .custom-basket-actions{
+      flex-shrink: 0;
     }
 
-    .basket-sidebar-products{
+    .custom-basket-products{
       flex-grow: 1;
-      overflow-y: auto;
-      padding: $padding-basic 0;
+      flex-shrink: 1;
+      max-height: calc(100% - 3.2rem - 4.7rem - 6rem);
+
+      .custom-scroll-thumb{
+        right: 0;
+      }
     }
 
     .basket-sidebar-footer{
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      flex-shrink: 0;
 
       button{
         font-weight: $font-weight-medium;

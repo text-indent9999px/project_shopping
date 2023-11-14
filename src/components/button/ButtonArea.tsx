@@ -2,7 +2,7 @@ import React, { ReactNode, HTMLProps, MouseEvent } from 'react';
 import './button.scss';
 
 interface ButtonAreaProps extends HTMLProps<HTMLButtonElement> {
-    children?: ReactNode; // 버튼 내용
+    children?: ReactNode;
     className?: string,
 }
 

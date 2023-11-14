@@ -162,6 +162,11 @@
         border-bottom: 1px solid $gray-2;
         flex-wrap: wrap;
 
+        .chk-area{
+          display: inline-flex;
+          margin-right: 1rem;
+        }
+
         .img-area{
           width: 18%;
           min-width: 14rem;
@@ -176,8 +181,8 @@
         }
 
         .info-area{
-          width: calc(100% - 18%);
-          max-width: calc(100% - 14rem);
+          width: calc(100% - 18% - 2.5rem - 1rem);
+          max-width: calc(100% - 14rem - 2.5rem - 1rem);
           flex-grow: 1;
           padding: 0 0 0 $padding-basic;
           display: flex;
@@ -254,7 +259,7 @@
           width: 100%;
           margin: 2rem 0 0;
           padding-top: 2rem;
-          border-top: 2px solid $primary-color-light;
+          border-top: 1px dashed $gray-5;
 
           &.is-active{
             display: block;

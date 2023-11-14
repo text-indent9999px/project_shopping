@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import Link from "next/link";
 import './Product.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,8 +15,11 @@ import {useDispatch} from "react-redux";
 import {deleteToCart} from "@/function/Common";
 import store from "@/store/store";
 import ProductSelect from "@/components/product/ProductSelect";
+import InputBox from "@/components/input/InputBox";
 
 interface Product2Props {
+    onSelectItems: (item:Record<string, boolean>) => void;
+    selectedItems: Record<string, boolean>,
     data: BasketData[];
     grid: number,
     output: number,
@@ -27,12 +30,17 @@ interface Product2Props {
 }
 
 const Product2: React.FC<Product2Props> = (
-    { data = [],grid = 2, output = 3, page = 1, moreview = false, moreviewtype = 'pagination',
+    { onSelectItems, selectedItems, data = [],grid = 2, output = 3, page = 1, moreview = false, moreviewtype = 'pagination',
     pageSet = 5}) => {
 
     const dispatch = useDispatch();
-
     const [chkpage, setchkPage] = useState(page);
+
+    const handleCheckboxChange = (optionCode: string) => {
+        let coptyItems = {...selectedItems};
+        coptyItems[optionCode] = ! coptyItems[optionCode];
+        onSelectItems(coptyItems);
+    };
 
     const handlePageChange = (newPage:number) => {
         setchkPage(newPage);
@@ -80,7 +88,9 @@ const Product2: React.FC<Product2Props> = (
         const start = ((chkpage - 1)*output);
         const end = (chkpage*output);
         const productItems = data.slice(start,end);
+
         if (productItems.length === 0) return null;
+
         return (
             <>
                 <div className={`product-item-list product-item-list2`}>
@@ -90,6 +100,12 @@ const Product2: React.FC<Product2Props> = (
                                 <li
                                     key={item.option_select.option_code}
                                     className={`product-item product-item2 product-item_${item.option_select.option_code}`}>
+                                    <div className={"chk-area"}>
+                                        <InputBox type={"checkbox"}
+                                                  checked={selectedItems[item.option_select.option_code]}
+                                                  onChange={() => handleCheckboxChange(item.option_select.option_code)}
+                                        ></InputBox>
+                                    </div>
                                     <div className="img-area">
                                         <Link href={`/product/detail?product_no=${item.product_no}`}>
                                             <div className="img-box">

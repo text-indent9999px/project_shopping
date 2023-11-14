@@ -1,0 +1,63 @@
+@import '../../styles/variables';
+
+.custom-input-box{
+  display: flex;
+
+  input{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    max-width: 0;
+    max-height: 0;
+  }
+
+  label{
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 2px solid $color-cancel;
+    border-radius: 0.5rem;
+    position: relative;
+    transition: .4s ease-in-out;
+
+    &:after,
+    &:before{
+      display: block;
+      content: "";
+      position: absolute;
+      width: 0.3rem;
+      height: 50%;
+      border-radius: 1rem;
+      background: $color-cancel;
+      top: 50%;
+      left: 50%;
+      transition: .4s ease-in-out;
+    }
+
+    &:after{
+      height: 35%;
+      transform: rotate(-45deg) translateY(-50%);
+      margin-left: calc(50% * 0.2 * -1);
+    }
+
+    &:before{
+      transform: rotate(45deg) translateY(-50%);
+      margin-left: calc(50% * 0.3 * -1);
+      margin-top: calc(50% * 0.2 * -1);
+    }
+
+  }
+
+  input:checked + label{
+    border-color: $color-highlight;
+
+    &:after,
+    &:before{
+      background: $color-highlight;
+    }
+
+  }
+
+}

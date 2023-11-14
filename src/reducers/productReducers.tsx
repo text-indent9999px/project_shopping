@@ -44,6 +44,15 @@ export const ProductReducers: Reducer<initialState> = (state = initialState, act
             return { ...state, basket: deleteData };
         case 'DELETE_ALL_TO_BASKETDATA':
             return { ...state, basket: [] };
+        case 'DELETE_SELECTED_ITEMS_TO_CART':
+            let chkItemsArray = action.payload;
+            let deleteSelectedItems = state.basket.filter(function(e){
+                const beDelete = chkItemsArray.some((item:string) => item == e.option_select.option_code);
+                if(! beDelete){
+                    return true;
+                }
+            });
+            return {...state, basket: deleteSelectedItems};
         case 'CHANGE_TO_BASKETDATA' :
             let beforeData = action.payload.before;
             let afterData = action.payload.after;

@@ -58,6 +58,13 @@ export function deleteAllToBasketData() {
     };
 }
 
+export function deleteSelectedItemsToBasketData(arr:string[]){
+    return{
+        type: 'DELETE_SELECTED_ITEMS_TO_CART',
+        payload: arr,
+    }
+}
+
 export function changeToBasketData(data:object){
     return{
         type: 'CHANGE_TO_BASKETDATA',

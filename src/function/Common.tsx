@@ -5,7 +5,7 @@ import {
     addToBasketData,
     popupOpen,
     deleteToBasketData,
-    deleteAllToBasketData,
+    deleteAllToBasketData, deleteSelectedItemsToBasketData,
 } from "@/actions/actions";
 import {BasketData, ProductData} from "@/types/types";
 
@@ -78,9 +78,10 @@ export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButto
     };
 
     if (elements.flyer && elements.basket) {
-        // if (document.querySelector('#fly-to-basket')) {
-        //     document.querySelector('#fly-to-basket').remove();
-        // }
+        if (document.querySelector('#fly-to-basket')) {
+            let beforeElement = document.querySelector('#fly-to-basket') as HTMLElement;
+            beforeElement.remove();
+        }
 
         const clonedElement = document.createElement('div');
         clonedElement.id = 'fly-to-basket';
@@ -214,6 +215,29 @@ export function deleteAllToCart(): any {
         message: '장바구니를 비우시겠습니까?',
         contents: '',
         okClick: function(){ store.dispatch(deleteAllToBasketData());
+            store.dispatch(popupOpen(false, 'alert', {
+                message: '',
+                contents: '',
+                okClick: function(){ console.log('ok') },
+                cancelClick: function(){ console.log('cancel') },
+            }))
+        },
+        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
+            message: '',
+            contents: '',
+            okClick: function(){ console.log('ok') },
+            cancelClick: function(){ console.log('cancel') },
+        })) },
+    };
+    store.dispatch(popupOpen(true, 'confirm', data));
+}
+
+export function deleteSelectedItemsToCart(checkedItmes:string[]): any{
+    let data = {
+        message: '정말 삭제하시겠습니까?',
+        contents: '',
+        okClick: function(){
+            store.dispatch(deleteSelectedItemsToBasketData(checkedItmes));
             store.dispatch(popupOpen(false, 'alert', {
                 message: '',
                 contents: '',

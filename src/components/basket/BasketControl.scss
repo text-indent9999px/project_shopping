@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+
+
+.custom-basket-actions{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $primary-color-light;
+
+  button{
+    font-weight: $font-weight-medium;
+  }
+}
+
+.custom-basket-products{
+  padding: $padding-basic 0;
+}
+
+.basket-data-count{
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: $font-size-small;
+  margin-left: 1rem;
+  font-weight: $font-weight-medium;
+  color: $color-highlight;
+}

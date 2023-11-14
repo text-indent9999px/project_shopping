@@ -1,0 +1,42 @@
+@import 'variables';
+
+.custom-summary-area{
+  padding: 0 0 2rem;
+}
+
+.custom-summary{
+  padding: 0 0 2rem;
+
+  ul{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+
+    li{
+      display: flex;
+      justify-content: space-between;
+
+      .title{
+      }
+      .desc{
+
+      }
+
+      &.total{
+        padding: 2rem 0;
+        margin-top: 1.5rem;
+        border-top: 1px solid $gray-5;
+
+        .title{
+          font-size: $font-size-title;
+          font-weight: $font-weight-medium;
+        }
+        .desc{
+          font-size: $font-size-title;
+          font-weight: $font-weight-medium;
+        }
+      }
+    }
+  }
+
+}

@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+
+.custom-page-title{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 0 5rem;
+  row-gap: 2rem;
+
+  h3{
+    font-size: $font-size-page-heading;
+    font-weight: $font-weight-medium;
+  }
+
+  p{
+    font-size: $font-size-page-subheading;
+  }
+}

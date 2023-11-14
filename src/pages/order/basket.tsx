@@ -1,37 +1,69 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import '../../styles/pages-orderBasket.scss';
 import BasicLayout from '@/components/layout/BasicLayout';
 const metadata = {
     title: 'Basket Page',
     description: 'This is the test page',
 };
 import FixedFollowLayout from "@/components/layout/FixedFollowLayout";
-import {useRouter} from "next/router";
-import Product2 from "@/components/product/Product2";
-import {useSelector} from "react-redux";
-import {RootState} from "@/types/types";
+import ButtonArea from "@/components/button/ButtonArea";
+import Button from "@/components/button/Button";
+import BasketControl from "@/components/basket/BasketControl";
+import Title from "@/components/page/Title";
+import CurrencyDisplay from "@/components/common/CurrencyDisplay";
+
+interface summaryData {
+    productAmount: number,
+    discountAmount: number,
+    deliveryAmount: number,
+    totalAmount: number,
+    totalAmountExceptDelivery: number,
+}
 
 export default function OrderBasket() {
 
-    const router = useRouter();
-    const productData = useSelector((state:RootState) => state.product.basket);
+    const [summaryData, setSummaryData] = useState<summaryData | null>(null);
 
-    useEffect(() => {
-
-    }, []);
-
+    const onSummaryDataSet = (data: summaryData) => {
+        setSummaryData(data);
+    }
 
     return (
         <BasicLayout metadata={metadata}>
+            <Title title={"장바구니"} desc={""}></Title>
             <FixedFollowLayout>
                 <>
-                    <div className="basket-sidebar-products">
-                        {productData.length > 0 && <Product2 data={productData} grid={1} output={12} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'}/>}
-                        {productData.length == 0 && <div className={`custom-empty-message`}>장바구니에 담긴 상품이 없습니다.</div>}
-                    </div>
+                    <BasketControl onSummaryDataSet={onSummaryDataSet} grid={1} output={999} moreview={false}></BasketControl>
                 </>
                 <>
-                    으아아
+                    <div className={"custom-summary-area"}>
+                        <div className={"custom-summary"}>
+                            <ul>
+                                <li>
+                                    <strong className={"title"}>총 상품 금액</strong>
+                                    <div className={"desc"}><CurrencyDisplay amount={summaryData?.productAmount || 0} /></div>
+                                </li>
+                                <li>
+                                    <strong className={"title"}>총 할인 금액</strong>
+                                    <div className={"desc"}><CurrencyDisplay amount={summaryData?.discountAmount || 0} /></div>
+                                </li>
+                                <li>
+                                    <strong className={"title"}>총 배송 금액</strong>
+                                    <div className={"desc"}><CurrencyDisplay amount={summaryData?.deliveryAmount || 0} /></div>
+                                </li>
+                                <li className={"total"}>
+                                    <strong className={"title"}>총 주문 금액</strong>
+                                    <div className={"desc"}><CurrencyDisplay amount={summaryData?.totalAmount || 0} /></div>
+                                </li>
+                            </ul>
+                        </div>
 
+                        <div className={"custom-basket-action-box"}>
+                            <ButtonArea className={'width-full'} width={'full'}>
+                                <Button color={'color2'} width={'lg'} data-type={'textButton'}>주문하기</Button>
+                            </ButtonArea>
+                        </div>
+                    </div>
                 </>
             </FixedFollowLayout>
         </BasicLayout>
