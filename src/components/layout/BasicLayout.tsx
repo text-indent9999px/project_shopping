@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Dimmed from "@/components/common/Dimmed";
 import Popup from "@/components/popup/popup";
 import {RootState} from "@/types/types";
+import {checkBasketSidebarOpen, checkHeaderFixed} from "@/actions/actions";
 
 
 interface LayoutProps {
@@ -25,15 +26,12 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
     useEffect(() => {
         const headerFixedElement = document.querySelector('[data-header-fixed=true]');
         const isHeaderFixed = !!headerFixedElement;
-        dispatch({ type: 'CHECK_HEADER_FIXED', payload: isHeaderFixed });
+        dispatch(checkHeaderFixed(isHeaderFixed));
+        dispatch(checkBasketSidebarOpen(false));
     }, [dispatch]);
-
-    //const isPopupOpen = useSelector((state) => state.popup.isActive);
-    //const isDimmedOpen = useSelector((state) => state.dimmed.isActive);
 
     const isPopupOpen = useSelector((state: RootState) => state.popup.isActive);
     const isDimmedOpen = useSelector((state: RootState) => state.dimmed.isActive);
-
 
     return (
         <>

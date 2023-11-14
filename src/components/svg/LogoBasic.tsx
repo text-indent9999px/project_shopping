@@ -2,7 +2,7 @@ import React from "react";
 
 
 interface LogoBasicProps {
-    width: number;
+    width?: number;
 }
 
 const LogoBasic: React.FC<LogoBasicProps> = ({ width = 60 }) => {

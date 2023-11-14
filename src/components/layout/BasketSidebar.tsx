@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './BasketSidebar.scss';
 import Product2 from "@/components/product/Product2";
 import {useDispatch, useSelector} from "react-redux";
-import {ProductData} from "@/types/types";
+import {RootState} from "@/types/types";
 import Button from "@/components/button/Button";
 import {faClose} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -12,23 +12,17 @@ import {deleteAllToCart} from "@/function/Common";
 
 
 interface LayoutProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
 
-    // @ts-ignore
-    const productData = useSelector((state) => state.product.basket);
-    // @ts-ignore
-    const isBasketSidebarOpen = useSelector((state) => state.check_header.isBaksetSidebarOpen);
-
-
-
+    const productData = useSelector((state:RootState) => state.product.basket);
+    const isBasketSidebarOpen = useSelector((state:RootState) => state.check_header.isBaksetSidebarOpen);
 
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        //dispatch(deleteAllToBasketData());
         deleteAllToCart();
     };
 
@@ -51,9 +45,11 @@ const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
                         {productData.length == 0 && <div className={`custom-empty-message`}>장바구니에 담긴 상품이 없습니다.</div>}
                     </div>
                     <div className="basket-sidebar-footer">
-                        <Button className={'move'} width={'sm'} data-type={'textButton'} color={'color2'}>
-                            <Link href={'/basket'}>장바구니로 이동</Link>
-                        </Button>
+                        <Link href={'/order/basket'}>
+                            <Button className={'move'} width={'sm'} data-type={'textButton'} color={'color2'}>
+                                장바구니로 이동
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

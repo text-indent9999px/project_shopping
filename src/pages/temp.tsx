@@ -43,19 +43,19 @@ export default function PrdDetail() {
     //         hash_tag: ['해시태그1', '해시태그2', '해시태그3'],
     //         option: [
     //             {
-    //                 option_code: 'P' + (randomValue) * 1000,
+    //                 option_code: 'P' + i + '001',
     //                 option_name: '옵션명1',
     //                 option_value: (randomValue2 % 2 == 0) ? randomValue2 : -1 * randomValue2,
     //                 sold_out: true,
     //             },
     //             {
-    //                 option_code: 'P' + (randomValue2) * 1000,
+    //                 option_code: 'P' + i + '002',
     //                 option_name: '옵션명2',
     //                 option_value: (randomValue % 2 == 0) ? randomValue : -1 * randomValue,
     //                 sold_out: false,
     //             },
     //             {
-    //                 option_code: 'P' + (randomValue3) * 1000,
+    //                 option_code: 'P' + i + '003',
     //                 option_name: '옵션명3',
     //                 option_value: (randomValue3 % 2 == 0) ? randomValue3 : -1 * randomValue3,
     //                 sold_out: false,

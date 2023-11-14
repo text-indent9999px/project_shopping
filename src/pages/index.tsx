@@ -5,7 +5,7 @@ import Link from "next/link";
 import '../styles/pages-main.scss';
 import Product1 from "@/components/product/Product1";
 import {useSelector} from "react-redux";
-import {AppState, ProductData} from "@/types/types";
+import {AppState, ProductData, RootState} from "@/types/types";
 import {calculateBrightness, intersectionObserve} from "@/function/Common";
 import {get, onValue, ref} from "firebase/database";
 
@@ -18,11 +18,7 @@ const metadata = {
 
 export default function Index() {
 
-    // @ts-ignore
-    const productData = useSelector((state: ProductData) => state.product.product);
-
-    // @ts-ignore
-    const database = useSelector((state) => state.firebase.database);
+    const database = useSelector((state:RootState) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
     const [testData, setTestData] = useState(null);
     const [testData2, setTestData2] = useState(null);

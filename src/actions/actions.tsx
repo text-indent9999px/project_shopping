@@ -58,6 +58,13 @@ export function deleteAllToBasketData() {
     };
 }
 
+export function changeToBasketData(data:object){
+    return{
+        type: 'CHANGE_TO_BASKETDATA',
+        payload: data,
+    }
+}
+
 export function popupOpen(boo:boolean, type:string, data:object) {
     return {
         type: 'POPUP_OPEN',

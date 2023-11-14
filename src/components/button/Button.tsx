@@ -2,10 +2,10 @@ import React, { ReactNode, HTMLProps, MouseEvent } from 'react';
 import './button.scss';
 
 interface ButtonProps extends HTMLProps<HTMLButtonElement> {
-    children: ReactNode; // 버튼 내용
+    children?: ReactNode;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-    className: string,
-    width: string,
+    className?: string,
+    width?: string,
     type?: "button" | "submit" | "reset";
 }
 

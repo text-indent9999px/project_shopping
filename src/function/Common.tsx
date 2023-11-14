@@ -1,92 +1,68 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import store from "@/store/store";
 import {
     checkHeaderColor,
     addToBasketData,
     popupOpen,
     deleteToBasketData,
-    deleteAllToBasketData, checkBasketSidebarOpen
+    deleteAllToBasketData,
 } from "@/actions/actions";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/button/Button";
+import {BasketData, ProductData} from "@/types/types";
 
-
-// 스크롤 비활성화 함수
 export function disableScroll() {
-    // 현재 스크롤 위치를 저장
     const scrollY = window.scrollY;
-
-    // body 요소에 스크롤 비활성화 스타일 적용
-    // document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
 }
 
-// 스크롤 활성화 함수
 export function enableScroll() {
-    // 현재 스크롤 위치를 가져옴
     const scrollY = Math.abs(parseInt(document.body.style.top, 10));
-
-    // body 스타일 초기화
-    // document.body.style.overflow = '';
     document.body.style.position = '';
     document.body.style.top = '';
-
-    // 이전 스크롤 위치로 스크롤 복원
     window.scrollTo(0, scrollY);
 }
 
+export function addToCart(itemData: BasketData[] | BasketData, event: React.MouseEvent<HTMLButtonElement>): any {
 
-export function addToCart(itemData: object, event: React.MouseEvent<HTMLButtonElement>): any {
+    let basketData = store.getState().product.basket;
+    function isItemInBasket(item:BasketData) {
+        return basketData.some(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
+    }
 
-    if(itemData.length > 0){
-        let basketData = store.getState().product.basket;
-        function isItemInBasket(item) {
-            return basketData.some(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
+    if (Array.isArray(itemData)) {
+        if (itemData.some(isItemInBasket)) {
+            const newData = itemData.map(item => {
+                const chkData = basketData.find(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
+                if (chkData) {
+                    item.qty_num = chkData.qty_num + item.qty_num;
+                }
+                return item;
+            });
+            confirmCartAdd(newData, event);
+        } else {
+            cartAnimation(itemData, event);
         }
-        if (Array.isArray(itemData)) {
-            if (itemData.some(isItemInBasket)) {
-                const newData = itemData.map(item => {
-                    const chkData = basketData.find(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
-                    if (chkData) {
-                        item.qty_num = chkData.qty_num + item.qty_num;
-                    }
-                    return item;
-                });
-                confirmCartAdd(newData, event);
-            } else {
-                cartAnimation(itemData, event);
-                // itemData.forEach(item => {
-                //     const newItem = Object.assign({}, item);
-                //     store.dispatch(addToBasketData(newItem));
-                // });
+    } else {
+        if (isItemInBasket(itemData)) {
+            const chkData = basketData.find(e => e.product_no === itemData.product_no && e.option_select.option_code === itemData.option_select.option_code);
+            if (chkData) {
+                itemData.qty_num = chkData.qty_num + 1;
+                confirmCartAdd(itemData, event);
             }
         } else {
-            if (isItemInBasket(itemData)) {
-                const chkData = basketData.find(e => e.product_no === itemData.product_no && e.option_select.option_code === itemData.option_select_option_code);
-                if (chkData) {
-                    itemData.qty_num = chkData.qty_num + 1;
-                    confirmCartAdd(itemData, event);
-                }
-            } else {
-                cartAnimation(itemData, event);
-                //store.dispatch(addToBasketData(itemData));
-            }
+            cartAnimation(itemData, event);
         }
-    }else{
-        isEmptyBuyList();
     }
+
 }
 
 export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButtonElement>): any{
 
-
     disableScroll();
 
     const elements = {
-        flyer: event.target,
-        basket: document.querySelector('.header-container .cart'),
+        flyer: event.target as HTMLElement,
+        basket: document.querySelector('.header-container .cart') as HTMLElement,
     };
 
     const options = {
@@ -102,9 +78,9 @@ export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButto
     };
 
     if (elements.flyer && elements.basket) {
-        if (document.querySelector('#fly-to-basket')) {
-            document.querySelector('#fly-to-basket').remove();
-        }
+        // if (document.querySelector('#fly-to-basket')) {
+        //     document.querySelector('#fly-to-basket').remove();
+        // }
 
         const clonedElement = document.createElement('div');
         clonedElement.id = 'fly-to-basket';
@@ -125,7 +101,7 @@ export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButto
         document.body.appendChild(clonedElement);
 
         setTimeout(() => {
-            const flyToBasket = document.querySelector('#fly-to-basket');
+            const flyToBasket = document.querySelector('#fly-to-basket') as HTMLElement;
             flyToBasket.style.width = '50px';
             flyToBasket.style.height = '50px';
             flyToBasket.style.top = `${options.position.origin.initial.top - options.position.origin.offset.y}px`;

@@ -4,14 +4,13 @@ import './header.scss';
 import LogoBasic from '@/components/svg/LogoBasic';
 import { useSelector, useDispatch } from 'react-redux';
 import ScrollHandler from "@/components/event/ScrollHandler";
-import {AppState} from "@/types/types";
+import {RootState} from "@/types/types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/Button";
 import BasketSidebar from "@/components/layout/BasketSidebar";
 import {checkBasketSidebarOpen} from "@/actions/actions";
-
-import {get, ref} from "firebase/database";
+import {DatabaseReference, ref} from "firebase/database";
 import { onValue } from "firebase/database";
 
 interface LayoutProps {
@@ -30,14 +29,10 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     const [menuList, setMenuList] = useState([]);
 
-    // @ts-ignore
-    const isScrolled = useSelector((state) => state.scroll.isScrolled);
-    // @ts-ignore
-    const isHeaderFixed = useSelector((state) => state.check_header.isHeaderFixed);
-    // @ts-ignore
-    const isHeaderColor = useSelector((state) => state.check_header.isHeaderColor);
-    // @ts-ignore
-    const basketProductData = useSelector((state) => state.product.basket);
+    const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
+    const isHeaderFixed = useSelector((state:RootState) => state.check_header.isHeaderFixed);
+    const isHeaderColor = useSelector((state:RootState) => state.check_header.isHeaderColor);
+    const basketProductData = useSelector((state:RootState) => state.product.basket);
 
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const dispatch = useDispatch();
@@ -76,7 +71,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     function handleMenuLeave(menuNo: number) {
         if(menuNo !== 1){
-            let chkData = menuList.filter((item) => item.menu_no === menuNo);
+            let chkData:MenuItem[] = menuList.filter((item:MenuItem) => item.menu_no === menuNo);
             if(chkData[0].parent_menu_no == 1){
                 setIsHovered(false);
                 updateMenuState(menuNo, false);
@@ -129,7 +124,8 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                     allLiElements.forEach((li) => {
                         const directChildUl = li.querySelector(':scope > ul');
                         if (directChildUl instanceof Element && 'style' in directChildUl) {
-                            if (directChildUl !== null) { // @ts-ignore
+                            if (directChildUl !== null) {
+                                // @ts-ignore
                                 directChildUl.style.maxHeight = ``;
                             }
                         }
@@ -152,7 +148,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     function isAncestorOf(ancestormenuNo: number, currentmenuNo: number): boolean {
         let chkData = function(menuNo:number, ancestormenuNo:number) {
-            let data = menuList.find((item) => item.menu_no === menuNo);
+            let data:any = menuList.find((item:MenuItem) => item.menu_no === menuNo);
             if (data) {
                 if (data.menu_no === ancestormenuNo) {
                     return true; // 조상 카테고리인 경우 true 반환
@@ -177,10 +173,8 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
     }
 
 
-    // @ts-ignore
-    const database = useSelector((state) => state.firebase.database);
-    //'menu_list' 경로에 대한 참조 생성
-    const menuListRef = ref(database, 'menu_list');
+    const database = useSelector((state:RootState) => state.firebase.database);
+    const menuListRef:DatabaseReference = ref(database, 'menu_list');
 
     useEffect(() => {
         onValue(menuListRef, (snapshot) => {
@@ -220,7 +214,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                         </Button>
                     </div>
                     <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
-                    <BasketSidebar>.</BasketSidebar>
+                    <BasketSidebar></BasketSidebar>
                 </div>
                 <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
             </>

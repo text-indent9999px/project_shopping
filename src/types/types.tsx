@@ -1,4 +1,6 @@
 // 액션 타입 상수 정의
+import {MouseEvent} from "react";
+
 export const SCROLL = 'SCROLL';
 export const CHECKHEADERFIXED = 'CHECK_HEADER_FIXED';
 export const CHECKHEADERCOLOR = 'CHECK_HEADER_COLOR';
@@ -9,9 +11,15 @@ export interface RootState {
     popup: PopupState;
     productData: ProductData;
     basketData: BasketData;
+    product: {basket: ProductData[]},
+    check_header: {isBaksetSidebarOpen: boolean, isHeaderFixed: boolean, isHeaderColor: string},
+    scroll: { isScrolled: boolean },
+    firebase: {
+        database: any,
+        storage: any,
+    },
 }
 
-// 액션 객체의 타입 정의
 export interface ScrollAction {
     type: typeof SCROLL;
     payload: boolean;
@@ -31,7 +39,19 @@ export interface DimmedState {
 export interface PopupState {
     isActive : boolean,
     type: string,
-    popupData: object,
+    popupData: {
+        message: string,
+        contents: any,
+        okClick : (event: MouseEvent<HTMLButtonElement>) => void;
+        cancelClick : (event: MouseEvent<HTMLButtonElement>) => void;
+    },
+}
+
+export interface Option {
+    option_code: string;
+    option_name: string;
+    option_value: number;
+    sold_out: boolean;
 }
 
 export interface ProductData {
@@ -48,12 +68,8 @@ export interface ProductData {
     hit_count: number,
     image_add: [],
     hash_tag: [],
-    option_select: {
-        option_code: string,
-        option_name: string,
-        option_value: number,
-        sold_out: boolean,
-    }
+    option: Option[],
+    option_select: Option,
     qty_num: number,
     shipping_fee: number,
 }
@@ -72,17 +88,13 @@ export interface BasketData {
     hit_count: number,
     image_add: [],
     hash_tag: [],
-    option_select: {
-        option_code: string,
-        option_name: string,
-        option_value: number,
-        sold_out: boolean,
-    }
+    option: Option[],
+    option_select: Option,
     qty_num: number,
     shipping_fee: number,
 }
 
 export interface fireBaseState{
-    database: object,
-    storage: object,
+    database: any,
+    storage: any,
 }

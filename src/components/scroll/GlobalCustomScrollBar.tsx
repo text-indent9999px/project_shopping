@@ -29,15 +29,8 @@ export default function GlobalCustomScrollBar() {
 
     useEffect(() => {
         if(thumbRef.current !== null){
-            // pageHeight.current = document.documentElement.offsetHeight;
-            // setWindowHeight(window.innerHeight);
-
             const observer = new ResizeObserver((entries, observer) => {
                 for (const entry of entries) {
-                    // const {width, height, top, left} = entry.contentRect;
-                    // console.log(entry.target);
-                    // console.log(`width: ${width}px;, height: ${height}px`);
-                    // console.log(`top: ${top}px;, left: ${left}px`);
                     pageHeight.current = document.documentElement.offsetHeight;
                     setWindowHeight(window.innerHeight);
                 }
@@ -50,7 +43,7 @@ export default function GlobalCustomScrollBar() {
     }, [thumbRef.current]);
 
     useEffect(() => {
-        if(thumbRef.current !== null){
+        if(thumbRef.current !== null && pageHeight.current !== null){
             if (windowHeight >= pageHeight.current) return;
 
             let thumbHeight = (windowHeight / pageHeight.current) * windowHeight;
@@ -59,30 +52,31 @@ export default function GlobalCustomScrollBar() {
             let scrollCheckTimeout: NodeJS.Timeout;
 
             const calculateThumbY = () => {
-                const { scrollY } = window;
-                const scrollYFactor =
-                    (pageHeight.current - thumbHeight) / (pageHeight.current - windowHeight);
-                const maxThumbScrollY = pageHeight.current - thumbHeight;
-                const thumbScrollY = scrollY * scrollYFactor;
-                const revisedThumbScrollY = thumbScrollY < 0 ? 0 : thumbScrollY;
-                thumbRef.current.style.transform = `translateY(${
-                    revisedThumbScrollY > maxThumbScrollY
-                        ? maxThumbScrollY
-                        : revisedThumbScrollY
-                }px)`;
+                if(thumbRef.current !== null && pageHeight.current !== null) {
+                    const {scrollY} = window;
+                    const scrollYFactor =
+                        (pageHeight.current - thumbHeight) / (pageHeight.current - windowHeight);
+                    const maxThumbScrollY = pageHeight.current - thumbHeight;
+                    const thumbScrollY = scrollY * scrollYFactor;
+                    const revisedThumbScrollY = thumbScrollY < 0 ? 0 : thumbScrollY;
+                    thumbRef.current.style.transform = `translateY(${
+                        revisedThumbScrollY > maxThumbScrollY
+                            ? maxThumbScrollY
+                            : revisedThumbScrollY
+                    }px)`;
 
-                if (!scrollCheck) {
-                    setScrollCheck(true);
-                    thumbRef.current.classList.add('is-scrolling');
+                    if (!scrollCheck) {
+                        setScrollCheck(true);
+                        thumbRef.current.classList.add('is-scrolling');
+                    }
+                    clearTimeout(scrollCheckTimeout);
+                    scrollCheckTimeout = setTimeout(() => {
+                        setScrollCheck(false);
+                        if(thumbRef.current !== null){
+                            thumbRef.current.classList.remove('is-scrolling');
+                        }
+                    }, 1000);
                 }
-
-                clearTimeout(scrollCheckTimeout);
-
-                scrollCheckTimeout = setTimeout(() => {
-                    setScrollCheck(false);
-                    thumbRef.current.classList.remove('is-scrolling');
-                }, 1000);
-
             }
             document.addEventListener("scroll", calculateThumbY);
 
@@ -93,6 +87,7 @@ export default function GlobalCustomScrollBar() {
     }, [windowHeight]);
 
     const handleRef = (ref: React.RefObject<HTMLDivElement>) => {
+        // @ts-ignore
         thumbRef.current = ref.current;
     };
 

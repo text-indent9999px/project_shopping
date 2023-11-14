@@ -10,12 +10,12 @@
   .custom-fixedFollow-fixed{
     flex-grow: 1;
     flex-shrink: 1;
-    min-height: 200vh;
   }
 
   .custom-fixedFollow-follow{
-    width: 50%;
-    min-width: 45rem;
+    width: 35%;
+    min-width: 40rem;
+    flex-shrink: 0;
 
     .custom-detail-follow-floating{
       position: sticky;

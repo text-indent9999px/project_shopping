@@ -10,9 +10,11 @@ import PriceList from "@/components/common/PriceList";
 import Qty from "@/components/product/Qty";
 import ButtonArea from "@/components/button/ButtonArea";
 import {BasketData} from "@/types/types";
-import {deleteToBasketData, modifyToBasketData} from "@/actions/actions";
+import {deleteToBasketData, modifyToBasketData, popupOpen} from "@/actions/actions";
 import {useDispatch} from "react-redux";
 import {deleteToCart} from "@/function/Common";
+import store from "@/store/store";
+import ProductSelect from "@/components/product/ProductSelect";
 
 interface Product2Props {
     data: BasketData[];
@@ -48,14 +50,37 @@ const Product2: React.FC<Product2Props> = (
         deleteToCart(newData);
     };
 
-    function renderProductItems(data: BasketData[]): JSX.Element | null {
+    const handleModify = (e:React.MouseEvent) => {
+        let clickedElement: Element | null = e.target as Element;
+        let closestLi = findClosestLi(clickedElement);
 
+        if (closestLi) {
+            const optionSelectElement:Element|null = closestLi.querySelector('.option-change-area');
+            if(optionSelectElement){
+                if(optionSelectElement.classList.contains('is-active')){
+                    optionSelectElement.classList.remove('is-active');
+                    clickedElement.classList.remove('is-active');
+                }else{
+                    optionSelectElement.classList.add('is-active');
+                    clickedElement.classList.add('is-active');
+                }
+            }
+        }
+        function findClosestLi(element: Element | null) {
+            while (element !== null && element.tagName !== 'LI') {
+                element = element.parentNode as Element | null;
+            }
+            return element;
+        }
+    }
+
+
+    function renderProductItems(data: BasketData[]): JSX.Element | null {
         const dataLength = data.length;
         const start = ((chkpage - 1)*output);
         const end = (chkpage*output);
         const productItems = data.slice(start,end);
         if (productItems.length === 0) return null;
-
         return (
             <>
                 <div className={`product-item-list product-item-list2`}>
@@ -64,7 +89,7 @@ const Product2: React.FC<Product2Props> = (
                             return (
                                 <li
                                     key={item.option_select.option_code}
-                                    className={`product-item product-item2 product-item_${item.product_no}`}>
+                                    className={`product-item product-item2 product-item_${item.option_select.option_code}`}>
                                     <div className="img-area">
                                         <Link href={`/product/detail?product_no=${item.product_no}`}>
                                             <div className="img-box">
@@ -78,22 +103,22 @@ const Product2: React.FC<Product2Props> = (
                                         {/*        <b>리뷰 <CurrencyDisplay amount={item.review_count} />개</b>*/}
                                         {/*    </Button>*/}
                                         {/*</div>*/}
-                                        <div className="hash-box">
-                                            {item.hash_tag.map((item) => {
-                                                return (
-                                                    <span key={item}>
+                                        <Link href={`/product/detail?product_no=${item.product_no}`}>
+                                            <div className="hash-box">
+                                                {item.hash_tag.map((item) => {
+                                                    return (
+                                                        <span key={item}>
                                                     {'#' + item}
                                                 </span>
-                                                );
-                                            })}
-                                        </div>
-                                        <Link href={`/product/detail?product_no=${item.product_no}`}>
+                                                    );
+                                                })}
+                                            </div>
                                             <div className="text-box">
                                                 <strong className="name">{item.name}</strong>
                                                 <p className="desc">{item.option_select.option_name}</p>
                                             </div>
                                             <div className="price-box">
-                                                <PriceList price1={(item.retail_price)*item.qty_num} price2={(item.sell_price)*item.qty_num} price3={(item.sale_price)*item.qty_num}>.</PriceList>
+                                                <PriceList price1={(item.retail_price)*item.qty_num + (item.option_select.option_value*item.qty_num)} price2={(item.sell_price)*item.qty_num + (item.option_select.option_value*item.qty_num)} price3={(item.sale_price)*item.qty_num + (item.option_select.option_value*item.qty_num)}>.</PriceList>
                                             </div>
                                         </Link>
                                         <div className="qty-box">
@@ -104,11 +129,14 @@ const Product2: React.FC<Product2Props> = (
                                                 <Button className="review" data-type={'textButton'} width={'xs'} onClick={()=> handleDelete(item)}>
                                                     옵션삭제
                                                 </Button>
-                                                <Button className="review" data-type={'textButton'} width={'xs'}>
+                                                <Button className="review" data-type={'textButton'} width={'xs'} onClick={(e)=> handleModify(e)}>
                                                     옵션변경
                                                 </Button>
                                             </ButtonArea>
                                         </div>
+                                    </div>
+                                    <div className={"option-change-area"}>
+                                        <ProductSelect productData={item} type={'optionChange'}></ProductSelect>
                                     </div>
                                 </li>
                             )

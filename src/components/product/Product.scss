@@ -160,9 +160,11 @@
         flex-direction: row;
         padding-bottom: $padding-basic;
         border-bottom: 1px solid $gray-2;
+        flex-wrap: wrap;
 
         .img-area{
-          width: 27%;
+          width: 18%;
+          min-width: 14rem;
 
           a, .img-box, img{
             height: 100%;
@@ -174,11 +176,14 @@
         }
 
         .info-area{
-          width: calc(100% - 27%);
-          padding: 0 $padding-basic;
+          width: calc(100% - 18%);
+          max-width: calc(100% - 14rem);
+          flex-grow: 1;
+          padding: 0 0 0 $padding-basic;
           display: flex;
           flex-wrap: wrap;
-          align-items: center;
+          align-items: flex-start;
+          row-gap: 1rem;
 
           .review-box{
             margin-top: 0;
@@ -188,21 +193,40 @@
 
           .qty-box{
             display: inline-flex;
-            margin-top: 1rem;
+            margin-top: auto;
           }
 
           > a{
             width: 100%;
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+            height: calc(100% - 4rem);
+          }
+
+          .hash-box{
+            margin-top: 0;
+            margin-bottom: 0;
+            column-gap: 0.2rem;
+
+            span{
+              font-size: $font-size-xsmall;
+            }
+
           }
 
           .text-box{
-            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.8rem;
+            margin-bottom: 0;
 
             .name{
               font-size: $font-size-desc;
             }
             .desc{
+              margin-top: 0;
               font-size: $font-size-xsmall;
             }
           }
@@ -219,11 +243,24 @@
             position: relative;
             top: 0;
             left: 0;
-            margin-top: 1rem;
+            margin-top: auto;
             margin-left: auto;
           }
 
         }
+
+        .option-change-area{
+          display: none;
+          width: 100%;
+          margin: 2rem 0 0;
+          padding-top: 2rem;
+          border-top: 2px solid $primary-color-light;
+
+          &.is-active{
+            display: block;
+          }
+        }
+
       }
 
 

@@ -254,6 +254,7 @@ html .react-select__menu{
   box-shadow: none;
   background: $bg1-light;
   border: 2px solid $primary-color-light;
+  position: static;
 }
 
 html .react-select__menu > *{
@@ -281,6 +282,12 @@ html .react-select__menu-list *[class*="selected"]{
 html .react-select__menu-list *[class*="focus"]{
   background: hexToRgba($color-highlight, 0.3);
   color: $primary-color-light;
+}
+
+html .react-select__menu-list *:active{
+  background: hexToRgba($color-highlight, 0.5);
+  color: $primary-color-light;
+  font-weight: $font-weight-medium;
 }
 
 @media (prefers-color-scheme: dark) {

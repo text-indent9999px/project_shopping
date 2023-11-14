@@ -8,10 +8,8 @@ interface LayoutProps {
 
 const FixedFollowLayout: React.FC<LayoutProps> = ({ children}) => {
 
-    // props.children을 배열로 변환
     const childrenArray = React.Children.toArray(children);
 
-    // children1과 children2를 구분
     const children1 = childrenArray[0];
     const children2 = childrenArray[1];
 

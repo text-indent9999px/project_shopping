@@ -14,8 +14,8 @@ const Popup: React.FC<PopupProps> = () => {
 
     return (
         <div className={`custom-popup-container`}>
-            {popupType == 'alert' && <AlertPopup>.</AlertPopup>}
-            {popupType == 'confirm' && <ConfirmPopup>.</ConfirmPopup>}
+            {popupType == 'alert' && <AlertPopup></AlertPopup>}
+            {popupType == 'confirm' && <ConfirmPopup></ConfirmPopup>}
         </div>
     );
 };

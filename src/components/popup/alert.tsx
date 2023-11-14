@@ -4,14 +4,14 @@ import Button from "@/components/button/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClose} from "@fortawesome/free-solid-svg-icons";
 import ButtonArea from "@/components/button/ButtonArea";
+import {RootState} from "@/types/types";
 
 interface PopupProps extends HTMLProps<HTMLButtonElement> {
 }
 
 const AlertPopup: React.FC<PopupProps> = ({ }) => {
 
-    // @ts-ignore
-    const popupData = useSelector((state) => state.popup.popupData);
+    const popupData = useSelector((state:RootState) => state.popup.popupData);
 
     return (
         <>

@@ -40,10 +40,32 @@ export const ProductReducers: Reducer<initialState> = (state = initialState, act
             });
             return { ...state, basket: modifyData };
         case 'DELETE_TO_BASKETDATA':
-            const deleteData = state.basket.filter(data => (data.product_no == action.payload.product_no && data.option_select.option_code !== action.payload.option_select.option_code));
+            const deleteData = state.basket.filter(data => (data.option_select.option_code !== action.payload.option_select.option_code));
             return { ...state, basket: deleteData };
         case 'DELETE_ALL_TO_BASKETDATA':
             return { ...state, basket: [] };
+        case 'CHANGE_TO_BASKETDATA' :
+            let beforeData = action.payload.before;
+            let afterData = action.payload.after;
+            const filterData = state.basket.filter(data => (data.option_select.option_code !== beforeData.option_select.option_code));
+            const chkData2 = filterData.filter(data => (data.option_select.option_code === afterData.option_select.option_code));
+            if(chkData2.length > 0){
+                const modifyData2 = filterData.map(item => {
+                    if (item.product_no === afterData.product_no && item.option_select.option_code == afterData.option_select.option_code) {
+                        afterData.qty_num = afterData.qty_num + item.qty_num;
+                        return afterData;
+                    }
+                    return item;
+                });
+                return { ...state, basket: modifyData2 };
+            }else{
+                if(filterData.length > 0){
+                    filterData.unshift(afterData);
+                    return { ...state, basket: filterData };
+                }else{
+                    return { ...state, basket: [afterData] };
+                }
+            }
         default:
             return state;
     }

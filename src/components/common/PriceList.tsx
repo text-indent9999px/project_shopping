@@ -3,7 +3,7 @@ import CurrencyDisplay from "@/components/common/CurrencyDisplay";
 
 interface PriceListProps extends HTMLProps<HTMLButtonElement> {
     children: ReactNode,
-    [key: string]: any; // Index Signature 추가
+    [key: string]: any;
 }
 
 const PriceList: React.FC<PriceListProps> = ({ children, ...rest }) => {

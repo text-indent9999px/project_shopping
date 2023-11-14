@@ -1,14 +1,11 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import BasicLayout from '@/components/layout/BasicLayout';
-import Link from "next/link";
 import Product1 from "@/components/product/Product1";
 import {useSelector} from "react-redux";
-import {AppState, ProductData} from "@/types/types";
 import '../../styles/pages-prdList.scss';
-import {intersectionObserve, calculateBrightness} from "@/function/Common";
-import {useDispatch} from "react-redux";
 import { useRouter } from 'next/router';
-import {get, onValue, ref} from "firebase/database";
+import {get, ref} from "firebase/database";
+import {RootState, ProductData} from "@/types/types";
 
 const metadata = {
     title: 'Prd List Page',
@@ -19,28 +16,34 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
+interface cateInfoInterface {
+    banner_img: [],
+    cate_no: number,
+    name: string,
+    parent_cate_no: number,
+    desc: string,
+}
+
+
 const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
     const router = useRouter();
     const { cate_no } = router.query;
-
     const [cateSort, setCateSort] = useState('basic');
     const [cateGrid, setCateGrid] = useState(3);
-    const [cateData, setCateData] = useState(null);
-    const [cateInfo, setCateInfo] = useState(null);
+    const [cateData, setCateData] = useState<ProductData[] | null>(null);
+    const [cateInfo, setCateInfo] = useState<cateInfoInterface | null>(null);
 
-    // @ts-ignore
-    const database = useSelector((state) => state.firebase.database);
+    const database = useSelector((state:RootState) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
     const cateListRef = ref(database, 'cate_list');
-
 
     useEffect(() => {
         get(productListRef)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    setCateData(data['category'][cate_no]);
+                    setCateData(data['category'][Number(cate_no)]);
                     console.log('prd list data complete');
                 } else {
                     console.log('No data available');
@@ -54,7 +57,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    setCateInfo(data[cate_no]);
+                    setCateInfo(data[Number(cate_no)]);
                     console.log('prd cate data complete');
                 } else {
                     console.log('No data available');
@@ -123,7 +126,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                                 <ul>
                                     <li className={`${cateSort == 'new' ? 'is-active' : ''}`} onClick={(e) => setCateSort('new')}>신상품 순</li>
                                     <li className={`${cateSort == 'best' ? 'is-active' : ''}`} onClick={(e) => setCateSort('best')}>인기상품 순</li>
-                                    <li className={`${cateSort == 'review' ? 'is-active' : ''}`} onClick={(e) => setCateSort('review')}>리뷰 많은 순</li>
+                                    {/*<li className={`${cateSort == 'review' ? 'is-active' : ''}`} onClick={(e) => setCateSort('review')}>리뷰 많은 순</li>*/}
                                     <li className={`${cateSort == 'lower' ? 'is-active' : ''}`} onClick={(e) => setCateSort('lower')}>낮은 가격 순</li>
                                     <li className={`${cateSort == 'higher' ? 'is-active' : ''}`} onClick={(e) => setCateSort('higher')}>높은 가격 순</li>
                                 </ul>
@@ -143,14 +146,8 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                     </div>}
                 </div>
             </div>
-
         </BasicLayout>
     );
-
-
-
-
-
 }
 
 export default PrdList;
