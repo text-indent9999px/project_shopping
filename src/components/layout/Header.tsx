@@ -14,7 +14,7 @@ import {DatabaseReference, ref} from "firebase/database";
 import { onValue } from "firebase/database";
 
 interface LayoutProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 interface MenuItem {
@@ -189,38 +189,35 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         });
     }, []);
 
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }else{
-        return (
-            <>
-                <div className={`header-container${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''}${isHeaderFixed ? ' is-fixed' : ''}`}
-                     onMouseLeave={() => handleMenuLeave(1)}
-                     data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
-                >
-                    <div className="logo-container">
-                        <Link href={'/'}><LogoBasic width={60} /></Link>
-                    </div>
-                    <div className="gnb-container">
-                        {menuList && renderMenuItems(menuList, 1, 1)}
-                    </div>
-                    <div className="util-container">
-                        <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
-                            <FontAwesomeIcon icon={faCartShopping} />
-                            <span>
-                                <i>{basketProductData.length}</i>
-                            </span>
-                        </Button>
-                    </div>
-                    <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
-                    <BasketSidebar></BasketSidebar>
+    return (
+        <>
+            <header className={`header-container ${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''} ${isHeaderFixed ? ' is-fixed' : ''}`}
+                 onMouseLeave={() => handleMenuLeave(1)}
+                 data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
+            >
+                <div className="logo-container">
+                    <Link href={'/'}><LogoBasic width={60} /></Link>
                 </div>
-                <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
-            </>
+                <div className="gnb-container">
+                    {loading && <><div>Loading...</div></>}
+                    {menuList && renderMenuItems(menuList, 1, 1)}
+                </div>
+                <div className="util-container">
+                    <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
+                        <FontAwesomeIcon icon={faCartShopping} />
+                        <span>
+                            <i>{basketProductData.length}</i>
+                        </span>
+                    </Button>
+                </div>
+                <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
+                <BasketSidebar></BasketSidebar>
+            </header>
+            <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
+        </>
 
-        );
-    }
+    );
+
 };
 
 export default Header;

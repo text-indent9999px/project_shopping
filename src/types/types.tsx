@@ -2,35 +2,54 @@
 import {MouseEvent} from "react";
 
 export const SCROLL = 'SCROLL';
-export const CHECKHEADERFIXED = 'CHECK_HEADER_FIXED';
-export const CHECKHEADERCOLOR = 'CHECK_HEADER_COLOR';
 
 export interface RootState {
-    app: AppState;
+    // app: AppState;
+
     dimmed: DimmedState;
     popup: PopupState;
     productData: ProductData;
     basketData: BasketData;
+
     product: {basket: ProductData[]},
-    check_header: {isBaksetSidebarOpen: boolean, isHeaderFixed: boolean, isHeaderColor: string},
+    check_header: HeaderState,
     scroll: { isScrolled: boolean },
     firebase: {
         database: any,
         storage: any,
     },
+    browser: BrowserState,
 }
+
+export interface BrowserState {
+    isMobile : boolean,
+    PCMediaQuery: string,
+    TABLETMediaQueryMin: string,
+    TABLETMediaQueryMax: string,
+    MOBILEMediaQuery: string,
+    device : string,
+}
+
 
 export interface ScrollAction {
     type: typeof SCROLL;
     payload: boolean;
 }
 
-export interface AppState {
-    isScrolled: boolean;
-    isHeaderFixed: boolean;
+// export interface AppState {
+//     isScrolled: boolean,
+// }
+
+export interface ScrollState {
+    isScrolled: boolean,
+}
+
+export interface HeaderState {
+    isHeaderFixed: boolean,
     isHeaderColor: string,
     isBaksetSidebarOpen: boolean,
 }
+
 
 export interface DimmedState {
     isActive : boolean

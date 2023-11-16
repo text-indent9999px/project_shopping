@@ -31,9 +31,11 @@ const BasketControl: React.FC<LayoutProps> = ({onSummaryDataSet, grid = 1, outpu
     const productData = useSelector((state:RootState) => state.product.basket);
     const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
     const [checkedItmes, setCheckedItmes] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         chkAllItems(true);
+        setLoading(true);
     }, [productData]);
 
     useEffect(() => {
@@ -90,31 +92,40 @@ const BasketControl: React.FC<LayoutProps> = ({onSummaryDataSet, grid = 1, outpu
         setSelectedItems(items);
     };
 
-    return (
-        <>
-            <div className="custom-basket-actions">
-                <InputBox className="chk-all" type={"checkbox"}
-                          onChange={(e) => chkAllHandler(e)}
-                          checked={checkedItmes.length == productData.length ? true : false}>
-                    {productData.length > 0 && <span className={"basket-data-count"}>{`총 ${checkedItmes.length}/${productData.length}개`}</span>}
-                </InputBox>
-                <ButtonArea>
-                    <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'} onClick={()=> deleteSelectedItemsToCart(checkedItmes)} data-disabled={`${productData.length >= 1 ? '' : 'disabled'}`}>
-                        선택 상품 삭제
-                    </Button>
-                    <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'} onClick={deleteAllToCart} data-disabled={`${productData.length >= 1 ? '' : 'disabled'}`}>
-                        장바구니 비우기
-                    </Button>
-                </ButtonArea>
-            </div>
-            <div className="custom-basket-products">
-                <ScrollBar>
-                    {productData.length > 0 && <Product2 onSelectItems={onSelectItems} selectedItems={selectedItems} data={productData} grid={grid} output={output} page={page} pageSet={pageSet} moreview={moreview} moreviewtype={moreviewtype}/>}
-                    {productData.length == 0 && <div className={`custom-empty-message`}>장바구니에 담긴 상품이 없습니다.</div>}
-                </ScrollBar>
-            </div>
-        </>
-    );
+    if(loading){
+        return (
+            <>
+                <div className="custom-basket-actions">
+                    <InputBox className="chk-all" type={"checkbox"}
+                              onChange={(e) => chkAllHandler(e)}
+                              checked={checkedItmes.length == productData.length ? true : false}
+                              disabled={productData.length == 0}
+                    >
+                        {productData.length > 0 && <span className={"basket-data-count"}>{`총 ${checkedItmes.length}/${productData.length}개`}</span>}
+                    </InputBox>
+                    <ButtonArea>
+                        <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'}
+                                onClick={()=> deleteSelectedItemsToCart(checkedItmes)}
+                                data-disabled={`${(checkedItmes.length > 0) ? '' : 'disabled'}`}>
+                            선택 상품 삭제
+                        </Button>
+                        <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'} onClick={deleteAllToCart} data-disabled={`${productData.length >= 1 ? '' : 'disabled'}`}>
+                            장바구니 비우기
+                        </Button>
+                    </ButtonArea>
+                </div>
+                <div className="custom-basket-products">
+                    <ScrollBar>
+                        {productData.length > 0 && <Product2 onSelectItems={onSelectItems} selectedItems={selectedItems} data={productData} grid={grid} output={output} page={page} pageSet={pageSet} moreview={moreview} moreviewtype={moreviewtype}/>}
+                        {productData.length == 0 &&
+                            <div className={"custom-page-nodata"}>
+                                <p>장바구니에 담긴 상품이 없습니다.</p>
+                            </div>}
+                    </ScrollBar>
+                </div>
+            </>
+        );
+    }
 };
 
 export default BasketControl;

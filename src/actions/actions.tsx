@@ -1,25 +1,21 @@
 
-export const SCROLL = 'SCROLL';
-export const CHECKHEADERFIXED = 'CHECK_HEADER';
-export const CHECKHEADERCOLOR = 'CHECK_HEADER_COLOR';
-
 export function scrollAction(isScrolled: boolean) {
     return {
-        type: SCROLL,
+        type: 'SCROLL',
         payload: isScrolled,
     };
 }
 
 export function checkHeaderFixed(isHeaderFixed: boolean) {
     return {
-        type: CHECKHEADERFIXED,
+        type: 'CHECK_HEADER_FIXED',
         payload: isHeaderFixed,
     };
 }
 
 export function checkHeaderColor(isHeaderColor: string) {
     return {
-        type: CHECKHEADERCOLOR,
+        type: 'CHECK_HEADER_COLOR',
         payload: isHeaderColor,
     };
 }
@@ -81,4 +77,18 @@ export function popupOpen(boo:boolean, type:string, data:object) {
             popupData: data,
         }
     };
+}
+
+export function detectIsMobile(boo:boolean){
+    return {
+        type: 'BROWSER_IS_MOBILE',
+        payload: boo,
+    }
+}
+
+export function detectDevice(str:string){
+    return {
+        type: 'BROWSER_DEVICE_TYPE',
+        payload: str,
+    }
 }

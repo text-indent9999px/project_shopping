@@ -1,13 +1,8 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useRef, useEffect} from "react";
 import Link from "next/link";
 import './Product.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import Pagination from "@/components/pagination/pagination";
-import Button from "@/components/button/Button";
-import CurrencyDisplay from "@/components/common/CurrencyDisplay";
 import PriceList from "@/components/common/PriceList";
-import {addToCart} from "@/function/Common";
 import {ProductData} from "@/types/types";
 
 interface Product1Props {
@@ -26,9 +21,23 @@ const Product1: React.FC<Product1Props> = (
     pageSet = 5, sort = 'basic'}) => {
 
     const [chkpage, setchkPage] = useState(page);
+    const productListRef = useRef(null);
+
+    useEffect(() => {
+        setchkPage(1);
+    }, [data])
 
     const handlePageChange = (newPage:number) => {
         setchkPage(newPage);
+        if(productListRef.current){
+            let $productList = productListRef.current as HTMLElement;
+            let offsetTop = $productList.offsetTop;
+            let $headerElement = document.querySelector('.header-container') as HTMLElement;
+            window.scrollTo({
+                top: offsetTop - $headerElement.clientHeight - 180,
+                behavior: 'smooth'
+            });
+        }
     };
 
     switch (sort){
@@ -63,7 +72,7 @@ const Product1: React.FC<Product1Props> = (
 
         return (
             <>
-                <div className={`product-item-list`}>
+                <div className={`product-item-list`} ref={productListRef}>
                     <ul className={`product-items grid-${grid}`}>
                         {productItems.map((item) => (
                             <li

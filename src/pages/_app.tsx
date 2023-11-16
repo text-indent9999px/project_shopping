@@ -1,4 +1,5 @@
-import { Provider } from 'react-redux';
+import React, {useEffect} from 'react';
+import {Provider, useDispatch} from 'react-redux';
 import store from '../store/store';
 import { AppProps } from 'next/app';
 import { library } from '@fortawesome/fontawesome-svg-core';

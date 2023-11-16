@@ -256,49 +256,28 @@ export function deleteSelectedItemsToCart(checkedItmes:string[]): any{
 }
 
 
-export function calculateBrightness(el: React.ReactNode, dispatch: any){
-    const imgElement = el;
-    const canvas = document.createElement('canvas');
-    // @ts-ignore
-    canvas.width = imgElement.width;
-    //canvas.height = imgElement.height;
-    canvas.height = 100;
-    const ctx = canvas.getContext('2d');
-    // @ts-ignore
-    ctx.drawImage(imgElement, 0, 0, imgElement.width, 100);
-    // @ts-ignore
-    const imageData = ctx.getImageData(0, 0, imgElement.width, 100).data;
-    let totalBrightness = 0;
-    for (let i = 0; i < imageData.length; i += 4) {
-        const brightness = (imageData[i] + imageData[i + 1] + imageData[i + 2]) / 3;
-        totalBrightness += brightness;
-    }
-    // @ts-ignore
-    const averageBrightness = totalBrightness / (imgElement.width * 100);
-    if (averageBrightness >= 128) {
-        store.dispatch(checkHeaderColor('bright'));
-    } else {
-        store.dispatch(checkHeaderColor('dark'));
-    }
-};
-
-
-export function intersectionObserve(el: React.ReactNode, func: any){
-    const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.5,
+export function checkAverageBright(imgElement: HTMLImageElement) {
+    const calculateAverageBrightness = (startY: number, endY: number) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = imgElement.width;
+        canvas.height = endY - startY;
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+        ctx.drawImage(imgElement, 0, startY, imgElement.width, endY);
+        const imageData = ctx.getImageData(0, startY, imgElement.width, endY).data;
+        let totalBrightness = 0;
+        for (let i = 0; i < imageData.length; i += 4) {
+            const brightness = (imageData[i] + imageData[i + 1] + imageData[i + 2]) / 3;
+            totalBrightness += brightness;
+        }
+        return totalBrightness / (imgElement.width * (endY - startY));
     };
-    // @ts-ignore
-    const callback = (entries, observer) => {
-        // @ts-ignore
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                func(el);
-            }
-        });
-    };
-    const observer = new IntersectionObserver(callback, options);
-    // @ts-ignore
-    observer.observe(el);
-};
+
+    imgElement.dataset.topBright = String(calculateAverageBrightness(0, 100));
+}
+
+export function findClosestParent(element: Element | null, str:string) {
+    while (element !== null && ! element.querySelector(str)) {
+        element = element.parentNode as Element | null;
+    }
+    return element;
+}

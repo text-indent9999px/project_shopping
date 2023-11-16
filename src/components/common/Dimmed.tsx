@@ -2,7 +2,7 @@ import React, { ReactNode, HTMLProps, MouseEvent } from 'react';
 import {useSelector} from "react-redux";
 
 interface DimmedProps extends HTMLProps<HTMLButtonElement> {
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 const Dimmed: React.FC<DimmedProps> = ({ children, ...rest }) => {

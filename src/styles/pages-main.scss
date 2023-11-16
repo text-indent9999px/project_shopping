@@ -1,6 +1,6 @@
 @import 'variables';
 
-$main-banner-title : 5rem;
+$main-banner-title : 4.5rem;
 $main-banner-sub: 2.4rem;
 
 $main-title-heading: 3rem;
@@ -34,6 +34,7 @@ $main-title-sub: 2.0rem;
   p{
     font-size: $main-title-sub;
     margin-top: 2rem;
+    line-height: $line-height-wide;
   }
 }
 
@@ -42,11 +43,11 @@ $main-title-sub: 2.0rem;
   width: 100%;
   height: 100vh;
 
-  .main-banner-wrapper{
+  .swiper{
     width: 100%;
     height: 100%;
 
-    .main-banner{
+    .swiper-slide{
       width: 100%;
       height: 100%;
 
@@ -59,6 +60,7 @@ $main-title-sub: 2.0rem;
           width: 100%;
           height: 100%;
           object-fit: cover;
+          mix-blend-mode: multiply;
         }
 
         .text-box{
@@ -66,14 +68,95 @@ $main-title-sub: 2.0rem;
           top: calc(87px + 20%);
           left: calc(5rem + 60px + 2rem + 2rem);
 
+
           h3{
             font-size: $main-banner-title;
-            font-weight: $font-weight-bold;
+            font-weight: $font-weight-medium;
+            line-height: $line-height-basic;
+            -webkit-text-stroke: 1px $gray-4;
+            mix-blend-mode: difference;
+            color: $quaternary-color-light;
           }
 
           p{
             font-size: $main-banner-sub;
             margin-top: 3rem;
+            -webkit-text-stroke: 1px $gray-4;
+            mix-blend-mode: difference;
+            color: $quaternary-color-light;
+            line-height: $line-height-wide;
+          }
+
+          .custom-button{
+            min-width: 20rem;
+            margin-top: 4rem;
+            position: relative;
+            background: transparent;
+            font-size: calc($main-banner-sub/2 * 1.5);
+
+            &:after{
+              display: block;
+              mix-blend-mode: difference;
+              background: $quaternary-color-light;
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              content: "";
+            }
+
+            &:before{
+              display: block;
+              content: "";
+              width: calc(100% - 0.4rem);
+              height: calc(100% - 0.4rem);
+              background: $quaternary-color-light;
+              mix-blend-mode: difference;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%,-50%);
+              z-index: 1;
+            }
+
+            span{
+              display: flex;
+              width: 100%;
+              height: 100%;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              z-index: 2;
+              font-weight: $font-weight-bold;
+              mix-blend-mode: difference;
+              color: $quaternary-color-light;
+              padding: 2rem;
+
+              &:after{
+                display: block;
+                position: absolute;
+                height: 100%;
+                width: 0;
+                content: "";
+                top: 0;
+                left: 0;
+                background: $quaternary-color-light;
+                z-index: -1;
+                transition: .3s ease-in-out;
+              }
+            }
+
+            &:hover{
+              span{
+                background: transparent;
+                color: $primary-color-light;
+                &:after{
+                  width: 100%;
+                }
+              }
+            }
+
           }
 
         }
@@ -90,5 +173,64 @@ $main-title-sub: 2.0rem;
   .main-contents-box{
     max-width: $inner-basic;
     margin: 0 auto;
+  }
+}
+
+.main-last-section{
+  padding: 10rem 0;
+  .custom-video-box{
+    margin: 0 auto;
+  }
+  .main-title-box{
+    align-items: center;
+
+    h3, p{
+      text-align: center;
+    }
+
+    h3{
+      &:after{
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+  }
+}
+
+
+.custom-video-box{
+  width: calc( (1vw*100 - 2.5rem*2)/2 + 2rem );
+  position: relative;
+  margin: 0 2.5rem;
+
+
+  &:before{
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border: 1rem solid $bg1-light;
+    pointer-events: none;
+    content: "";
+    width: calc(100% + 5px);
+    height: calc(100% + 10px);
+    margin-top: -3px;
+    margin-left: -1px;
+    z-index: 1;
+  }
+
+  > *{
+    position: relative;
+    padding-bottom: 56.25%;
+
+    iframe{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 }

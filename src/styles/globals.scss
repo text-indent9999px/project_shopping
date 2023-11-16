@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import '~@fortawesome/fontawesome-free/css/all.css';
 
 @import 'variables';
 
@@ -382,4 +382,60 @@ html .react-select__menu-list *:active{
   100% {
     opacity: 0;
   }
+}
+
+.swiper-button-prev, .swiper-button-next{
+  width: calc(var(--swiper-navigation-size) / 5 * 7);
+
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-flex;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  mix-blend-mode: difference;
+  justify-content: flex-start;
+
+  &:after{
+    font-family: inherit;
+    content: "\f060";
+  }
+
+  &.swiper-button-next:after{
+    content: "\f061";
+  }
+
+  &.swiper-button-next{
+    justify-content: flex-end;
+  }
+}
+
+.swiper-horizontal > .swiper-pagination-progressbar,
+.swiper-pagination-progressbar.swiper-pagination-horizontal,
+.swiper-vertical > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite,
+.swiper-pagination-progressbar.swiper-pagination-vertical.swiper-pagination-progressbar-opposite {
+  top: inherit;
+  bottom: 0;
+}
+
+.swiper-pagination-bullet{
+  transition: .3s ease-in-out;
+}
+.swiper-pagination-bullet:not(.swiper-pagination-bullet-active){
+  width: var(--swiper-pagination-bullet-height);
+  border-radius: 50%;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal{
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: auto;
+  right: var(--swiper-navigation-sides-offset);
 }

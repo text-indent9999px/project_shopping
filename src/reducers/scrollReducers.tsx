@@ -1,16 +1,13 @@
 import { Reducer } from 'redux';
-import {AppState, ScrollAction, SCROLL } from '@/types/types';
+import {ScrollAction, ScrollState} from '@/types/types';
 
-const initialState: AppState = {
+const initialState: ScrollState = {
     isScrolled: false,
-    isHeaderFixed: false,
-    isHeaderColor: 'bright',
-    isBaksetSidebarOpen: false,
 };
 
-export const ScrollReducers: Reducer<AppState, ScrollAction> = (state = initialState, action) => {
+export const ScrollReducers: Reducer<ScrollState, ScrollAction> = (state = initialState, action) => {
     switch (action.type) {
-        case SCROLL:
+        case 'SCROLL':
             return {
                 ...state,
                 isScrolled: action.payload,

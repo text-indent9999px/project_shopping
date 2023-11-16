@@ -107,3 +107,25 @@ $padding-wide : 4rem;
   // RGB 형식으로 반환하면서 opacity 적용
   @return rgba($r, $g, $b, $opacity);
 }
+
+
+:root{
+  --swiper-navigation-color: #fff;
+  --swiper-theme-color: #6D9886;
+  --swiper-navigation-sides-offset: 6rem;
+  --swiper-navigation-size: 5rem;
+  --swiper-pagination-progressbar-bg-color: #B4B6C2;
+  --swiper-pagination-progressbar-size: 0.5rem;
+  --swiper-pagination-color: #6D9886;
+  --swiper-pagination-bottom: 10%;
+  --swiper-pagination-top: auto;
+  --swiper-pagination-bullet-horizontal-gap: 0.5rem;
+  --swiper-pagination-bullet-opacity: 1;
+  --swiper-pagination-bullet-width: 5rem;
+  --swiper-pagination-bullet-height: 1.2rem;
+  --swiper-pagination-bullet-size: 1.2rem;
+  --swiper-pagination-bullet-border-radius: 3rem;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-inactive-color: #B4B6C2;
+}
+

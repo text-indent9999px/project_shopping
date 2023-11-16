@@ -19,9 +19,7 @@ interface LayoutProps {
 
 const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
 
-    const productData = useSelector((state:RootState) => state.product.basket);
     const isBasketSidebarOpen = useSelector((state:RootState) => state.check_header.isBaksetSidebarOpen);
-
     const dispatch = useDispatch();
 
     return (
@@ -33,21 +31,6 @@ const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
                             <FontAwesomeIcon icon={faClose} />
                         </Button>
                     </div>
-                    {/*<div className="baket-sidebar-actions">*/}
-                    {/*    <InputBox type={"checkbox"}></InputBox>*/}
-                    {/*    <ButtonArea>*/}
-                    {/*        <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'} onClick={deleteAllToCart} data-disabled={`${productData.length >= 1 ? '' : 'disabled'}`}>*/}
-                    {/*            선택 상품 삭제*/}
-                    {/*        </Button>*/}
-                    {/*        <Button className={'empty'} width={'sm'} data-type={'textButton'} color={'color2'} onClick={deleteAllToCart} data-disabled={`${productData.length >= 1 ? '' : 'disabled'}`}>*/}
-                    {/*            장바구니 비우기*/}
-                    {/*        </Button>*/}
-                    {/*    </ButtonArea>*/}
-                    {/*</div>*/}
-                    {/*<div className="basket-sidebar-products">*/}
-                    {/*    {productData.length > 0 && <Product2 data={productData} grid={1} output={3} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'}/>}*/}
-                    {/*    {productData.length == 0 && <div className={`custom-empty-message`}>장바구니에 담긴 상품이 없습니다.</div>}*/}
-                    {/*</div>*/}
                     <BasketControl grid={1} output={999} moreview={false}></BasketControl>
                     <div className="basket-sidebar-footer">
                         <ButtonArea>

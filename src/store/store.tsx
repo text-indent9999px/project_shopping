@@ -5,6 +5,7 @@ import {CheckHeaderReducers} from "@/reducers/checkHeaderReducers";
 import {DimmedReducers} from "@/reducers/dimmedReducers";
 import {PopupReducers} from "@/reducers/popupReducers";
 import {FireBaseReducers} from "@/reducers/fireBaseReducers";
+import {BrowserReducers} from "@/reducers/browserReducers";
 
 const rootReducer = combineReducers({
     scroll: ScrollReducers,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     dimmed: DimmedReducers,
     popup: PopupReducers,
     firebase: FireBaseReducers,
+    browser: BrowserReducers,
 });
 
 

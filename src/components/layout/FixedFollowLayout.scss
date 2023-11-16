@@ -1,28 +1,31 @@
 @import '../../styles/variables';
 
-.custom-fixedFollow-page-wrap{
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  column-gap: 5rem;
-  padding-top: 3rem;
+.custom-fixedFollow-page-container[data-device="PC"]{
+  .custom-fixedFollow-page-wrap{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    column-gap: 5rem;
+    padding-top: 3rem;
 
-  .custom-fixedFollow-fixed{
-    flex-grow: 1;
-    flex-shrink: 1;
-  }
+    .custom-fixedFollow-fixed{
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
 
-  .custom-fixedFollow-follow{
-    width: 35%;
-    min-width: 40rem;
-    flex-shrink: 0;
+    .custom-fixedFollow-follow{
+      width: 35%;
+      min-width: 40rem;
+      flex-shrink: 0;
 
-    .custom-detail-follow-floating{
-      position: sticky;
-      top: calc(78px + 2rem);
-      padding: 5rem;
-      border: 2px solid $primary-color-light;
-      overflow: hidden;
+      .custom-fixedFollow-floating{
+        position: sticky;
+        top: calc(78px + 2rem);
+        padding: 5rem;
+        border: 2px solid $primary-color-light;
+        overflow: hidden;
+      }
     }
   }
 }
+

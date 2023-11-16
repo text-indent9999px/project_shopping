@@ -102,13 +102,14 @@
 }
 
 .custom-detail-action-box{
+  padding-bottom: 2rem;
 }
 
 .custom-detail-option-box + .custom-detail-action-box{
   margin-top: 3rem;
 }
 
-.custom-detail-follow-floating{
+.custom-fixedFollow-floating{
   max-height: 70rem;
 }
 .custom-scroll-wrapper{

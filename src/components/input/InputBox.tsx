@@ -8,6 +8,7 @@ interface InputBoxProps {
     className?: string,
     checked?: boolean,
     children?: React.ReactNode,
+    disabled?: boolean
 }
 
 const InputBox: React.FC<InputBoxProps> = ({ children, className = '', type = 'checkbox', onChange, checked = false, ...rest}) => {

@@ -57,7 +57,18 @@
     &:before{
       background: $color-highlight;
     }
-
   }
+
+  input:disabled + label{
+    cursor: default;
+    border-color: $color-cancel;
+    background: hexToRgba($gray-1, 1);
+
+    &:after,
+    &:before{
+      background: $color-cancel;
+    }
+  }
+
 
 }

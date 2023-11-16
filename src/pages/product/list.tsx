@@ -6,6 +6,8 @@ import '../../styles/pages-prdList.scss';
 import { useRouter } from 'next/router';
 import {get, ref} from "firebase/database";
 import {RootState, ProductData} from "@/types/types";
+import { isMobile } from 'react-device-detect';
+import ColorCheck from "@/components/common/ColorCheck";
 
 const metadata = {
     title: 'Prd List Page',
@@ -27,6 +29,8 @@ interface cateInfoInterface {
 
 const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
+    const deviceCheck = useSelector((state:RootState) => state.browser.device);
+
     const router = useRouter();
     const { cate_no } = router.query;
     const [cateSort, setCateSort] = useState('basic');
@@ -37,6 +41,22 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
     const database = useSelector((state:RootState) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
     const cateListRef = ref(database, 'cate_list');
+
+
+    useEffect(()=>{
+        switch(deviceCheck){
+            case 'MOBILE' :
+                setCateGrid(1);
+                break;
+            case 'TABLET' :
+                setCateGrid(2);
+                break;
+            case 'PC' :
+                setCateGrid(3);
+                break;
+        }
+    },[deviceCheck])
+
 
     useEffect(() => {
         get(productListRef)
@@ -67,6 +87,8 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                 console.error('Error reading data from the database:', error);
             });
 
+        setCateSort('basic');
+
     }, [cate_no]);
 
     // const imgRef = useRef(null);
@@ -92,19 +114,13 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                                     if (item) {
                                         return (
                                             <li key={index}>
-                                                <img
-                                                    src={item}
-                                                    alt={cateInfo.name}
-                                                />
+                                                <ColorCheck imgSrc={item} alt={cateInfo.name}></ColorCheck>
                                             </li>
                                         );
                                     }else{
                                         return (
                                             <li key={index}>
-                                                <img
-                                                    src='/images/main-img01.jpg'
-                                                    alt={cateInfo.name}
-                                                />
+                                                <ColorCheck imgSrc={"/images/main-img01.jpg"} alt={cateInfo.name}></ColorCheck>
                                             </li>
                                         );
                                     }

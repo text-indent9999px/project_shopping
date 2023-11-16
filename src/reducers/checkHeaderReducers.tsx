@@ -1,21 +1,21 @@
 import { Reducer } from 'redux';
-import {AppState, CHECKHEADERFIXED, CHECKHEADERCOLOR} from '@/types/types';
+import {HeaderState} from '@/types/types';
 
-const initialState: AppState = {
-    isScrolled: false,
+const initialState: HeaderState = {
     isHeaderFixed: false,
     isHeaderColor: 'bright',
     isBaksetSidebarOpen : false,
 };
 
-export const CheckHeaderReducers: Reducer<AppState> = (state = initialState, action) => {
+export const CheckHeaderReducers: Reducer<HeaderState> = (state = initialState, action) => {
+
     switch (action.type) {
-        case CHECKHEADERFIXED:
+        case 'CHECK_HEADER_FIXED':
             return {
                 ...state,
                 isHeaderFixed: action.payload,
             };
-        case CHECKHEADERCOLOR:
+        case 'CHECK_HEADER_COLOR':
             return {
                 ...state,
                 isHeaderColor: action.payload,

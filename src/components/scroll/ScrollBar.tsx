@@ -40,6 +40,9 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
     };
 
     useEffect(() => {
+
+
+
         if(scrollContainer.current != null){
 
             const scrollElement = scrollContainer.current;
@@ -52,6 +55,7 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
                 const thumbElement = parentElement.children[1];
 
                 if(contentsElement !== null && thumbElement !== null && standardElement !== null){
+
                     const standardComputedStyle = getComputedStyle(standardElement);
                     let standardMaxHeight = Math.max(parseFloat(standardComputedStyle.maxHeight), standardElement.clientHeight);
 
