@@ -35,6 +35,7 @@ $font1-color-dark: #F7F7F7;
 //font style
 $font-kor-basic: 'SCoreDream';
 $font-eng-basic: 'SCoreDream';
+$font-point-basic: 'DM Serif Display';
 
 //font weight
 $font-weight-light: 300;
@@ -126,6 +127,6 @@ $padding-wide : 4rem;
   --swiper-pagination-bullet-size: 1.2rem;
   --swiper-pagination-bullet-border-radius: 3rem;
   --swiper-pagination-bullet-inactive-opacity: 1;
-  --swiper-pagination-bullet-inactive-color: #B4B6C2;
+  --swiper-pagination-bullet-inactive-color: rgba(247,247,247);
 }
 

@@ -1,7 +1,7 @@
 @import 'variables';
 
-$main-banner-title : 4.5rem;
-$main-banner-sub: 2.4rem;
+$main-banner-title : 5rem;
+$main-banner-sub: 5rem;
 
 $main-title-heading: 3rem;
 $main-title-sub: 2.0rem;
@@ -65,26 +65,43 @@ $main-title-sub: 2.0rem;
 
         .text-box{
           position: absolute;
-          top: calc(87px + 20%);
-          left: calc(5rem + 60px + 2rem + 2rem);
+          //top: calc(87px + 20%);
+          left: 15%;
+          bottom: 20%;
+          display: flex;
+          flex-direction: column;
+          font-family: $font-point-basic, $font-kor-basic, sans-serif;
+
+          h3, p{
+
+            mark{
+              background: $color-highlight;
+              color: $quaternary-color-light;
+              padding: 0.3rem 3rem;
+              vertical-align: middle;
+              font-weight: $font-weight-medium;
+              text-transform: capitalize;
+            }
+          }
 
 
           h3{
             font-size: $main-banner-title;
             font-weight: $font-weight-medium;
-            line-height: $line-height-basic;
-            -webkit-text-stroke: 1px $gray-4;
-            mix-blend-mode: difference;
-            color: $quaternary-color-light;
+            //-webkit-text-stroke: 1px $gray-4;
+            //mix-blend-mode: difference;
+            //color: $quaternary-color-light;
           }
 
           p{
+            margin-top: 2.8rem;
             font-size: $main-banner-sub;
-            margin-top: 3rem;
-            -webkit-text-stroke: 1px $gray-4;
-            mix-blend-mode: difference;
-            color: $quaternary-color-light;
-            line-height: $line-height-wide;
+            //-webkit-text-stroke: 1px $gray-4;
+            //mix-blend-mode: difference;
+            //color: $quaternary-color-light;
+            mark{
+              background: #9D5353;
+            }
           }
 
           .custom-button{
@@ -92,7 +109,7 @@ $main-title-sub: 2.0rem;
             margin-top: 4rem;
             position: relative;
             background: transparent;
-            font-size: calc($main-banner-sub/2 * 1.5);
+            font-size: 2rem;
 
             &:after{
               display: block;

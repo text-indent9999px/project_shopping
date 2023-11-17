@@ -144,7 +144,7 @@ export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButto
 }
 
 
-export function isEmptyBuyList(){
+export function isEmptyAddOptionList(){
     let data = {
         message: '선택된 옵션이 없습니다.',
         contents: '',

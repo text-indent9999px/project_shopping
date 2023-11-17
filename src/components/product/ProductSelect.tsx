@@ -4,7 +4,7 @@ import ButtonArea from "@/components/button/ButtonArea";
 import Button from "@/components/button/Button";
 import AddProducts from "@/components/product/AddProducts";
 import Select from 'react-select';
-import {addToCart} from "@/function/Common";
+import {addToCart, isEmptyAddOptionList} from "@/function/Common";
 import store from "@/store/store";
 import {addToBasketData, changeToBasketData, deleteToBasketData} from "@/actions/actions";
 import {Option, ProductData} from "@/types/types";
@@ -117,7 +117,7 @@ const ProductSelect: React.FC<ProductSelectProps> = ({ productData, type }) => {
                 <AddProducts data={addOptionData} onDataChange={(type, modifyData) => addOptionChangeHandler(type, modifyData)}></AddProducts>
                 <div className={"custom-detail-action-box"}>
                     <ButtonArea className={'width-full'} width={'full'}>
-                        <Button color={'color1'} width={'lg'} data-type={'textButton'} onClick={(e) => addToCart(addOptionData, e)}>장바구니 담기</Button>
+                        <Button color={'color1'} width={'lg'} data-type={'textButton'} onClick={(e) => addOptionData.length == 0 ? isEmptyAddOptionList() : addToCart(addOptionData, e)}>장바구니 담기</Button>
                         <Button color={'color2'} width={'lg'} data-type={'textButton'}>바로 구매하기</Button>
                     </ButtonArea>
                 </div>

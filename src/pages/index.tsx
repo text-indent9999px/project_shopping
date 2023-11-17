@@ -92,12 +92,12 @@ export default function Index() {
                         <>
                             <ColorCheckSwiper>
                                 <Link href={'/product/list'}>
-                                    <img src={'/images/main-img01.jpg'} alt={'My Image'} crossOrigin={"anonymous"} />
+                                    <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img21.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                        <h3>With Your Pet's Time</h3>
-                                        <p>바쁜 일상 속에서도 <br /> 반려동물과의 소중한 시간을 보내세요.</p>
-                                        <Button><span>자세히 보기</span></Button>
+                                        <h3><mark>new</mark></h3>
+                                        <p><mark>Brown Color Palettes</mark></p>
+                                        {/*<Button><span>자세히 보기</span></Button>*/}
                                     </div>
                                 </Link>
                             </ColorCheckSwiper>
@@ -107,12 +107,12 @@ export default function Index() {
                         <>
                             <ColorCheckSwiper>
                                 <Link href={'/product/list'}>
-                                    <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img20.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
+                                    <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img16.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                        <h3>With Your Pet's Time</h3>
-                                        <p>바쁜 일상 속에서도 <br /> 반려동물과의 소중한 시간을 보내세요.</p>
-                                        <Button><span>자세히 보기</span></Button>
+                                        <h3><mark>best</mark></h3>
+                                        <p><mark>Yellow Color Palettes</mark></p>
+                                        {/*<Button><span>자세히 보기</span></Button>*/}
                                     </div>
                                 </Link>
                             </ColorCheckSwiper>
@@ -122,12 +122,12 @@ export default function Index() {
                         <>
                             <ColorCheckSwiper>
                                 <Link href={'/product/list'}>
-                                    <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img37.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
+                                    <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img34.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                        <h3>With Your Pet's Time</h3>
-                                        <p>바쁜 일상 속에서도 <br /> 반려동물과의 소중한 시간을 보내세요.</p>
-                                        <Button><span>자세히 보기</span></Button>
+                                        <h3><mark>cat & dog</mark></h3>
+                                        <p><mark>Green Color Palettes</mark></p>
+                                        {/*<Button><span>자세히 보기</span></Button>*/}
                                     </div>
                                 </Link>
                             </ColorCheckSwiper>

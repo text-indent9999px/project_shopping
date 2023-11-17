@@ -79,9 +79,9 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
                     {children}
                 </div>
                 <Footer></Footer>
-                {isDimmedOpen && <Dimmed></Dimmed>}
-                {isPopupOpen && <Popup></Popup>}
             </div>
+            {isDimmedOpen && <Dimmed></Dimmed>}
+            {isPopupOpen && <Popup></Popup>}
         </>
     );
 };
