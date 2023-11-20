@@ -67,7 +67,7 @@ export default function Index() {
     },[deviceCheck])
 
     return (
-        <BasicLayout metadata={metadata}>
+        <BasicLayout metadata={metadata} headerFixed={true}>
             <div className="main-banner-container" data-header-fixed="true">
 
                 <Swiper
@@ -77,7 +77,7 @@ export default function Index() {
                     navigation
                     grabCursor={true}
                     effect={'creative'}
-                    pagination
+                    pagination={{ clickable: true }}
                     creativeEffect={{
                         prev: {
                             shadow: true,

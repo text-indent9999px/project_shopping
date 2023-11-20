@@ -1,18 +1,33 @@
 import Link from "next/link";
 import LogoBasic from "@/components/svg/LogoBasic";
-import React from "react";
-import './footer.scss';
+import React, {useEffect, useRef} from "react";
+import './Footer.scss';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/types/types";
+import {checkFooterHeight} from "@/actions/actions";
 
 interface LayoutProps {
     children?: React.ReactNode;
 }
 
 const Footer: React.FC<LayoutProps> = ({ children }) => {
+
+    const deviceCheck = useSelector((state:RootState) => state.browser.device);
+    const footerRef = useRef(null);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(footerRef.current){
+            let $footer = footerRef.current as HTMLElement;
+            dispatch(checkFooterHeight($footer.getBoundingClientRect().height));
+        }
+    },[]);
+
     return (
-        <div className="footer-container">
+        <footer className="footer-container" ref={footerRef}>
             <div className={"custom-inner-wide"}>
                 <div className="logo-container">
-                    <Link href={'/'}><LogoBasic width={60} /></Link>
+                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /></Link>
                 </div>
                 <div className={"info-container"}>
                     <ul>
@@ -45,7 +60,7 @@ const Footer: React.FC<LayoutProps> = ({ children }) => {
                     </ul>
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 

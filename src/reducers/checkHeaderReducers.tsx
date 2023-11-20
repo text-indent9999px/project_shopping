@@ -5,6 +5,7 @@ const initialState: HeaderState = {
     isHeaderFixed: false,
     isHeaderColor: 'bright',
     isBaksetSidebarOpen : false,
+    isMenuSidebarOpen: false,
 };
 
 export const CheckHeaderReducers: Reducer<HeaderState> = (state = initialState, action) => {
@@ -24,6 +25,11 @@ export const CheckHeaderReducers: Reducer<HeaderState> = (state = initialState, 
             return {
                 ...state,
                 isBaksetSidebarOpen: action.payload,
+            };
+        case 'CHECK_MENUSIDEBAR_OPEN':
+            return {
+                ...state,
+                isMenuSidebarOpen: action.payload,
             };
         default:
             return state;

@@ -5,6 +5,13 @@ export function scrollAction(isScrolled: boolean) {
         payload: isScrolled,
     };
 }
+export function scrollFooterCheck(isFooter: boolean) {
+    return {
+        type: 'IS_FOOTER',
+        payload: isFooter,
+    };
+}
+
 
 export function checkHeaderFixed(isHeaderFixed: boolean) {
     return {
@@ -26,6 +33,21 @@ export function checkBasketSidebarOpen(isOpen: boolean) {
         payload: isOpen,
     };
 }
+
+export function checkMenuSidebarOpen(isOpen: boolean) {
+    return {
+        type: 'CHECK_MENUSIDEBAR_OPEN',
+        payload: isOpen,
+    };
+}
+
+export function checkFooterHeight(footerHeight: number) {
+    return {
+        type: 'CHECK_FOOTER_HEIGHT',
+        payload: footerHeight,
+    }
+}
+
 
 export function addToBasketData(data: object) {
     return {

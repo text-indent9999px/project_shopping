@@ -16,12 +16,12 @@
       position: relative;
 
       p{
-        font-size: $font-size-desc;
+        font-size: var(--font-size-desc);
         font-weight: $font-weight-medium;
       }
 
       span{
-        font-size: $font-size-small;
+        font-size: var(--font-size-small);
       }
 
       .close{

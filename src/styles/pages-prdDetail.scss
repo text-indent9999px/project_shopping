@@ -1,7 +1,6 @@
 @import 'variables';
 
 .custom-detail-img-area{
-  background: pink;
 }
 
 .custom-detail-desc-area{
@@ -14,6 +13,10 @@
 
   margin-bottom: 2rem;
 
+  @include mobile{
+    margin-bottom: 0;
+    margin-top: 3rem;
+  }
 
   > ul{
     display: flex;
@@ -26,6 +29,12 @@
       margin-bottom: 3rem;
       border-bottom: 2px solid $primary-color-light;
 
+      @include mobile{
+        padding-bottom: 0;
+        margin-bottom: 2rem;
+        border: none;
+      }
+
       strong{
         display: none;
       }
@@ -36,7 +45,7 @@
     display: flex;
     flex-wrap: wrap;
     column-gap: 1rem;
-    font-size: $font-size-desc;
+    font-size: var(--font-size-desc);
 
     strong{
       font-weight: $font-weight-medium;
@@ -44,14 +53,14 @@
 
     &.custom-info-name{
       div{
-        font-size: $font-size-heading;
+        font-size: var(--font-size-heading);
         font-weight: $font-weight-medium;
       }
     }
 
     &.custom-info-hash{
       div{
-        font-size: $font-size-small;
+        font-size: var(--font-size-small);
         color: $secondary-color-light;
       }
     }
@@ -64,7 +73,7 @@
 
     .custom-price-area{
 
-      font-size: $font-size-title;
+      font-size: var(--font-size-title);
 
       .sale-percent{
         color: $color-highlight;
@@ -111,6 +120,14 @@
 
 .custom-fixedFollow-floating{
   max-height: 70rem;
+
+  @include mobile{
+    .custom-detail-info-box{
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+  }
 }
 .custom-scroll-wrapper{
 }
+

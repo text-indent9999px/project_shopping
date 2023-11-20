@@ -1,0 +1,122 @@
+@import '../../styles/variables';
+
+.menu-sidebar-container{
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  background: $bg1-light;
+  height: 100vh;
+  z-index: 1;
+  border-left: 2px solid $primary-color-light;
+  padding: $padding-basic;
+  color: $primary-color-light;
+  transition: .8s ease-in-out;
+  display: none;
+
+  &.is-open{
+    right: 0;
+    display: block;
+  }
+
+  .menu-sidebar-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+
+    .menu-sidebar-header{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 2rem;
+      flex-shrink: 0;
+    }
+
+    .menu-sidebar-contents{
+      flex-grow: 1;
+    }
+
+
+    //menu_*ul -> menu_*li 구조로 구성
+    ul[class*="menu_"]{
+
+      //1depth 메뉴 스타일
+      &.menu_1ul{
+
+      }
+
+      //1depth 메뉴 외 스타일
+      &:not(.menu_1ul){
+        display: none;
+        background: $quaternary-color-light;
+        border-radius: 2rem;
+        margin-top: 0.5rem;
+      }
+
+      //li 스타일
+      > li{
+        cursor: pointer;
+
+        > a{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-weight: $font-weight-medium;
+        }
+
+        &.is-submenu{
+          > a{
+            &:after{
+              display: block;
+              content: "+";
+              color: $gray-8;
+            }
+          }
+
+          &.is-clicked{
+            > a{
+              &:after{
+                content: "-";
+              }
+            }
+          }
+        }
+
+        &.menu_1li{
+          > a{
+            padding: 1rem 2rem;
+          }
+        }
+        &:not(.menu_1li){
+          > a{
+            padding: 1rem 3rem;
+          }
+        }
+
+        &.is-clicked{
+          > a {
+            font-weight: $font-weight-bold;
+          }
+          > ul{
+            display: block;
+          }
+        }
+
+
+      }
+    }
+
+
+    .menu-sidebar-footer{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-shrink: 0;
+
+      button{
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+}

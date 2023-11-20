@@ -44,9 +44,6 @@
     background: transparent;
   }
 
-
-
-
   &:after{
     display: block;
     content: "";
@@ -92,17 +89,55 @@
         cursor: pointer;
 
         &.menu_1li{
+
           > a{
+            display: inline-block;
             padding: 3rem 2rem;
-            font-size: $font-size-subheading;
+            font-size: var(--font-size-subheading);
             font-weight: $font-weight-medium;
+          }
+
+          span{
+            display: inline-flex;
+            margin: 3rem 2rem;
+            width: 8rem;
+            height: calc(var(--font-size-subheading));
+            background: $color-cancel;
+            border-radius: calc(var(--font-size-subheading)/2);
+            position: relative;
+            overflow: hidden;
+
+            &:after{
+              display: block;
+              position: absolute;
+              top: 50%;
+              left: 0;
+              width: 50%;
+              height: 400%;
+              content: "";
+              background: $gray-5;
+              animation: shimmer .9s ease-in-out infinite;
+              transform: translateY(-50%);
+              margin-top: -10%;
+              filter: blur(5px);
+            }
+
+            @keyframes shimmer {
+              0% {
+                left: -100%;
+              }
+              100% {
+                left: 100%;
+              }
+            }
+
           }
         }
 
         &:not(.menu_1li){
-          > a{
+          > a, span{
             padding: 2rem 2rem;
-            font-size: $font-size-contents;
+            font-size: var(--font-size-contents);
             font-weight: $font-weight-regular;
           }
         }
@@ -147,7 +182,7 @@
         margin-left: -1rem;
         margin-top: -2rem;
         background: $secondary-color-light;
-        font-size: $font-size-xsmall;
+        font-size: var(--font-size-xsmall);
         width: 2rem;
         height: 2rem;
         border-radius: 50%;
@@ -160,6 +195,14 @@
       }
     }
   }
+
+
+  &:not(.is-pc){
+    height: 6rem;
+    padding: 0 1rem 0 2rem;
+    justify-content: space-between;
+  }
+
 
 }
 
@@ -182,6 +225,9 @@
     -webkit-backdrop-filter: blur(15px);
   }
 }
+
+
+
 
 
 /* ----------------------------------------------

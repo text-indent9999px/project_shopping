@@ -100,7 +100,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
 
 
     return (
-        <BasicLayout metadata={metadata}>
+        <BasicLayout metadata={metadata} headerFixed={true}>
             <div className="custom-page-banner-wrap" data-header-fixed="true">
                 <ul className="custom-page-banners">
                     <li className="custom-page-banner">

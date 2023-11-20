@@ -1,5 +1,6 @@
 // 액션 타입 상수 정의
 import {MouseEvent} from "react";
+import exp from "constants";
 
 export const SCROLL = 'SCROLL';
 
@@ -11,9 +12,11 @@ export interface RootState {
     productData: ProductData;
     basketData: BasketData;
 
+
     product: {basket: ProductData[]},
     check_header: HeaderState,
-    scroll: { isScrolled: boolean },
+    check_footer: FooterState,
+    scroll: ScrollState,
     firebase: {
         database: any,
         storage: any,
@@ -42,14 +45,19 @@ export interface ScrollAction {
 
 export interface ScrollState {
     isScrolled: boolean,
+    isFooter: boolean,
 }
 
 export interface HeaderState {
     isHeaderFixed: boolean,
     isHeaderColor: string,
     isBaksetSidebarOpen: boolean,
+    isMenuSidebarOpen : boolean,
 }
 
+export interface FooterState{
+    footerHeight: number,
+}
 
 export interface DimmedState {
     isActive : boolean

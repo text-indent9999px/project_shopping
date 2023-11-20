@@ -29,7 +29,7 @@ body {
   color: $font1-color-light;
   font-family: $font-eng-basic, $font-kor-basic, sans-serif;
   font-weight: $font-weight-regular;
-  font-size: $font-size-contents;
+  font-size: var(--font-size-contents);
   line-height: $line-height-min;
 }
 
@@ -189,7 +189,7 @@ body::-webkit-scrollbar {
 
   p{
     font-weight: $font-weight-medium;
-    font-size: $font-size-page-subheading;
+    font-size: var(--font-size-page-subheading);
   }
 }
 
@@ -198,7 +198,7 @@ html .react-select__control,
 html .react-select__control--is--focused,
 html .react-select__control:hover{
   outline: 0;
-  font-size: $font-size-desc;
+  font-size: var(--font-size-desc);
   padding: 0 $padding-basic;
   background-color: transparent;
   width: 100%;
@@ -242,7 +242,7 @@ html .react-select__indicator svg{
 
 html .react-select__menu{
   outline: 0;
-  font-size: $font-size-desc;
+  font-size: var(--font-size-desc);
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
@@ -439,3 +439,51 @@ html .react-select__menu-list *:active{
   width: auto;
   right: var(--swiper-navigation-sides-offset);
 }
+
+#loader {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
+@keyframes loader {
+  0% { left: -100px }
+  100% { left: 110%; }
+}
+#box {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  animation: animate .5s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 3px;
+}
+@keyframes animate {
+  17% { border-bottom-right-radius: 3px; }
+  25% { transform: translateY(9px) rotate(22.5deg); }
+  50% {
+    transform: translateY(18px) scale(1,.9) rotate(45deg) ;
+    border-bottom-right-radius: 40px;
+  }
+  75% { transform: translateY(9px) rotate(67.5deg); }
+  100% { transform: translateY(0) rotate(90deg); }
+}
+#shadow {
+  width: 50px;
+  height: 5px;
+  background: #000;
+  opacity: 0.1;
+  position: absolute;
+  top: 59px;
+  left: 0;
+  border-radius: 50%;
+  animation: shadow .5s linear infinite;
+}
+@keyframes shadow {
+  50% {
+    transform: scale(1.2,1);
+  }
+}
+
+

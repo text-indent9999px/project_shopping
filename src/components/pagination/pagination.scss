@@ -2,6 +2,13 @@
 
 .custom-pagination-area{
   margin-top: 5rem;
+
+  @include tablet{
+    margin-top: 4rem;
+  }
+  @include mobile{
+    margin-top: 3rem;
+  }
 }
 
 .custom-pagination{

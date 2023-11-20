@@ -21,7 +21,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: $font-size-small;
+  font-size: var(--font-size-small);
   margin-left: 1rem;
   font-weight: $font-weight-medium;
   color: $color-highlight;

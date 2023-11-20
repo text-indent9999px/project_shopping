@@ -9,11 +9,11 @@
   row-gap: 2rem;
 
   h3{
-    font-size: $font-size-page-heading;
+    font-size: var(--font-size-page-heading);
     font-weight: $font-weight-medium;
   }
 
   p{
-    font-size: $font-size-page-subheading;
+    font-size: var(--font-size-page-subheading);
   }
 }

@@ -5,9 +5,9 @@ import {isMobile} from "react-device-detect";
 const initialState: BrowserState = {
     isMobile : isMobile,
     device: 'PC',
-    PCMediaQuery: '(min-width: 1024px)',
+    PCMediaQuery: '(min-width: 1300px)',
     TABLETMediaQueryMin: '(min-width: 768px)',
-    TABLETMediaQueryMax: '(max-width: 1023px)',
+    TABLETMediaQueryMax: '(max-width: 1299px)',
     MOBILEMediaQuery: '(max-width: 767px)',
 };
 

@@ -1,3 +1,4 @@
+@import '../../styles/variables';
 
 .custom-scroll-container{
   width: 100%;
@@ -29,7 +30,6 @@
   right: 0;
   top: 0;
   z-index: 1000;
-
 }
 
 .custom-scroll-thumb,
@@ -47,4 +47,7 @@
     transition: .4s ease-out;
   }
 
+  @include mobile{
+    display: none;
+  }
 }

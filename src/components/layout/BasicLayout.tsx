@@ -11,8 +11,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import Dimmed from "@/components/common/Dimmed";
 import Popup from "@/components/popup/popup";
 import {RootState} from "@/types/types";
-import {checkBasketSidebarOpen, checkHeaderFixed, detectDevice, detectIsMobile} from "@/actions/actions";
+import {checkBasketSidebarOpen, checkHeaderFixed, detectDevice, checkMenuSidebarOpen} from "@/actions/actions";
 import {useMediaQuery} from "react-responsive";
+import ScrollHandler from "@/components/event/ScrollHandler";
 
 
 interface LayoutProps {
@@ -21,9 +22,10 @@ interface LayoutProps {
         title: string;
         description: string;
     };
+    headerFixed?: boolean;
 }
 
-const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
+const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = false}) => {
 
     const dispatch = useDispatch();
     const PCMediaQuery = useSelector((state:RootState) => state.browser.PCMediaQuery);
@@ -42,6 +44,8 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
     const isTabletMax = useMediaQuery({query: TABLETMediaQueryMax,});
     const isPc = useMediaQuery({ query: PCMediaQuery });
 
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(()=>{
         if(isMobile){
@@ -57,10 +61,12 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
 
 
     useEffect(() => {
-        const headerFixedElement = document.querySelector('[data-header-fixed=true]') as HTMLElement;
-        const isHeaderFixed = !!headerFixedElement;
-        dispatch(checkHeaderFixed(isHeaderFixed));
+        // const headerFixedElement = document.querySelector('[data-header-fixed=true]') as HTMLElement;
+        // const isHeaderFixed = !!headerFixedElement;
+        dispatch(checkHeaderFixed(headerFixed));
         dispatch(checkBasketSidebarOpen(false));
+        dispatch(checkMenuSidebarOpen(false));
+        setLoading(true);
     }, []);
 
 
@@ -73,15 +79,16 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata}) => {
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
             </Head>
-            <div id="wrap">
+            {loading && <div id="wrap">
                 <Header></Header>
                 <div className="contents-container">
                     {children}
                 </div>
                 <Footer></Footer>
-            </div>
+            </div>}
             {isDimmedOpen && <Dimmed></Dimmed>}
             {isPopupOpen && <Popup></Popup>}
+            <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
         </>
     );
 };

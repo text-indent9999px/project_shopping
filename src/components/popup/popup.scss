@@ -21,7 +21,7 @@
     background: $secondary-color-light;
 
     h4{
-      font-size: $font-size-title;
+      font-size: var(--font-size-title);
       font-weight: $font-weight-medium;
     }
 
@@ -33,7 +33,7 @@
       padding: $padding-wide $padding-basic;
 
       p{
-        font-size: $font-size-desc;
+        font-size: var(--font-size-desc);
         display: flex;
         align-items: center;
         justify-content: center;

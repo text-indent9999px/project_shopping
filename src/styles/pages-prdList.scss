@@ -52,11 +52,11 @@
         color: $quaternary-color-light;
 
         h3{
-          font-size: $font-size-page-heading;
+          font-size: var(--font-size-page-heading);
         }
         p{
           margin-top: 2rem;
-          font-size: $font-size-page-subheading;
+          font-size: var(--font-size-page-subheading);
         }
       }
 
@@ -83,7 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
 
     strong{
       margin-left: 0.5rem;
@@ -110,7 +110,7 @@
       align-items: center;
       cursor: pointer;
       column-gap: 1rem;
-      font-size: $font-size-small;
+      font-size: var(--font-size-small);
       color: $gray-5;
 
       &.is-active{

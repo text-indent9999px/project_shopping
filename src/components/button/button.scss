@@ -45,19 +45,19 @@
 
 
   &[width='xs']{
-    font-size: $font-size-button-xs;
+    font-size: var(--font-size-button-xs);
   }
   &[width='sm']{
-    font-size: $font-size-button-sm;
+    font-size: var(--font-size-button-sm);
   }
   &[width='md']{
-    font-size: $font-size-button-md;
+    font-size: var(--font-size-button-md);
   }
   &[width='lg']{
-    font-size: $font-size-button-lg;
+    font-size: var(--font-size-button-lg);
   }
   &[width='xl']{
-    font-size: $font-size-button-xl;
+    font-size: var(--font-size-button-xl);
   }
 
 
@@ -71,7 +71,7 @@
 
   &[data-type*='icon' i] {
     svg{
-      font-size: $font-size-button-lg;
+      font-size: var(--font-size-button-lg);
     }
 
     &[width='xs']{
@@ -95,7 +95,7 @@
       min-height: $button-fixed-height-xl;
 
       svg{
-        font-size: $font-size-button-xl;
+        font-size: var(--font-size-button-xl);
       }
     }
 

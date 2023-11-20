@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import './header.scss';
+import './Header.scss';
 import LogoBasic from '@/components/svg/LogoBasic';
 import { useSelector, useDispatch } from 'react-redux';
-import ScrollHandler from "@/components/event/ScrollHandler";
 import {RootState} from "@/types/types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
+import {faCartShopping, faBars} from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/Button";
 import BasketSidebar from "@/components/layout/BasketSidebar";
-import {checkBasketSidebarOpen} from "@/actions/actions";
+import {checkBasketSidebarOpen, checkMenuSidebarOpen} from "@/actions/actions";
 import {DatabaseReference, ref} from "firebase/database";
 import { onValue } from "firebase/database";
+import MenuSidebar from "@/components/layout/MenuSidebar";
 
 interface LayoutProps {
     children?: React.ReactNode;
@@ -29,12 +29,14 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     const [menuList, setMenuList] = useState([]);
 
+    const deviceCheck = useSelector((state:RootState) => state.browser.device);
     const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
     const isHeaderFixed = useSelector((state:RootState) => state.check_header.isHeaderFixed);
     const isHeaderColor = useSelector((state:RootState) => state.check_header.isHeaderColor);
     const basketProductData = useSelector((state:RootState) => state.product.basket);
 
     const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [isClicked, setIsClicked] = useState<Record<string, boolean>>({});
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
@@ -47,15 +49,20 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
             <ul className={`menu_${depth}ul`}>
                 {menuItems.map((item) => {
                     const subMenu = renderMenuItems(data, item.menu_no, depth + 1);
+                    console.log(item.menu_no, isClicked[item.menu_no]);
                     return (
                         <li
                             key={item.menu_no}
-                            className={`menu_${depth}li`}
+                            className={`menu_${depth}li ${deviceCheck !== 'PC' && isClicked[item.menu_no] ? 'is-clicked' : ''} ${subMenu ? 'is-submenu' : ''}`}
                             data-menu={item.menu_no}
-                            onMouseEnter={() => handleMenuEnter(item.menu_no)}
-                            onMouseLeave={() => handleMenuLeave(item.menu_no)}
+                            onMouseEnter={() => deviceCheck == 'PC' && handleMenuEnter(item.menu_no)}
+                            onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(item.menu_no)}
+                            onClick={()=> deviceCheck !== 'PC' && handleMenuClick(item.menu_no)}
                         >
-                            <Link href={`${item.href}`}>{item.name}</Link>
+                            <Link href={deviceCheck == 'PC' ? `${item.href}` : (subMenu ? '#' : `${item.href}`)}
+                                  onClick={(e) => (deviceCheck !== 'PC' && subMenu) && e.preventDefault()}>
+                                {item.name}
+                            </Link>
                             {subMenu}
                         </li>
                     );
@@ -67,6 +74,12 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
     function handleMenuEnter(menuNo: number) {
         setIsHovered(true);
         updateMenuState(menuNo, true);
+    }
+
+    function handleMenuClick(menuNo: number):void{
+        let testMenu = {...isClicked};
+        testMenu[String(menuNo)] = ! testMenu[String(menuNo)];
+        setIsClicked(testMenu);
     }
 
     function handleMenuLeave(menuNo: number) {
@@ -95,12 +108,11 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                     const isAncestor = ismenuAncestor(currentmenuNo, menuNo);
                     if (isAncestor) {
                         li.classList.add('is-hover');
-                        const directChildUl = li.querySelector(':scope > ul');
+                        const directChildUl = li.querySelector(':scope > ul') as HTMLElement;
                         if (directChildUl) {
                             if (directChildUl instanceof Element && 'style' in directChildUl) {
                                 if (directChildUl && directChildUl.querySelectorAll(':scope > li').length > 0) {
                                     const nextLiHeight = directChildUl.querySelectorAll(':scope > li')[0].scrollHeight;
-                                    // @ts-ignore
                                     directChildUl.style.maxHeight = `${nextLiHeight}px`;
                                     nextMenuHeight = nextLiHeight;
                                 }
@@ -108,10 +120,9 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                         }
                     } else {
                         li.classList.remove('is-hover');
-                        const directChildUl = li.querySelector(':scope > ul');
+                        const directChildUl = li.querySelector(':scope > ul') as HTMLElement;
                         if (directChildUl) {
                             if (directChildUl instanceof Element && 'style' in directChildUl) {
-                                // @ts-ignore
                                 directChildUl.style.maxHeight = '';
                                 nextMenuHeight = 0;
                             }
@@ -122,19 +133,18 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                 if(menuNo == 1){
                     setIsHovered(false);
                     allLiElements.forEach((li) => {
-                        const directChildUl = li.querySelector(':scope > ul');
+                        const directChildUl = li.querySelector(':scope > ul') as HTMLElement;
                         if (directChildUl instanceof Element && 'style' in directChildUl) {
                             if (directChildUl !== null) {
-                                // @ts-ignore
                                 directChildUl.style.maxHeight = ``;
                             }
                         }
                     });
                 }else{
-                    let target = gnbContainer.querySelectorAll('[data-menu="'+ menuNo +'"]')[0];
+                    let target = gnbContainer.querySelectorAll('[data-menu="'+ menuNo +'"]')[0] as HTMLElement;
+                    let target2 = target.querySelectorAll(':scope > ul')[0] as HTMLElement;
                     target.classList.remove('is-hover');
-                    // @ts-ignore
-                    if(target.querySelectorAll(':scope > ul').length > 0) target.querySelectorAll(':scope > ul')[0].style.maxHeight = '';
+                    if(target.querySelectorAll(':scope > ul').length > 0) target2.style.maxHeight = '';
                 }
             }
 
@@ -164,10 +174,9 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
     }
 
     function updateHeaderContainerHeight(nextMenuHeight:number) {
-        const gnbContainer = document.querySelector('.gnb-container');
-        const headerContainerBg = document.querySelector('.header-container-bg');
+        const gnbContainer = document.querySelector('.gnb-container') as HTMLElement;
+        const headerContainerBg = document.querySelector('.header-container-bg') as HTMLElement;
         if (headerContainerBg && gnbContainer) {
-            // @ts-ignore
             headerContainerBg.style.height = `${gnbContainer.scrollHeight + nextMenuHeight}px`;
         }
     }
@@ -183,6 +192,11 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                 setMenuList(Object.values(data));
                 setLoading(false);
                 console.log('header data load complete');
+                let clickData = {} as Record<string, boolean>;
+                Object.keys(data).forEach(function(item){
+                    clickData[item] = false;
+                })
+                setIsClicked(clickData);
             } else {
                 console.log('No data available');
             }
@@ -191,29 +205,46 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
 
     return (
         <>
-            <header className={`header-container ${isHovered ? ' is-hover' : ''}${isScrolled ? ' is-scrolled' : ''} ${isHeaderFixed ? ' is-fixed' : ''}`}
-                 onMouseLeave={() => handleMenuLeave(1)}
+            <header className={`header-container ${deviceCheck == 'PC' && isHovered ? ' is-hover' : ''} ${isScrolled ? ' is-scrolled' : ''} ${isHeaderFixed ? ' is-fixed' : ''} ${deviceCheck == 'PC' ? 'is-pc' : ''}`}
+                 onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(1)}
                  data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
             >
                 <div className="logo-container">
-                    <Link href={'/'}><LogoBasic width={60} /></Link>
+                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /></Link>
                 </div>
-                <div className="gnb-container">
-                    {loading && <><div>Loading...</div></>}
-                    {menuList && renderMenuItems(menuList, 1, 1)}
-                </div>
+                {deviceCheck == 'PC' && <>
+                    <div className="gnb-container">
+                        {loading && <>
+                            <ul className="menu_1ul">
+                                <li className="menu_1li"><span></span></li>
+                                <li className="menu_1li"><span></span></li>
+                                <li className="menu_1li"><span></span></li>
+                            </ul>
+                        </>}
+                        {menuList && renderMenuItems(menuList, 1, 1)}
+                    </div>
+                    <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
+                </>}
                 <div className="util-container">
-                    <Button className="cart" data-type={'icon'} width={'xl'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
+                    <Button className="cart" data-type={'icon'} width={'md'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
                         <FontAwesomeIcon icon={faCartShopping} />
                         <span>
                             <i>{basketProductData.length}</i>
                         </span>
                     </Button>
+                    {deviceCheck !== 'PC' &&
+                        <Button className="menu" data-type={'icon'} width={'md'} onClick={()=>dispatch(checkMenuSidebarOpen(true))}>
+                            <FontAwesomeIcon icon={faBars} />
+                        </Button>
+                    }
                 </div>
-                <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
                 <BasketSidebar></BasketSidebar>
+                {deviceCheck !== 'PC' && <>
+                    <MenuSidebar>
+                        {menuList && renderMenuItems(menuList, 1, 1)}
+                    </MenuSidebar>
+                </>}
             </header>
-            <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
         </>
 
     );
