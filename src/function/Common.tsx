@@ -1,25 +1,28 @@
 import React from "react";
 import store from "@/store/store";
 import {
-    checkHeaderColor,
     addToBasketData,
     popupOpen,
     deleteToBasketData,
-    deleteAllToBasketData, deleteSelectedItemsToBasketData,
+    deleteAllToBasketData, deleteSelectedItemsToBasketData, scrollDisabledCheck, dimmedOpen,
 } from "@/actions/actions";
-import {BasketData, ProductData} from "@/types/types";
+import {BasketData} from "@/types/types";
 
 export function disableScroll() {
     const scrollY = window.scrollY;
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
+    store.dispatch(scrollDisabledCheck(true));
 }
 
 export function enableScroll() {
     const scrollY = Math.abs(parseInt(document.body.style.top, 10));
     document.body.style.position = '';
     document.body.style.top = '';
-    window.scrollTo(0, scrollY);
+    store.dispatch(scrollDisabledCheck(false));
+    if(! isNaN(scrollY)){
+        window.scrollTo(0, scrollY);
+    }
 }
 
 export function addToCart(itemData: BasketData[] | BasketData, event: React.MouseEvent<HTMLButtonElement>): any {
@@ -58,7 +61,13 @@ export function addToCart(itemData: BasketData[] | BasketData, event: React.Mous
 
 export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButtonElement>): any{
 
-    disableScroll();
+    let isScrollDisabled = store.getState().scroll.isDisabled;
+    let scrollDisabledFlag = false;
+
+    if(! isScrollDisabled){
+        disableScroll();
+        scrollDisabledFlag = true;
+    }
 
     const elements = {
         flyer: event.target as HTMLElement,
@@ -131,7 +140,9 @@ export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButto
                         store.dispatch(addToBasketData(itemData));
                     }
 
-                    enableScroll();
+                    if(scrollDisabledFlag){
+                        enableScroll();
+                    }
 
                     setTimeout(() => {
                         elements.basket.classList.remove('animation');
@@ -153,7 +164,9 @@ export function isEmptyAddOptionList(){
             contents: '',
             okClick: function(){ console.log('ok') },
             cancelClick: function(){ console.log('cancel') },
-        })) },
+        }));
+            store.dispatch(dimmedOpen(false));
+        },
         cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
             message: '',
             contents: '',
@@ -176,7 +189,8 @@ export function confirmCartAdd(itemData: object, event: React.MouseEvent<HTMLBut
                     contents: '',
                     okClick: function(){ console.log('ok') },
                     cancelClick: function(){ console.log('cancel') },
-                }))
+                }));
+                store.dispatch(dimmedOpen(false));
             },
         cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
             message: '',
@@ -198,7 +212,8 @@ export function deleteToCart(itemData: object): any {
                 contents: '',
                 okClick: function(){ console.log('ok') },
                 cancelClick: function(){ console.log('cancel') },
-            }))
+            }));
+            store.dispatch(dimmedOpen(false));
         },
         cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
             message: '',
@@ -220,7 +235,8 @@ export function deleteAllToCart(): any {
                 contents: '',
                 okClick: function(){ console.log('ok') },
                 cancelClick: function(){ console.log('cancel') },
-            }))
+            }));
+            store.dispatch(dimmedOpen(false));
         },
         cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
             message: '',
@@ -243,7 +259,8 @@ export function deleteSelectedItemsToCart(checkedItmes:string[]): any{
                 contents: '',
                 okClick: function(){ console.log('ok') },
                 cancelClick: function(){ console.log('cancel') },
-            }))
+            }));
+            store.dispatch(dimmedOpen(false));
         },
         cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
             message: '',

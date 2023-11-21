@@ -106,7 +106,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                     <li className="custom-page-banner">
                         <div className={`custom-page-title-box`}>
                             <h3>{cateInfo ? cateInfo.name : ''}</h3>
-                            <p>{cateInfo ? cateInfo.desc : ''}</p>
+                            {cateInfo && cateInfo.desc && <p>{cateInfo.desc}</p>}
                         </div>
                         {cateInfo && (
                             <ul className={`custom-page-banner_box`}>

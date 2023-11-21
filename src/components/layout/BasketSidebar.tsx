@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './BasketSidebar.scss';
 import Product2 from "@/components/product/Product2";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,11 +7,18 @@ import Button from "@/components/button/Button";
 import {faClose} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import {checkBasketSidebarOpen, deleteAllToBasketData} from "@/actions/actions";
-import {deleteAllToCart} from "@/function/Common";
+import {
+    checkBasketSidebarOpen,
+    checkMenuSidebarOpen,
+    deleteAllToBasketData,
+    dimmedCloseFunction, dimmedCloseFunctionRemove, dimmedOpen
+} from "@/actions/actions";
+import {deleteAllToCart, disableScroll, enableScroll} from "@/function/Common";
 import ButtonArea from "@/components/button/ButtonArea";
 import InputBox from "@/components/input/InputBox";
 import BasketControl from "@/components/basket/BasketControl";
+import { createPortal } from 'react-dom';
+import ScrollBar from "@/components/scroll/ScrollBar";
 
 interface LayoutProps {
     children?: React.ReactNode;
@@ -21,8 +28,27 @@ const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
 
     const isBasketSidebarOpen = useSelector((state:RootState) => state.check_header.isBaksetSidebarOpen);
     const dispatch = useDispatch();
+    const dimmedIsActive = useSelector((state:RootState) => state.dimmed.isActive);
 
-    return (
+    useEffect(()=>{
+        if(isBasketSidebarOpen){
+            disableScroll();
+            const basketSidebarCloseEvent = () => {
+                dispatch(checkBasketSidebarOpen(false));
+                enableScroll();
+            }
+            dispatch(dimmedCloseFunction(basketSidebarCloseEvent, 'basketSidebarClose'));
+            if(! dimmedIsActive){
+                dispatch(dimmedOpen(true));
+            }
+        }else{
+            dispatch(dimmedCloseFunctionRemove('basketSidebarClose'));
+            enableScroll();
+            dispatch(dimmedOpen(false));
+        }
+    },[isBasketSidebarOpen]);
+
+    return createPortal(
         <>
             <div className={`basket-sidebar-container ${isBasketSidebarOpen ? 'is-open' : 'is-closed'}`}>
                 <div className="basket-sidebar-wrapper">
@@ -49,8 +75,8 @@ const BasketSidebar: React.FC<LayoutProps> = ({ children }) => {
                     </div>
                 </div>
             </div>
-        </>
-
+        </>,
+        document.body
     );
 };
 

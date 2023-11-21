@@ -16,7 +16,7 @@ import CurrencyDisplay from "@/components/common/CurrencyDisplay";
 import ProductSelect from "@/components/product/ProductSelect";
 import ButtonArea from "@/components/button/ButtonArea";
 import Button from "@/components/button/Button";
-import {addToCart, isEmptyAddOptionList} from "@/function/Common";
+import Image from "next/image";
 
 export default function PrdDetail() {
 
@@ -123,9 +123,9 @@ export default function PrdDetail() {
             <>
                 <div className={"custom-detail-desc-area"}>
                     <div className={'custom-detail-desc-box'}>
-                        <img src={"../images/prd-detail-img01.jpg"} alt={""} />
-                        <img src={"../images/prd-detail-img01.jpg"} alt={""} />
-                        <img src={"../images/prd-detail-img01.jpg"} alt={""} />
+                        <Image src={"/images/prd-detail-img01.jpg"} alt={"dummy"} layout="responsive" width={853} height={1280}/>
+                        <Image src={"/images/prd-detail-img01.jpg"} alt={"dummy"} layout="responsive" width={853} height={1280}/>
+                        <Image src={"/images/prd-detail-img01.jpg"} alt={"dummy"} layout="responsive" width={853} height={1280}/>
                     </div>
                 </div>
             </>

@@ -14,6 +14,9 @@ import {RootState} from "@/types/types";
 import {checkBasketSidebarOpen, checkHeaderFixed, detectDevice, checkMenuSidebarOpen} from "@/actions/actions";
 import {useMediaQuery} from "react-responsive";
 import ScrollHandler from "@/components/event/ScrollHandler";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowUp} from "@fortawesome/free-solid-svg-icons";
+import Button from "@/components/button/Button";
 
 
 interface LayoutProps {
@@ -72,6 +75,16 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
 
     const isPopupOpen = useSelector((state: RootState) => state.popup.isActive);
     const isDimmedOpen = useSelector((state: RootState) => state.dimmed.isActive);
+    const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
+    const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
+
+    const goTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
 
     return (
         <>
@@ -79,16 +92,21 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
             </Head>
-            {loading && <div id="wrap">
+            {loading && <>
                 <Header></Header>
                 <div className="contents-container">
                     {children}
                 </div>
                 <Footer></Footer>
-            </div>}
+                <div className={`custom-go-top ${isFooter || ! isScrolled ? 'is-hide' : ''}`} onClick={goTop}>
+                    <Button className="goTop" data-type={'icon'} width={'md'}>
+                        <FontAwesomeIcon icon={faArrowUp} />
+                    </Button>
+                </div>
+            </>}
             {isDimmedOpen && <Dimmed></Dimmed>}
             {isPopupOpen && <Popup></Popup>}
-            <ScrollHandler /> {/* 스크롤 이벤트 처리 컴포넌트 사용 */}
+            <ScrollHandler />
         </>
     );
 };

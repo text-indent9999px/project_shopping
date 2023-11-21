@@ -12,6 +12,12 @@ export function scrollFooterCheck(isFooter: boolean) {
     };
 }
 
+export function scrollDisabledCheck(isDisabled: boolean) {
+    return {
+        type: 'IS_DISABLED',
+        payload: isDisabled,
+    };
+}
 
 export function checkHeaderFixed(isHeaderFixed: boolean) {
     return {
@@ -111,6 +117,30 @@ export function detectIsMobile(boo:boolean){
 export function detectDevice(str:string){
     return {
         type: 'BROWSER_DEVICE_TYPE',
+        payload: str,
+    }
+}
+
+export function dimmedOpen(boo:boolean){
+    return {
+        type: 'DIMMED_OPEN',
+        payload: boo,
+    }
+}
+
+export function dimmedCloseFunction(func: () => void, str:string){
+    return {
+        type: 'DIMMED_CLOSE_FUNCTION',
+        payload: {
+            key: str,
+            func: func,
+        },
+    }
+}
+
+export function dimmedCloseFunctionRemove(str:string){
+    return {
+        type: 'DIMMED_CLOSE_FUNCTION_REMOVE',
         payload: str,
     }
 }

@@ -168,15 +168,31 @@
         padding-bottom: $padding-basic;
         border-bottom: 1px solid $gray-2;
         flex-wrap: wrap;
+        
+        @include mobile{
+          position: relative;
+        }
 
         .chk-area{
           display: inline-flex;
           margin-right: 1rem;
+          
+          @include mobile{
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1;
+          }
         }
 
         .img-area{
           width: 18%;
           min-width: 14rem;
+
+          @include mobile{
+            width: calc(100%);
+            max-width: 100%;
+          }
 
           a, .img-box, img{
             height: 100%;
@@ -196,6 +212,12 @@
           flex-wrap: wrap;
           align-items: flex-start;
           row-gap: 1rem;
+
+          @include mobile{
+            width: 100%;
+            max-width: 100%;
+            padding: 2rem 0 0;
+          }
 
           .review-box{
             margin-top: 0;

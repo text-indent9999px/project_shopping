@@ -1,17 +1,21 @@
 import React, {ReactNode, useEffect, useState} from 'react';
 import './FixedFollowLayout.scss';
 import ScrollBar from "@/components/scroll/ScrollBar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/types/types";
 
 import DraggablePanel from "@/components/common/DraggablePanel";
 import {disableScroll, enableScroll} from "@/function/Common";
+import {dimmedCloseFunction, dimmedCloseFunctionRemove, dimmedOpen} from "@/actions/actions";
+
 
 interface LayoutProps {
     children: React.ReactNode,
 }
 
 const FixedFollowLayout2: React.FC<LayoutProps> = ({ children}) => {
+
+    const dispatch = useDispatch();
 
     const childrenArray = React.Children.toArray(children);
 
@@ -28,11 +32,26 @@ const FixedFollowLayout2: React.FC<LayoutProps> = ({ children}) => {
 
     useEffect(()=>{
         if(contentsOpen){
+            const PannelCloseEvent = () => {
+                enableScroll();
+                dispatch(dimmedOpen(false));
+                setContentsOpen(false);
+            }
             disableScroll();
+            dispatch(dimmedOpen(true));
+            dispatch(dimmedCloseFunction(test, 'dimmedPannelClose'));
         }else{
             enableScroll();
+            dispatch(dimmedOpen(false));
+            dispatch(dimmedCloseFunctionRemove('dimmedPannelClose'));
         }
     }, [contentsOpen])
+
+    function test(){
+        enableScroll();
+        dispatch(dimmedOpen(false));
+        setContentsOpen(false);
+    }
 
     return (
         <>

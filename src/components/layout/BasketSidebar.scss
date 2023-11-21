@@ -1,19 +1,23 @@
 @import '../../styles/variables';
 
 .basket-sidebar-container{
-  position: absolute;
+  position: fixed;
   top: 0;
   right: -100%;
   width: 100%;
   max-width: 500px;
   background: $bg1-light;
   height: 100vh;
-  z-index: 1;
+  z-index: $z-index-modal;
   border-left: 2px solid $primary-color-light;
   padding: $padding-basic;
   color: $primary-color-light;
   transition: .8s ease-in-out;
   display: none;
+
+  @include mobile{
+    max-width: 100%;
+  }
 
   &.is-open{
     right: 0;

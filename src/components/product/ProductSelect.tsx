@@ -107,6 +107,7 @@ const ProductSelect: React.FC<ProductSelectProps> = ({ productData, type }) => {
             <div className={"custom-detail-option-box"}>
                 {productData && <Select key={Math.random()}
                                         options={productOption}
+                                        isSearchable={false}
                                         className="react-select-container"
                                         classNamePrefix="react-select"
                                         placeholder={type == 'optionSelect' ? "원하는 옵션을 선택하세요" : "변경할 옵션을 선택하세요"}

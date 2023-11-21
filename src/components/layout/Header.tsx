@@ -13,6 +13,7 @@ import {DatabaseReference, ref} from "firebase/database";
 import { onValue } from "firebase/database";
 import MenuSidebar from "@/components/layout/MenuSidebar";
 
+
 interface LayoutProps {
     children?: React.ReactNode;
 }
@@ -49,7 +50,6 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
             <ul className={`menu_${depth}ul`}>
                 {menuItems.map((item) => {
                     const subMenu = renderMenuItems(data, item.menu_no, depth + 1);
-                    console.log(item.menu_no, isClicked[item.menu_no]);
                     return (
                         <li
                             key={item.menu_no}

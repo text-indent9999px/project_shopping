@@ -10,7 +10,7 @@ const ScrollHandler = () => {
     useEffect(() => {
         const handleScroll = () => {
             let getBodyPositionTop = Math.abs(parseInt(document.body.style.top, 10));
-            let footerScrollPosition = document.documentElement.offsetHeight - footerHeight - window.innerHeight - 50;
+            let footerScrollPosition = document.body.offsetHeight - footerHeight - window.innerHeight - 50;
 
             if(isNaN(getBodyPositionTop)){
                 if (window.scrollY > 0) {
@@ -26,7 +26,7 @@ const ScrollHandler = () => {
                 }
             }else{
                 dispatch(scrollAction(true));
-                if(getBodyPositionTop > footerScrollPosition){
+                if(getBodyPositionTop >= footerScrollPosition){
                     dispatch(scrollFooterCheck(true));
                 }else{
                     dispatch(scrollFooterCheck(false));
@@ -38,7 +38,7 @@ const ScrollHandler = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [dispatch]);
+    }, [dispatch, footerHeight]);
 
     return null;
 };

@@ -1,5 +1,10 @@
-import React, { ReactNode, HTMLProps, MouseEvent } from 'react';
-import {useSelector} from "react-redux";
+import React, {ReactNode, HTMLProps, useRef, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import { createPortal } from 'react-dom';
+import './Dimmed.scss';
+import {RootState} from "@/types/types";
+import {dimmedCloseFunctionRemove, dimmedOpen} from "@/actions/actions";
+import {enableScroll} from "@/function/Common";
 
 interface DimmedProps extends HTMLProps<HTMLButtonElement> {
     children?: ReactNode;
@@ -7,10 +12,33 @@ interface DimmedProps extends HTMLProps<HTMLButtonElement> {
 
 const Dimmed: React.FC<DimmedProps> = ({ children, ...rest }) => {
 
-    //const isHeaderColor = useSelector((state) => state.check_header.isHeaderColor);
+    const dispatch = useDispatch();
+    const dimmedRef = useRef(null);
+    const dimmedFunction = useSelector((state:RootState) => state.dimmed.closeFunctions);
 
-    return (
-        <div className="custom-dimmed"></div>
+    const testFunction = () => {
+        const condition = true;
+        if (condition) {
+            for (const key in dimmedFunction) {
+                if (typeof dimmedFunction[key] === 'function') {
+                    dimmedFunction[key]();
+                }
+            }
+            dispatch(dimmedCloseFunctionRemove('all'));
+            dispatch(dimmedOpen(false));
+        }
+    }
+
+
+    useEffect(()=>{
+
+    },[dimmedRef.current])
+
+    return createPortal(
+        <>
+            <div className="custom-dimmed" ref={dimmedRef} onClick={testFunction}></div>
+        </>,
+        document.body
     );
 };
 

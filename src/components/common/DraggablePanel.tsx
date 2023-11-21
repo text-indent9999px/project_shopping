@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './DraggablePanel.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "@/types/types";
+import { createPortal } from 'react-dom';
 
 interface LayoutProps {
     children: React.ReactNode,
@@ -126,7 +127,7 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
     };
 
     const calcVelocity = (startGesture:any, endGesture:any) => {
-        const distance = (100 / window.innerHeight) * (startGesture.position - endGesture.position);
+        const distance = (100 / targetHeight) * (startGesture.position - endGesture.position);
         const time = endGesture.time - startGesture.time;
         return Math.abs(distance / time);
     };
@@ -141,17 +142,17 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
         return calc;
     };
 
-
-    return (
+    return createPortal(
         <>
             <div className={`Panel js-panel ${className}`} ref={targetRef}>
-                <div className={`Panel-toggle js-draggable`}
-                     onMouseDown={(e)=> deviceCheck == 'PC' && onStart(e)}
-                     onTouchStart={(e) => deviceCheck !== 'PC' && onStart(e)}
-                ></div>
-                {children}
-            </div>
-        </>
+               <div className={`Panel-toggle js-draggable`}
+                    onMouseDown={(e)=> deviceCheck == 'PC' && onStart(e)}
+                    onTouchStart={(e) => deviceCheck !== 'PC' && onStart(e)}
+               ></div>
+               {children}
+           </div>
+        </>,
+        document.body
     );
 }
 

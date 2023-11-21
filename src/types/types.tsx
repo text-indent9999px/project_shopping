@@ -6,13 +6,11 @@ export const SCROLL = 'SCROLL';
 
 export interface RootState {
     // app: AppState;
-
-    dimmed: DimmedState;
-    popup: PopupState;
     productData: ProductData;
     basketData: BasketData;
 
-
+    dimmed: DimmedState;
+    popup: PopupState;
     product: {basket: ProductData[]},
     check_header: HeaderState,
     check_footer: FooterState,
@@ -39,13 +37,10 @@ export interface ScrollAction {
     payload: boolean;
 }
 
-// export interface AppState {
-//     isScrolled: boolean,
-// }
-
 export interface ScrollState {
     isScrolled: boolean,
     isFooter: boolean,
+    isDisabled: boolean,
 }
 
 export interface HeaderState {
@@ -60,7 +55,10 @@ export interface FooterState{
 }
 
 export interface DimmedState {
-    isActive : boolean
+    isActive : boolean,
+    closeFunctions: {
+        [key: string]: () => void;
+    };
 }
 
 export interface PopupState {

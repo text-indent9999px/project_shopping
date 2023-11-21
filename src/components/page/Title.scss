@@ -8,6 +8,10 @@
   padding: 8rem 0 5rem;
   row-gap: 2rem;
 
+  @include mobile{
+    padding: 5rem 0 3rem;
+  }
+
   h3{
     font-size: var(--font-size-page-heading);
     font-weight: $font-weight-medium;
