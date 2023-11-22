@@ -4,15 +4,18 @@
   position: fixed;
   top: 0;
   right: -100%;
-  width: 100%;
+  width: calc(100% - 4rem);
   background: $bg1-light;
-  height: 100vh;
+  height: calc(var(--vh, 1vh)*100 - 4rem);
   z-index: $z-index-modal;
   border-left: 2px solid $primary-color-light;
   padding: $padding-basic;
   color: $primary-color-light;
   transition: .8s ease-in-out;
   display: none;
+  margin: 2rem;
+  border-radius: 2rem;
+  box-shadow: 5px 5px 10px hexToRgba($primary-color-light, 0.8);
 
   &.is-open{
     right: 0;

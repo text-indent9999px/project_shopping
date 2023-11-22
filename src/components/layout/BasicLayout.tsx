@@ -62,22 +62,8 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         if (typeof document !== 'undefined') {
             setLoading(true);
             dispatch(checkHeaderFixed(headerFixed));
-            // let startY = 0;
-            // const preventScrollStart = (e:TouchEvent) => {
-            //     startY = e.touches[0].clientY;
-            // };
-            // const preventScrollRefresh = (e:TouchEvent) => {
-            //     var deltaY = e.touches[0].clientY - startY;
-            //     if (Math.abs(deltaY) > 10) {
-            //         e.preventDefault();
-            //     }
-            // };
-            // document.body.addEventListener('touchstart', preventScrollStart);
-            // document.body.addEventListener('touchmove', preventScrollRefresh, { passive: false });
-            // return () => {
-            //     document.body.removeEventListener('touchstart', preventScrollStart);
-            //     document.body.removeEventListener('touchmove', preventScrollRefresh);
-            // };
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
         }
     }, []);
 
@@ -114,7 +100,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
             </Head>
-            {loading && <Header currentMenu={currentMenu} check={routerEvents}></Header>}
+            <Header currentMenu={currentMenu} check={routerEvents} loading={loading}></Header>
             <div className="contents-container">
                 {children}
             </div>

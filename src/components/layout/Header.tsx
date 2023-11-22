@@ -17,6 +17,7 @@ interface LayoutProps {
     children?: React.ReactNode;
     currentMenu?: string,
     check?: number,
+    loading: boolean,
 }
 
 interface MenuItem {
@@ -27,7 +28,7 @@ interface MenuItem {
 }
 
 
-const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
+const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }) => {
 
     const [menuList, setMenuList] = useState([]);
     const deviceCheck = useSelector((state:RootState) => state.browser.device);
@@ -38,7 +39,7 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [isClicked, setIsClicked] = useState<Record<string, boolean>>({});
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let newClickData = {} as Record<string, boolean>;
@@ -195,7 +196,6 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 setMenuList(Object.values(data));
-                setLoading(true);
                 let clickData = {} as Record<string, boolean>;
                 Object.keys(data).forEach(function(item){
                     clickData[item] = false;
@@ -216,14 +216,13 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
                 </div>
                 {deviceCheck == 'PC' && <>
                     <div className="gnb-container">
-                        {! loading && <>
+                        {menuList.length > 0 ? renderMenuItems(menuList, 1, 1) : <>
                             <ul className="menu_1ul">
                                 <li className="menu_1li"><span></span></li>
                                 <li className="menu_1li"><span></span></li>
                                 <li className="menu_1li"><span></span></li>
                             </ul>
                         </>}
-                        {menuList && renderMenuItems(menuList, 1, 1)}
                     </div>
                     <div className={`header-container-bg ${isHovered ? ' is-hover' : ''}`} />
                 </>}
@@ -240,15 +239,14 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
                         </Button>
                     }
                 </div>
-                <BasketSidebar></BasketSidebar>
-                {deviceCheck !== 'PC' && <>
-                    <MenuSidebar>
-                        {menuList && renderMenuItems(menuList, 1, 1)}
-                    </MenuSidebar>
-                </>}
             </header>
+            {loading && <BasketSidebar></BasketSidebar>}
+            {deviceCheck !== 'PC' && loading && <>
+                <MenuSidebar>
+                    {menuList && renderMenuItems(menuList, 1, 1)}
+                </MenuSidebar>
+            </>}
         </>
-
     );
 
 };

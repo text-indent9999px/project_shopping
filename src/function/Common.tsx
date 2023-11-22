@@ -26,37 +26,61 @@ export function enableScroll() {
 }
 
 export function addToCart(itemData: BasketData[] | BasketData, event: React.MouseEvent<HTMLButtonElement>): any {
-
     let basketData = store.getState().product.basket;
     function isItemInBasket(item:BasketData) {
         return basketData.some(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
     }
-
     if (Array.isArray(itemData)) {
         if (itemData.some(isItemInBasket)) {
             const newData = itemData.map(item => {
                 const chkData = basketData.find(e => e.product_no === item.product_no && e.option_select.option_code === item.option_select.option_code);
-                if (chkData) {
-                    item.qty_num = chkData.qty_num + item.qty_num;
+                if(item.qty_num !== 0){
+                    if (chkData) {
+                        item.qty_num = chkData.qty_num + item.qty_num;
+                    }
+                    return item;
+                }else{
+                    return null;
                 }
-                return item;
-            });
-            confirmCartAdd(newData, event);
+            }).filter(item => item !== null);
+            if(newData.length > 0){
+                confirmCartAdd(newData, event);
+            }else{
+                isEmptyAddOptionList();
+            }
         } else {
-            cartAnimation(itemData, event);
+            const newData2 = itemData.map(item => {
+                if(item.qty_num !== 0){
+                    return item;
+                }else{
+                    return null;
+                }
+            }).filter(item => item !== null);
+            if(newData2.length > 0){
+                cartAnimation(newData2, event);
+            }else{
+                isEmptyAddOptionList();
+            }
         }
     } else {
         if (isItemInBasket(itemData)) {
             const chkData = basketData.find(e => e.product_no === itemData.product_no && e.option_select.option_code === itemData.option_select.option_code);
             if (chkData) {
-                itemData.qty_num = chkData.qty_num + 1;
-                confirmCartAdd(itemData, event);
+                if(itemData.qty_num !== 0){
+                    itemData.qty_num = chkData.qty_num + 1;
+                    confirmCartAdd(itemData, event);
+                }else{
+                    isEmptyAddOptionList();
+                }
             }
         } else {
-            cartAnimation(itemData, event);
+            if(itemData.qty_num !== 0){
+                cartAnimation(itemData, event);
+            }else{
+                isEmptyAddOptionList();
+            }
         }
     }
-
 }
 
 export function cartAnimation(itemData:object, event: React.MouseEvent<HTMLButtonElement>): any{

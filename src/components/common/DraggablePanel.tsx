@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './DraggablePanel.scss';
-import {useSelector} from "react-redux";
-import {RootState} from "@/types/types";
 import { createPortal } from 'react-dom';
 
 interface LayoutProps {
@@ -13,7 +11,7 @@ interface LayoutProps {
 
 const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosition, className}) => {
 
-    const deviceCheck = useSelector((state:RootState) => state.browser.device);
+    const isMobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     const targetRef = useRef(null);
 
     let currentPosition = 0;
@@ -42,7 +40,7 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
             targetHeight = $target.getBoundingClientRect().height;
             $target.style.transform = 'translateY(' + calcRelativePosition(pointerPosition) + '%)';
 
-            if(deviceCheck !== 'PC'){
+            if(isMobileCheck){
                 window.addEventListener('touchend', onEnd);
                 window.addEventListener('touchmove', onMove);
             }else{
@@ -70,22 +68,18 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
     const onEnd = (e:any) => {
         if(targetRef.current) {
             let now = Date.now();
-            let velocity = calcVelocity(gesture, {
-                position: currentPosition,
-                time: now,
-            });
             let pointerPosition = getPosition(e);
             endPosition = pointerPosition;
 
-            /*if (now - interaction.time < 100) {
-                onPositionSet(! onPosition);
-            } else */if (velocity > 0.05) {
+            let calcDistanceResult = calcDistance(gesture, {
+                position: currentPosition,
+                time: now,
+            })
+            if(calcDistanceResult >= 30){
                 onPositionSet(gesture.direction === "up");
-            } /*else {
-                onPositionSet(currentPosition <= targetHeight / 2);
-            }*/
+            }
 
-            if(deviceCheck !== 'PC'){
+            if(isMobileCheck){
                 window.removeEventListener('touchend', onEnd);
                 window.removeEventListener('touchmove', onMove);
             }else{
@@ -123,13 +117,14 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
             }else if(e.changedTouches){
                 return e.changedTouches[0].clientY;
             }
+        }else{
+            return e.clientY;
         }
     };
 
-    const calcVelocity = (startGesture:any, endGesture:any) => {
+    const calcDistance = (startGesture:any, endGesture:any) => {
         const distance = (100 / targetHeight) * (startGesture.position - endGesture.position);
-        const time = endGesture.time - startGesture.time;
-        return Math.abs(distance / time);
+        return Math.abs(distance);
     };
 
     const calcRelativePosition = (position:number) => {
@@ -146,8 +141,8 @@ const DraggablePanel: React.FC<LayoutProps> = ({ children, onPositionSet, onPosi
         <>
             <div className={`Panel js-panel ${className}`} ref={targetRef}>
                <div className={`Panel-toggle js-draggable`}
-                    onMouseDown={(e)=> deviceCheck == 'PC' && onStart(e)}
-                    onTouchStart={(e) => deviceCheck !== 'PC' && onStart(e)}
+                    onMouseDown={(e)=> !isMobileCheck && onStart(e)}
+                    onTouchStart={(e) => isMobileCheck && onStart(e)}
                ></div>
                {children}
            </div>

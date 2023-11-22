@@ -38,7 +38,7 @@
   .custom-fixedFollow-follow{
 
     .custom-fixedFollow-floating{
-      max-height: 70vh;
+      max-height: calc(var(--vh, 1vh)*70);
 
       .custom-scroll-wrapper{
 
@@ -75,5 +75,5 @@
 }
 
 .Panel .custom-fixedFollow-floating{
-  max-height: calc((100vh - 8rem)*0.8);
+  max-height: calc((var(--vh, 1vh)*100 - 8rem)*0.8);
 }

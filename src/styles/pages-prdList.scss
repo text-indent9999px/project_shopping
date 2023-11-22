@@ -3,7 +3,7 @@
 
 .custom-page-banner-wrap{
   overflow: hidden;
-  height: 50vh;
+  height: calc(var(--vh, 1vh)*50);
   margin-bottom: 5rem;
 
   @include tablet{

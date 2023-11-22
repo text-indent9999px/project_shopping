@@ -20,8 +20,8 @@ const Qty: React.FC<QtyProps> = ({value= 1, onAmountChange}) => {
         const numberPattern = /\d+/g;
         const numbers = input.match(numberPattern);
         let result = Number(numbers ? numbers.join('') : '');
-        if(result < 1){
-            result = 1;
+        if(result < 0){
+            result = 0;
         }else if(result > 99){
             result = 99;
         }
