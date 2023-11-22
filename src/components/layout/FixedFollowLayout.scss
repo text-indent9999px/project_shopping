@@ -54,13 +54,26 @@
     z-index: 1;
     bottom: 0;
     left: 0;
-    width: 100%;
-    padding: 2rem;
+    width: calc(100% - 4rem - 5.7rem);
+    margin: 2rem;
     transition: .4s ease-in-out;
 
     &.is-footer{
       opacity: 0;
       pointer-events: none;
     }
+
+    &.is-top{
+      width: calc(100% - 4rem);
+      transition-delay: .2s;
+    }
+
+    &:not(.is-top){
+
+    }
   }
+}
+
+.Panel .custom-fixedFollow-floating{
+  max-height: calc((100vh - 8rem)*0.8);
 }

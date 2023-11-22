@@ -10,8 +10,7 @@ import {
     checkMenuSidebarOpen,
     dimmedCloseFunction,
     dimmedCloseFunctionRemove,
-    dimmedOpen,
-    popupOpen
+    dimmedOpen
 } from "@/actions/actions";
 import { createPortal } from 'react-dom';
 import {disableScroll, enableScroll} from "@/function/Common";

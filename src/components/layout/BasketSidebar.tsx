@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import './BasketSidebar.scss';
-import Product2 from "@/components/product/Product2";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/types/types";
 import Button from "@/components/button/Button";
@@ -9,16 +8,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import {
     checkBasketSidebarOpen,
-    checkMenuSidebarOpen,
-    deleteAllToBasketData,
     dimmedCloseFunction, dimmedCloseFunctionRemove, dimmedOpen
 } from "@/actions/actions";
-import {deleteAllToCart, disableScroll, enableScroll} from "@/function/Common";
+import {disableScroll, enableScroll} from "@/function/Common";
 import ButtonArea from "@/components/button/ButtonArea";
-import InputBox from "@/components/input/InputBox";
 import BasketControl from "@/components/basket/BasketControl";
 import { createPortal } from 'react-dom';
-import ScrollBar from "@/components/scroll/ScrollBar";
 
 interface LayoutProps {
     children?: React.ReactNode;

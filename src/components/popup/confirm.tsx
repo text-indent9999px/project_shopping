@@ -1,4 +1,4 @@
-import React, { ReactNode, HTMLProps, MouseEvent } from 'react';
+import React, {ReactNode, HTMLProps, MouseEvent, useEffect} from 'react';
 import {useSelector} from "react-redux";
 import Button from "@/components/button/Button";
 import {checkBasketSidebarOpen} from "@/actions/actions";
@@ -12,7 +12,6 @@ interface PopupProps extends HTMLProps<HTMLButtonElement> {
 }
 
 const ConfirmPopup: React.FC<PopupProps> = ({ }) => {
-
 
     const popupData = useSelector((state:RootState) => state.popup.popupData);
 

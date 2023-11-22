@@ -1,19 +1,15 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import './Product.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import Pagination from "@/components/pagination/pagination";
 import Button from "@/components/button/Button";
-import CurrencyDisplay from "@/components/common/CurrencyDisplay";
 import PriceList from "@/components/common/PriceList";
 import Qty from "@/components/product/Qty";
 import ButtonArea from "@/components/button/ButtonArea";
 import {BasketData} from "@/types/types";
-import {deleteToBasketData, modifyToBasketData, popupOpen} from "@/actions/actions";
+import {modifyToBasketData} from "@/actions/actions";
 import {useDispatch} from "react-redux";
 import {deleteToCart} from "@/function/Common";
-import store from "@/store/store";
 import ProductSelect from "@/components/product/ProductSelect";
 import InputBox from "@/components/input/InputBox";
 

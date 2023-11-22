@@ -4,7 +4,7 @@ import {
     addToBasketData,
     popupOpen,
     deleteToBasketData,
-    deleteAllToBasketData, deleteSelectedItemsToBasketData, scrollDisabledCheck, dimmedOpen,
+    deleteAllToBasketData, deleteSelectedItemsToBasketData, scrollDisabledCheck, dimmedOpen, popupType, popupData,
 } from "@/actions/actions";
 import {BasketData} from "@/types/types";
 
@@ -159,93 +159,63 @@ export function isEmptyAddOptionList(){
     let data = {
         message: '선택된 옵션이 없습니다.',
         contents: '',
-        okClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        }));
-            store.dispatch(dimmedOpen(false));
-        },
-        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        })) },
+        okClick: function(){store.dispatch(popupOpen(false));},
+        cancelClick: function(){store.dispatch(popupOpen(false));},
     };
-    store.dispatch(popupOpen(true, 'alert', data));
+    store.dispatch(popupOpen(true));
+    store.dispatch(popupType('alert'));
+    store.dispatch(popupData(data));
 }
 
 
 export function confirmCartAdd(itemData: object, event: React.MouseEvent<HTMLButtonElement>): any {
     let data = {
         message: '이미 장바구니에 담겨있는 상품이 있습니다. \n 추가하여 담으시겠습니까?',
-            contents: '',
-            okClick: function(){
-                cartAnimation(itemData, event);
-                store.dispatch(popupOpen(false, 'alert', {
-                    message: '',
-                    contents: '',
-                    okClick: function(){ console.log('ok') },
-                    cancelClick: function(){ console.log('cancel') },
-                }));
-                store.dispatch(dimmedOpen(false));
-            },
-        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        })) },
+        contents: '',
+        okClick: function(){
+            cartAnimation(itemData, event);
+            store.dispatch(popupOpen(false))
+        },
+        cancelClick: function(){
+            store.dispatch(popupOpen(false))
+        },
     };
-    store.dispatch(popupOpen(true, 'confirm', data));
+
+    store.dispatch(popupOpen(true));
+    store.dispatch(popupType('confirm'));
+    store.dispatch(popupData(data));
 }
 
 export function deleteToCart(itemData: object): any {
     let data = {
         message: '정말 삭제하시겠습니까?',
         contents: '',
-        okClick: function(){ store.dispatch(deleteToBasketData(itemData));
-            store.dispatch(popupOpen(false, 'alert', {
-                message: '',
-                contents: '',
-                okClick: function(){ console.log('ok') },
-                cancelClick: function(){ console.log('cancel') },
-            }));
-            store.dispatch(dimmedOpen(false));
+        okClick: function(){
+            store.dispatch(deleteToBasketData(itemData));
+            store.dispatch(popupOpen(false))
         },
-        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        })) },
+        cancelClick: function(){
+            store.dispatch(popupOpen(false))
+        },
     };
-    store.dispatch(popupOpen(true, 'confirm', data));
+    store.dispatch(popupOpen(true));
+    store.dispatch(popupType('confirm'));
+    store.dispatch(popupData(data));
 }
 
 export function deleteAllToCart(): any {
     let data = {
         message: '장바구니를 비우시겠습니까?',
         contents: '',
-        okClick: function(){ store.dispatch(deleteAllToBasketData());
-            store.dispatch(popupOpen(false, 'alert', {
-                message: '',
-                contents: '',
-                okClick: function(){ console.log('ok') },
-                cancelClick: function(){ console.log('cancel') },
-            }));
-            store.dispatch(dimmedOpen(false));
+        okClick: function(){
+            store.dispatch(deleteAllToBasketData());
+            store.dispatch(popupOpen(false))
         },
-        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        })) },
+        cancelClick: function(){ store.dispatch(popupOpen(false)) },
     };
-    store.dispatch(popupOpen(true, 'confirm', data));
+    store.dispatch(popupOpen(true));
+    store.dispatch(popupType('confirm'));
+    store.dispatch(popupData(data));
 }
 
 export function deleteSelectedItemsToCart(checkedItmes:string[]): any{
@@ -254,22 +224,13 @@ export function deleteSelectedItemsToCart(checkedItmes:string[]): any{
         contents: '',
         okClick: function(){
             store.dispatch(deleteSelectedItemsToBasketData(checkedItmes));
-            store.dispatch(popupOpen(false, 'alert', {
-                message: '',
-                contents: '',
-                okClick: function(){ console.log('ok') },
-                cancelClick: function(){ console.log('cancel') },
-            }));
-            store.dispatch(dimmedOpen(false));
+            store.dispatch(popupOpen(false))
         },
-        cancelClick: function(){ store.dispatch(popupOpen(false, 'alert', {
-            message: '',
-            contents: '',
-            okClick: function(){ console.log('ok') },
-            cancelClick: function(){ console.log('cancel') },
-        })) },
+        cancelClick: function(){ store.dispatch(popupOpen(false))},
     };
-    store.dispatch(popupOpen(true, 'confirm', data));
+    store.dispatch(popupOpen(true));
+    store.dispatch(popupType('confirm'));
+    store.dispatch(popupData(data));
 }
 
 

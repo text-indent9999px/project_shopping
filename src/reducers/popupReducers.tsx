@@ -17,9 +17,17 @@ export const PopupReducers: Reducer<PopupState> = (state = initialState, action)
         case 'POPUP_OPEN' :
             return {
                 ...state,
-                isActive: action.payload.isActive,
-                type: action.payload.type,
-                popupData: action.payload.popupData,
+                isActive: action.payload,
+            };
+        case 'POPUP_TYPE' :
+            return {
+                ...state,
+                type: action.payload,
+            };
+        case 'POPUP_DATA' :
+            return {
+                ...state,
+                popupData: action.payload,
             };
         default:
             return state;

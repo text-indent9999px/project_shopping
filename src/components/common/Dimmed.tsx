@@ -14,6 +14,7 @@ const Dimmed: React.FC<DimmedProps> = ({ children, ...rest }) => {
 
     const dispatch = useDispatch();
     const dimmedRef = useRef(null);
+    const isDimmedActive = useSelector((state: RootState) => state.dimmed.isActive);
     const dimmedFunction = useSelector((state:RootState) => state.dimmed.closeFunctions);
 
     const testFunction = () => {
@@ -29,14 +30,13 @@ const Dimmed: React.FC<DimmedProps> = ({ children, ...rest }) => {
         }
     }
 
-
     useEffect(()=>{
 
     },[dimmedRef.current])
 
     return createPortal(
         <>
-            <div className="custom-dimmed" ref={dimmedRef} onClick={testFunction}></div>
+            {isDimmedActive && <div className="custom-dimmed" ref={dimmedRef} onClick={testFunction}></div>}
         </>,
         document.body
     );

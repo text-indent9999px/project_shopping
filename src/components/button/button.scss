@@ -64,8 +64,10 @@
   &[data-type*="textButton" i]{
 
     &:hover{
-      transform: translateY(-0.3rem);
-      box-shadow: 3px 3px 10px hexToRgba($primary-color-light, 0.3);
+      @include desktop{
+        transform: translateY(-0.3rem);
+        box-shadow: 3px 3px 10px hexToRgba($primary-color-light, 0.3);
+      }
     }
   }
 

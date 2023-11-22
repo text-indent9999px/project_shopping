@@ -1,23 +1,25 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import Head from 'next/head';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-
 import '../../styles/reset.scss';
 import 'swiper/swiper-bundle.css';
 import '../../styles/globals.scss';
-
 import {useDispatch, useSelector} from 'react-redux';
 import Dimmed from "@/components/common/Dimmed";
 import Popup from "@/components/popup/popup";
 import {RootState} from "@/types/types";
-import {checkBasketSidebarOpen, checkHeaderFixed, detectDevice, checkMenuSidebarOpen} from "@/actions/actions";
+import {
+    checkBasketSidebarOpen,
+    checkHeaderFixed,
+    detectDevice,
+    checkMenuSidebarOpen,
+} from "@/actions/actions";
 import {useMediaQuery} from "react-responsive";
 import ScrollHandler from "@/components/event/ScrollHandler";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUp} from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/button/Button";
-
+import {useRouter} from "next/router";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -31,24 +33,18 @@ interface LayoutProps {
 const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = false}) => {
 
     const dispatch = useDispatch();
+    const router = useRouter();
     const PCMediaQuery = useSelector((state:RootState) => state.browser.PCMediaQuery);
     const TABLETMediaQueryMin = useSelector((state:RootState) => state.browser.TABLETMediaQueryMin);
     const TABLETMediaQueryMax = useSelector((state:RootState) => state.browser.TABLETMediaQueryMax);
     const MOBILEMediaQuery = useSelector((state:RootState) => state.browser.MOBILEMediaQuery);
-
-    // const isDesktopOrLaptop = (useMediaQuery({query: '(min-width: 1224px)'}));
-    // const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-    // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-    // const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-    // const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
-
     const isMobile = useMediaQuery({query: MOBILEMediaQuery,});
     const isTabletMin = useMediaQuery({query: TABLETMediaQueryMin,});
     const isTabletMax = useMediaQuery({query: TABLETMediaQueryMax,});
     const isPc = useMediaQuery({ query: PCMediaQuery });
-
     const [loading, setLoading] = useState(false);
-
+    const [routerEvents, setRouterEvents] = useState(0);
+    const [currentMenu, setCurrentMenu] = useState('');
 
     useEffect(()=>{
         if(isMobile){
@@ -62,19 +58,37 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         }
     }, [isMobile, isTabletMax, isTabletMin, isPc])
 
-
     useEffect(() => {
-        // const headerFixedElement = document.querySelector('[data-header-fixed=true]') as HTMLElement;
-        // const isHeaderFixed = !!headerFixedElement;
-        dispatch(checkHeaderFixed(headerFixed));
-        dispatch(checkBasketSidebarOpen(false));
-        dispatch(checkMenuSidebarOpen(false));
-        setLoading(true);
+        if (typeof document !== 'undefined') {
+            setLoading(true);
+            dispatch(checkHeaderFixed(headerFixed));
+            const preventScrollRefresh = (e:TouchEvent) => {
+                e.preventDefault();
+            };
+            document.body.addEventListener('touchmove', preventScrollRefresh, { passive: false });
+            return () => {
+                document.body.removeEventListener('touchmove', preventScrollRefresh);
+            };
+        }
     }, []);
 
+    useEffect(() => {
+        const handleRouteChange = () => {
+            setRouterEvents(Math.random());
+            dispatch(checkBasketSidebarOpen(false));
+            dispatch(checkMenuSidebarOpen(false));
+        };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        };
+    }, [router.asPath]);
 
-    const isPopupOpen = useSelector((state: RootState) => state.popup.isActive);
-    const isDimmedOpen = useSelector((state: RootState) => state.dimmed.isActive);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        setCurrentMenu(router.asPath);
+    },[loading, routerEvents]);
+
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
     const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
 
@@ -85,28 +99,25 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         });
     }
 
-
     return (
         <>
             <Head>
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
             </Head>
+            {loading && <Header currentMenu={currentMenu} check={routerEvents}></Header>}
+            <div className="contents-container">
+                {children}
+            </div>
+            <Footer></Footer>
+            <div className={`custom-go-top ${isFooter || ! isScrolled ? 'is-hide' : ''}`} onClick={goTop}>
+                <FontAwesomeIcon icon={faArrowUp} />
+            </div>
             {loading && <>
-                <Header></Header>
-                <div className="contents-container">
-                    {children}
-                </div>
-                <Footer></Footer>
-                <div className={`custom-go-top ${isFooter || ! isScrolled ? 'is-hide' : ''}`} onClick={goTop}>
-                    <Button className="goTop" data-type={'icon'} width={'md'}>
-                        <FontAwesomeIcon icon={faArrowUp} />
-                    </Button>
-                </div>
+                <Dimmed></Dimmed>
+                <Popup></Popup>
+                <ScrollHandler />
             </>}
-            {isDimmedOpen && <Dimmed></Dimmed>}
-            {isPopupOpen && <Popup></Popup>}
-            <ScrollHandler />
         </>
     );
 };

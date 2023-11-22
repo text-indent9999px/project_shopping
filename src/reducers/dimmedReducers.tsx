@@ -22,7 +22,6 @@ export const DimmedReducers: Reducer<DimmedState> = (state = initialState, actio
             }else{
                 delete removeAction[key];
             }
-            console.log(key, '---', removeAction)
             return { ...state, closeFunctions: removeAction };
         default:
             return state;

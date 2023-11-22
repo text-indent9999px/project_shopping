@@ -1,16 +1,15 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import BasicLayout from '../components/layout/BasicLayout';
-
 import Link from "next/link";
 import '../styles/pages-main.scss';
 import Product1 from "@/components/product/Product1";
 import {useSelector} from "react-redux";
 import {RootState} from "@/types/types";
-import {get, onValue, ref} from "firebase/database";
+import {onValue, ref} from "firebase/database";
 import ColorCheckSwiper from "@/components/common/ColorCheckSwiper";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, EffectCreative } from 'swiper/modules';
-import Button from "@/components/button/Button";
+import YouTube from 'react-youtube';
 
 const metadata = {
     title: 'Index Page',
@@ -21,17 +20,13 @@ const metadata = {
 
 export default function Index() {
 
-    const imgRef = useRef(null);
     const deviceCheck = useSelector((state:RootState) => state.browser.device);
-
     const database = useSelector((state:RootState) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
     const [testData, setTestData] = useState(null);
     const [testData2, setTestData2] = useState(null);
-
     const [cateGrid, setCateGrid] = useState(4);
     const [cateGrid2, setCateGrid2] = useState(3);
-
 
     useEffect(() => {
         onValue(productListRef, (snapshot) => {
@@ -39,13 +34,11 @@ export default function Index() {
                 const data = snapshot.val();
                 setTestData(data.category['10']);
                 setTestData2(data.category['11']);
-                console.log('index data load complete');
+                //console.log('index data load complete');
             } else {
-                console.log('No data available');
+                //console.log('No data available');
             }
         });
-        // const element = imgRef.current;
-        // intersectionObserve(element, calculateBrightness);
     }, []);
 
 
@@ -65,6 +58,22 @@ export default function Index() {
                 break;
         }
     },[deviceCheck])
+
+    const opts = {
+        height: '390',
+        width: '640',
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            playsinline: 1,
+            loop: 1,
+            frameborder: 0,
+            enablejsapi: 1,
+            widgetid: 1,
+            start: 7,
+        },
+    };
 
     return (
         <BasicLayout metadata={metadata} headerFixed={true}>
@@ -164,14 +173,10 @@ export default function Index() {
                 </div>
                 <div className={"custom-video-box"}>
                     <div className={"custom-video-box-inner"}>
-                        <iframe frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                title="코비의 이런 모습 처음봤어요!! 새로운 놀이방을 본 고양이 반응"
-                                src="https://www.youtube.com/embed/RYEd3FHzLHg;t=7s?autoplay=1&amp;mute=1&amp;controls=0&amp;playsinline=1&amp;loop=1&amp;controls=0&amp;frameborder=0&amp;enablejsapi=1&amp;widgetid=1?&amp;"></iframe>
+                        <YouTube videoId="RYEd3FHzLHg" opts={opts} />
                     </div>
                 </div>
             </div>
-
         </BasicLayout>
     );
 }

@@ -96,16 +96,27 @@ export function changeToBasketData(data:object){
     }
 }
 
-export function popupOpen(boo:boolean, type:string, data:object) {
+export function popupOpen(boo:boolean) {
     return {
         type: 'POPUP_OPEN',
-        payload: {
-            isActive: boo,
-            type: type,
-            popupData: data,
-        }
+        payload: boo,
     };
 }
+
+export function popupType(type:string) {
+    return {
+        type: 'POPUP_TYPE',
+        payload: type,
+    };
+}
+export function popupData(data:object) {
+    return {
+        type: 'POPUP_DATA',
+        payload: data,
+    };
+}
+
+
 
 export function detectIsMobile(boo:boolean){
     return {

@@ -8,14 +8,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartShopping, faBars} from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/button/Button";
 import BasketSidebar from "@/components/layout/BasketSidebar";
-import {checkBasketSidebarOpen, checkMenuSidebarOpen} from "@/actions/actions";
+import {checkBasketSidebarOpen, checkHeaderFixed, checkMenuSidebarOpen} from "@/actions/actions";
 import {DatabaseReference, ref} from "firebase/database";
 import { onValue } from "firebase/database";
 import MenuSidebar from "@/components/layout/MenuSidebar";
 
-
 interface LayoutProps {
     children?: React.ReactNode;
+    currentMenu?: string,
+    check?: number,
 }
 
 interface MenuItem {
@@ -26,21 +27,26 @@ interface MenuItem {
 }
 
 
-const Header: React.FC<LayoutProps> = ({ children }) => {
+const Header: React.FC<LayoutProps> = ({ children, currentMenu, check }) => {
 
     const [menuList, setMenuList] = useState([]);
-
     const deviceCheck = useSelector((state:RootState) => state.browser.device);
     const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
     const isHeaderFixed = useSelector((state:RootState) => state.check_header.isHeaderFixed);
     const isHeaderColor = useSelector((state:RootState) => state.check_header.isHeaderColor);
     const basketProductData = useSelector((state:RootState) => state.product.basket);
-
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [isClicked, setIsClicked] = useState<Record<string, boolean>>({});
     const dispatch = useDispatch();
-
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let newClickData = {} as Record<string, boolean>;
+        Object.keys(isClicked).forEach(function(item){
+            newClickData[item] = false;
+        })
+        setIsClicked(newClickData);
+    }, [check]);
 
     function renderMenuItems(data: MenuItem[], parentmenuNo: number, depth: number): JSX.Element | null {
         const menuItems = data.filter((item) => item.parent_menu_no === parentmenuNo);
@@ -181,7 +187,6 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
         }
     }
 
-
     const database = useSelector((state:RootState) => state.firebase.database);
     const menuListRef:DatabaseReference = ref(database, 'menu_list');
 
@@ -190,15 +195,12 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 setMenuList(Object.values(data));
-                setLoading(false);
-                console.log('header data load complete');
+                setLoading(true);
                 let clickData = {} as Record<string, boolean>;
                 Object.keys(data).forEach(function(item){
                     clickData[item] = false;
                 })
                 setIsClicked(clickData);
-            } else {
-                console.log('No data available');
             }
         });
     }, []);
@@ -214,7 +216,7 @@ const Header: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 {deviceCheck == 'PC' && <>
                     <div className="gnb-container">
-                        {loading && <>
+                        {! loading && <>
                             <ul className="menu_1ul">
                                 <li className="menu_1li"><span></span></li>
                                 <li className="menu_1li"><span></span></li>

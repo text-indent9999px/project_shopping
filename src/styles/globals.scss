@@ -494,15 +494,14 @@ html .react-select__menu-list *:active{
   bottom: 3rem;
   right: 3rem;
   z-index: $z-index-modal;
-  background: $bg1-light;
-  border: 2px solid $primary-color-light;
-  border-radius: 50%;
-  width: 5.2rem;
-  height: 5.2rem;
+  background: $primary-color-light;
+  width: 4.7rem;
+  height: 4.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: .4s ease-in-out;
+  color: $quaternary-color-light;
 
   @include tablet{
     right: 2rem;
@@ -512,5 +511,9 @@ html .react-select__menu-list *:active{
   &.is-hide{
     opacity: 0;
     pointer-events: none;
+  }
+
+  &:not(.is-hide){
+    transition-delay: .2s;
   }
 }

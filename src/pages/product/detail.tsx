@@ -39,11 +39,11 @@ export default function PrdDetail() {
                     })[0];
                     setProductData(productItem);
                 } else {
-                    console.log('No data available');
+                    //console.log('No data available');
                 }
             })
             .catch((error) => {
-                console.error('Error reading data from the database:', error);
+                //console.error('Error reading data from the database:', error);
             });
     }, [product_no]);
 

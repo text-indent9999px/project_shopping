@@ -16,13 +16,11 @@ interface LayoutProps {
 const FixedFollowLayout2: React.FC<LayoutProps> = ({ children}) => {
 
     const dispatch = useDispatch();
-
+    const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
     const childrenArray = React.Children.toArray(children);
-
     const children1 = childrenArray[0];
     const children2 = childrenArray[1];
     const children3 = childrenArray[2];
-
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
     const [contentsOpen, setContentsOpen] = useState(false);
 
@@ -68,7 +66,7 @@ const FixedFollowLayout2: React.FC<LayoutProps> = ({ children}) => {
                         </div>
                     </div>
                 </DraggablePanel>
-                <div className={`custom-fixedFollow-fixed-buttons ${isFooter ? 'is-footer' : ''}`} onClick={()=>setPosition(true)}>
+                <div className={`custom-fixedFollow-fixed-buttons ${isFooter ? 'is-footer' : ''} ${isScrolled ? '' : 'is-top'}`} onClick={()=>setPosition(true)}>
                     {children3}
                 </div>
             </div>
