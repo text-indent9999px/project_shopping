@@ -62,8 +62,6 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         if (typeof document !== 'undefined') {
             setLoading(true);
             dispatch(checkHeaderFixed(headerFixed));
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty("--vh", `${vh}px`);
         }
     }, []);
 
@@ -82,6 +80,8 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     useEffect(() => {
         window.scrollTo(0, 0);
         setCurrentMenu(router.asPath);
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
     },[loading, routerEvents]);
 
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
@@ -99,6 +99,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
             <Head>
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
+                <meta name="google" content="notranslate" />
             </Head>
             <Header currentMenu={currentMenu} check={routerEvents} loading={loading}></Header>
             <div className="contents-container">
