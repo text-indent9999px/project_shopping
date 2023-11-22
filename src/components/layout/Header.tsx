@@ -207,10 +207,10 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }
 
     return (
         <>
-            <header className={`header-container ${deviceCheck == 'PC' && isHovered ? ' is-hover' : ''} ${isScrolled ? ' is-scrolled' : ''} ${isHeaderFixed ? ' is-fixed' : ''} ${deviceCheck == 'PC' ? 'is-pc' : ''}`}
-                 onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(1)}
-                 data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}
-            >
+            {loading &&
+                <header className={`header-container ${deviceCheck == 'PC' && isHovered ? ' is-hover' : ''} ${isScrolled ? ' is-scrolled' : ''} ${isHeaderFixed ? ' is-fixed' : ''} ${deviceCheck == 'PC' ? 'is-pc' : ''}`}
+                                            onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(1)}
+                                            data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}>
                 <div className="logo-container">
                     <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /></Link>
                 </div>
@@ -239,7 +239,7 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }
                         </Button>
                     }
                 </div>
-            </header>
+            </header>}
             {loading && <BasketSidebar></BasketSidebar>}
             {deviceCheck !== 'PC' && loading && <>
                 <MenuSidebar>

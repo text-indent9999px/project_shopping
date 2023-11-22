@@ -42,7 +42,7 @@ $main-title-sub: 2.0rem;
 
 .main-banner-container{
   width: 100%;
-  height: calc(var(--vh, 1vh)*100);
+  height: calc(var(--vh-fixed, 1vh)*100);
 
   .swiper{
     width: 100%;

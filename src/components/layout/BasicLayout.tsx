@@ -82,6 +82,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         setCurrentMenu(router.asPath);
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
+        document.documentElement.style.setProperty("--vh-fixed", `${vh}px`);
     },[loading, routerEvents]);
 
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
