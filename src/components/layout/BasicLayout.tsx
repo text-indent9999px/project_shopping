@@ -100,6 +100,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
                 <title>{metadata.title}</title>
                 <meta name="description" content={metadata.description} />
                 <meta name="google" content="notranslate" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" />
             </Head>
             <Header currentMenu={currentMenu} check={routerEvents} loading={loading}></Header>
             <div className="contents-container">

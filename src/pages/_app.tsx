@@ -7,6 +7,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import GlobalCustomScrollBar from "@/components/scroll/GlobalCustomScrollBar";
 library.add(fas);
 
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from '@fortawesome/fontawesome-svg-core'
+config.autoAddCss = false
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
