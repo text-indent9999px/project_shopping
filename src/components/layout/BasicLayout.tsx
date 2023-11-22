@@ -88,6 +88,11 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
     const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
 
+    useEffect(()=>{
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+    },[isScrolled])
+
     const goTop = () => {
         window.scrollTo({
             top: 0,
