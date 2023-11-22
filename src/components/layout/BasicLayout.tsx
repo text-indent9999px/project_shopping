@@ -62,13 +62,22 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         if (typeof document !== 'undefined') {
             setLoading(true);
             dispatch(checkHeaderFixed(headerFixed));
-            const preventScrollRefresh = (e:TouchEvent) => {
-                e.preventDefault();
-            };
-            document.body.addEventListener('touchmove', preventScrollRefresh, { passive: false });
-            return () => {
-                document.body.removeEventListener('touchmove', preventScrollRefresh);
-            };
+            // let startY = 0;
+            // const preventScrollStart = (e:TouchEvent) => {
+            //     startY = e.touches[0].clientY;
+            // };
+            // const preventScrollRefresh = (e:TouchEvent) => {
+            //     var deltaY = e.touches[0].clientY - startY;
+            //     if (Math.abs(deltaY) > 10) {
+            //         e.preventDefault();
+            //     }
+            // };
+            // document.body.addEventListener('touchstart', preventScrollStart);
+            // document.body.addEventListener('touchmove', preventScrollRefresh, { passive: false });
+            // return () => {
+            //     document.body.removeEventListener('touchstart', preventScrollStart);
+            //     document.body.removeEventListener('touchmove', preventScrollRefresh);
+            // };
         }
     }, []);
 
