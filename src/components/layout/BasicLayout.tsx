@@ -62,6 +62,13 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
         if (typeof document !== 'undefined') {
             setLoading(true);
             dispatch(checkHeaderFixed(headerFixed));
+
+            const setMobileHeight = () => {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty("--vh", `${vh}px`);
+            }
+            window.addEventListener('resize', setMobileHeight);
+            return () => window.removeEventListener('resize', setMobileHeight);
         }
     }, []);
 
@@ -88,10 +95,6 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);
     const isScrolled = useSelector((state:RootState) => state.scroll.isScrolled);
 
-    useEffect(()=>{
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
-    },[isScrolled])
 
     const goTop = () => {
         window.scrollTo({
