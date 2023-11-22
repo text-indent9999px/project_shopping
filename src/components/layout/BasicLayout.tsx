@@ -63,6 +63,10 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
             setLoading(true);
             dispatch(checkHeaderFixed(headerFixed));
 
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
+            document.documentElement.style.setProperty("--vh-fixed", `${vh}px`);
+
             const setMobileHeight = () => {
                 let vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -87,9 +91,6 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     useEffect(() => {
         window.scrollTo(0, 0);
         setCurrentMenu(router.asPath);
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
-        document.documentElement.style.setProperty("--vh-fixed", `${vh}px`);
     },[loading, routerEvents]);
 
     const isFooter = useSelector((state:RootState) => state.scroll.isFooter);

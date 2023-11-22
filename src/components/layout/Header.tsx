@@ -64,12 +64,13 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }
                             data-menu={item.menu_no}
                             onMouseEnter={() => deviceCheck == 'PC' && handleMenuEnter(item.menu_no)}
                             onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(item.menu_no)}
-                            onClick={()=> deviceCheck !== 'PC' && handleMenuClick(item.menu_no)}
                         >
-                            <Link href={deviceCheck == 'PC' ? `${item.href}` : (subMenu ? '#' : `${item.href}`)}
-                                  onClick={(e) => (deviceCheck !== 'PC' && subMenu) && e.preventDefault()}>
+                            <Link href={item.href}>
                                 {item.name}
                             </Link>
+                            {subMenu && deviceCheck !== 'PC' && <span className={"menu-expand-icon"} onClick={()=> deviceCheck !== 'PC' && handleMenuClick(item.menu_no)}>
+                                    <span className={"custom-text-hidden"}>더보기</span>
+                                </span>}
                             {subMenu}
                         </li>
                     );
@@ -212,7 +213,7 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }
                                             onMouseLeave={() => deviceCheck == 'PC' && handleMenuLeave(1)}
                                             data-color={`${isHeaderColor == 'bright' ? 'bright' : 'dark'}`}>
                 <div className="logo-container">
-                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /></Link>
+                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /><span className={"custom-text-hidden"}>HOME</span></Link>
                 </div>
                 {deviceCheck == 'PC' && <>
                     <div className="gnb-container">
@@ -229,13 +230,15 @@ const Header: React.FC<LayoutProps> = ({ children, currentMenu, check, loading }
                 <div className="util-container">
                     <Button className="cart" data-type={'icon'} width={'md'} onClick={()=>dispatch(checkBasketSidebarOpen(true))}>
                         <FontAwesomeIcon icon={faCartShopping} />
-                        <span>
+                        <span className={"count"}>
                             <i>{basketProductData.length}</i>
                         </span>
+                        <span className={"custom-text-hidden"}>CART</span>
                     </Button>
                     {deviceCheck !== 'PC' &&
                         <Button className="menu" data-type={'icon'} width={'md'} onClick={()=>dispatch(checkMenuSidebarOpen(true))}>
                             <FontAwesomeIcon icon={faBars} />
+                            <span className={"custom-text-hidden"}>MENU</span>
                         </Button>
                     }
                 </div>

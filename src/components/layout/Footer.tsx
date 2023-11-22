@@ -27,7 +27,7 @@ const Footer: React.FC<LayoutProps> = ({ children }) => {
         <footer className="footer-container" ref={footerRef}>
             <div className={"custom-inner-wide"}>
                 <div className="logo-container">
-                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /></Link>
+                    <Link href={'/'}><LogoBasic width={deviceCheck == 'PC' ? 60 : 40} /><span className={"custom-text-hidden"}>HOME</span></Link>
                 </div>
                 <div className={"info-container"}>
                     <ul>

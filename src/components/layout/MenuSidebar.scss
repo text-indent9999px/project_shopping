@@ -60,6 +60,7 @@
       //li 스타일
       > li{
         cursor: pointer;
+        position: relative;
 
         > a{
           display: flex;
@@ -67,21 +68,40 @@
           justify-content: space-between;
           font-weight: $font-weight-medium;
           font-size: var(--font-size-title);
+          position: relative;
         }
 
         &.is-submenu{
-          > a{
+          .menu-expand-icon{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40%;
+            height: 3.5rem;
+            color: $gray-8;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-style: normal;
+            font-variant: normal;
+            line-height: 1;
+            text-rendering: auto;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
             &:after{
-              display: block;
-              content: "+";
-              color: $gray-8;
+              margin-right: 1rem;
+              font-family: inherit;
+              content: "\f107";
             }
           }
 
           &.is-clicked{
-            > a{
+            .menu-expand-icon{
               &:after{
-                content: "-";
+                font-family: inherit;
+                content: "\f106";
               }
             }
           }
