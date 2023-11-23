@@ -29,7 +29,7 @@
 
   margin-bottom: 2rem;
 
-  @include mobile{
+  @include tablet{
     margin-bottom: 0;
     margin-top: 3rem;
   }
@@ -45,7 +45,7 @@
       margin-bottom: 3rem;
       border-bottom: 2px solid $primary-color-light;
 
-      @include mobile{
+      @include tablet{
         padding-bottom: 0;
         margin-bottom: 2rem;
         border: none;
@@ -137,7 +137,7 @@
 .custom-fixedFollow-floating{
   max-height: 70rem;
 
-  @include mobile{
+  @include tablet{
     .custom-detail-info-box{
       margin-top: 0;
       margin-bottom: 2rem;

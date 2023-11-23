@@ -58,29 +58,27 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     setCateData(data['category'][Number(cate_no)]);
-                    console.log('prd list data complete');
+                    //console.log('prd list data complete');
                 } else {
-                    console.log('No data available');
+                    //console.log('No data available');
                 }
             })
             .catch((error) => {
-                console.error('Error reading data from the database:', error);
+                //console.error('Error reading data from the database:', error);
             });
-
         get(cateListRef)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     setCateInfo(data[Number(cate_no)]);
-                    console.log('prd cate data complete');
+                    //console.log('prd cate data complete');
                 } else {
-                    console.log('No data available');
+                    //console.log('No data available');
                 }
             })
             .catch((error) => {
-                console.error('Error reading data from the database:', error);
+                //console.error('Error reading data from the database:', error);
             });
-
         setCateSort('basic');
     }, [cate_no]);
 

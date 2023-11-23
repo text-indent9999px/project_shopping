@@ -105,7 +105,7 @@ const Product2: React.FC<Product2Props> = (
                                     <div className="img-area">
                                         <Link href={`/product/detail?product_no=${item.product_no}`}>
                                             <div className="img-box">
-                                                <img src={item.image_main} alt={item.name} />
+                                                <img src={item.image_main} alt={item.name} loading="lazy" />
                                             </div>
                                         </Link>
                                     </div>

@@ -4,12 +4,11 @@ import {useDispatch} from "react-redux";
 import {checkAverageBright} from "@/function/Common";
 
 interface ColorCheckProps extends HTMLProps<HTMLButtonElement> {
-    children?: React.ReactNode,
     imgSrc: string,
     alt: string,
 }
 
-const ColorCheck: React.FC<ColorCheckProps> = ({ children, imgSrc, alt }) => {
+const ColorCheck: React.FC<ColorCheckProps> = ({ imgSrc, alt }) => {
 
     const imgRef = useRef<HTMLImageElement>(null);
     const dispatch = useDispatch();
@@ -35,27 +34,20 @@ const ColorCheck: React.FC<ColorCheckProps> = ({ children, imgSrc, alt }) => {
         });
     };
 
+    const testHandler = () => {
+        if (imgRef.current) {
+          checkAverageBright(imgRef.current);
+          const imgElement = imgRef.current;
+          const observer = new IntersectionObserver(callback, options);
+          observer.observe(imgElement);
+          return () => {}
+              observer.disconnect();
+          };
+    }
+
     return (
         <>
-            {React.createElement("img", {
-                src: imgSrc,
-                alt: alt,
-                ref: imgRef,
-                key: Math.random(),
-                crossOrigin: "anonymous",
-                onLoad: () => {
-                    if (imgRef.current) {
-                        checkAverageBright(imgRef.current);
-                        const imgElement = imgRef.current;
-                        const observer = new IntersectionObserver(callback, options);
-                        observer.observe(imgElement);
-                        return () => {
-                            observer.disconnect();
-                        };
-                    }
-                },
-            })}
-            {children}
+            <img src={imgSrc} alt={alt} ref={imgRef} onLoad={testHandler} crossOrigin={"anonymous"}/>
         </>
     );
 };

@@ -4,6 +4,7 @@ import './Product.scss';
 import Pagination from "@/components/pagination/pagination";
 import PriceList from "@/components/common/PriceList";
 import {ProductData} from "@/types/types";
+import LazyImg from "@/components/common/LazyImg";
 
 interface Product1Props {
     data: ProductData[];
@@ -81,7 +82,7 @@ const Product1: React.FC<Product1Props> = (
                                 <div className="img-area">
                                     <Link href={`/product/detail?product_no=${item.product_no}`}>
                                         <div className="img-box">
-                                            <img src={item.image_main} alt={item.name} />
+                                            <LazyImg src={item.image_main} alt={item.name} lazy={true}></LazyImg>
                                         </div>
                                     </Link>
                                 </div>

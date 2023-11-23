@@ -97,41 +97,38 @@
             font-weight: $font-weight-medium;
           }
 
-          span{
-            display: inline-flex;
-            margin: 3rem 2rem;
-            width: 8rem;
-            height: calc(var(--font-size-subheading));
-            background: $color-cancel;
-            border-radius: calc(var(--font-size-subheading)/2);
-            position: relative;
-            overflow: hidden;
-
-            &:after{
-              display: block;
-              position: absolute;
-              top: 50%;
-              left: 0;
-              width: 50%;
-              height: 400%;
-              content: "";
-              background: $gray-5;
-              animation: shimmer .9s ease-in-out infinite;
-              transform: translateY(-50%);
-              margin-top: -10%;
-              filter: blur(5px);
-            }
-
-            @keyframes shimmer {
-              0% {
-                left: -100%;
-              }
-              100% {
-                left: 100%;
-              }
-            }
-
-          }
+          //span{
+          //  display: inline-flex;
+          //  margin: 3rem 2rem;
+          //  width: 8rem;
+          //  height: calc(var(--font-size-subheading));
+          //  background: $color-cancel;
+          //  border-radius: calc(var(--font-size-subheading)/2);
+          //  position: relative;
+          //  overflow: hidden;
+          //  &:after{
+          //    display: block;
+          //    position: absolute;
+          //    top: 50%;
+          //    left: 0;
+          //    width: 50%;
+          //    height: 400%;
+          //    content: "";
+          //    background: $gray-5;
+          //    animation: shimmer .9s ease-in-out infinite;
+          //    transform: translateY(-50%);
+          //    margin-top: -10%;
+          //    filter: blur(5px);
+          //  }
+          //  @keyframes shimmer {
+          //    0% {
+          //      left: -100%;
+          //    }
+          //    100% {
+          //      left: 100%;
+          //    }
+          //  }
+          //}
         }
 
         &:not(.menu_1li){

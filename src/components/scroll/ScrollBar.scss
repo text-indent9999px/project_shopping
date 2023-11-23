@@ -47,7 +47,7 @@
     transition: .4s ease-out;
   }
 
-  @include mobile{
+  @include tablet{
     display: none;
   }
 }

@@ -23,17 +23,18 @@ export default function Index() {
     const deviceCheck = useSelector((state:RootState) => state.browser.device);
     const database = useSelector((state:RootState) => state.firebase.database);
     const productListRef = ref(database, 'product_list');
-    const [testData, setTestData] = useState(null);
-    const [testData2, setTestData2] = useState(null);
+    const [cateData, setCateData] = useState(null);
+    const [cateData2, setCateData2] = useState(null);
     const [cateGrid, setCateGrid] = useState(4);
     const [cateGrid2, setCateGrid2] = useState(3);
+    const [cateView, setCateView] = useState(3);
 
     useEffect(() => {
         onValue(productListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                setTestData(data.category['10']);
-                setTestData2(data.category['11']);
+                setCateData(data.category['10']);
+                setCateData2(data.category['11']);
                 //console.log('index data load complete');
             } else {
                 //console.log('No data available');
@@ -47,14 +48,17 @@ export default function Index() {
             case 'MOBILE' :
                 setCateGrid(1);
                 setCateGrid2(1);
+                setCateView(4);
                 break;
             case 'TABLET' :
                 setCateGrid(2);
                 setCateGrid2(2);
+                setCateView(4);
                 break;
             case 'PC' :
                 setCateGrid(4);
                 setCateGrid2(3);
+                setCateView(3);
                 break;
         }
     },[deviceCheck])
@@ -100,7 +104,7 @@ export default function Index() {
                     <SwiperSlide>
                         <>
                             <ColorCheckSwiper>
-                                <Link href={'/product/list'}>
+                                <Link href={'/product/list?cate_no=10'}>
                                     <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img21.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -115,7 +119,7 @@ export default function Index() {
                     <SwiperSlide>
                         <>
                             <ColorCheckSwiper>
-                                <Link href={'/product/list'}>
+                                <Link href={'/product/list?cate_no=11'}>
                                     <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img16.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -130,7 +134,7 @@ export default function Index() {
                     <SwiperSlide>
                         <>
                             <ColorCheckSwiper>
-                                <Link href={'/product/list'}>
+                                <Link href={'/product/list?cate_no=10'}>
                                     <img src={'https://firebasestorage.googleapis.com/v0/b/projectshopping-ef0b8.appspot.com/o/product%2Fprd-img34.jpg?alt=media&token=f41655a9-f97b-44b6-8653-cf00af91cc87'} alt={'My Image'} crossOrigin={"anonymous"} />
                                     <div className="text-box">
                                         {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -150,7 +154,7 @@ export default function Index() {
                     <p>신상품을 만나보세요.</p>
                 </div>
                 <div className="main-contents-box">
-                    {testData && <Product1 data={testData} grid={cateGrid} output={4} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'new'}/>}
+                    {cateData && <Product1 data={cateData} grid={cateGrid} output={4} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'new'}/>}
                 </div>
             </div>
             <div className="main-prd-container2 main-section">
@@ -159,7 +163,7 @@ export default function Index() {
                     <p>가장 인기있는 제품을 보여드려요.</p>
                 </div>
                 <div className="main-contents-box">
-                    {testData2 && <Product1 data={testData2} grid={cateGrid2} output={3} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'best'}/>}
+                    {cateData2 && <Product1 data={cateData2} grid={cateGrid2} output={cateView} page={1} pageSet={5} moreview={true} moreviewtype={'pagination'} sort={'best'}/>}
                 </div>
             </div>
 
