@@ -1,36 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+쇼핑몰 프로젝트
+이 프로젝트는 주로 카페24를 통해 진행한 쇼핑몰 프로젝트를 기반으로 하여 개인적으로 만든 리액트 기반의 프로젝트입니다.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/ttttt.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+기술 스택 및 환경
+React: 사용자 인터페이스를 구축하기 위한 자바스크립트 라이브러리
+Next.js: React 기반의 프레임워크로, 서버 사이드 렌더링 및 정적 사이트 생성을 지원합니다.
+TypeScript: 정적 타입 지원을 통해 코드 안정성을 확보하는 데 사용되는 언어
+Firebase: 클라우드 기반의 백엔드 서비스로, 데이터베이스 및 인증과 같은 기능을 제공합니다.
+SCSS: CSS의 확장된 문법을 사용하여 스타일링을 효율적으로 구조화합니다.
