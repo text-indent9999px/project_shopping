@@ -17,6 +17,7 @@ import ProductSelect from "@/components/product/ProductSelect";
 import ButtonArea from "@/components/button/ButtonArea";
 import Button from "@/components/button/Button";
 import Image from "next/image";
+import Contents from "@/components/layout/Contents";
 
 export default function PrdDetail() {
 
@@ -134,7 +135,7 @@ export default function PrdDetail() {
 
 
     return (
-        <BasicLayout metadata={metadata}>
+        <Contents metadata={metadata}>
             {deviceCheck == 'PC' ?
                 <FixedFollowLayout>
                     <>
@@ -162,6 +163,6 @@ export default function PrdDetail() {
                     </>
                 </FixedFollowLayout2>
             }
-        </BasicLayout>
+        </Contents>
     );
 }

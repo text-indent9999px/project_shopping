@@ -16,6 +16,7 @@ const metadata = {
     description: 'This is the test page',
 };
 
+import Contents from "@/components/layout/Contents";
 
 
 export default function Index() {
@@ -80,7 +81,7 @@ export default function Index() {
     };
 
     return (
-        <BasicLayout metadata={metadata} headerFixed={true}>
+        <Contents metadata={metadata} headerFixed={true}>
             <div className="main-banner-container" data-header-fixed="true">
 
                 <Swiper
@@ -181,6 +182,6 @@ export default function Index() {
                     </div>
                 </div>
             </div>
-        </BasicLayout>
+        </Contents>
     );
 }

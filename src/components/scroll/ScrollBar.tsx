@@ -41,18 +41,14 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
 
     useEffect(() => {
 
-
-
         if(scrollContainer.current != null){
-
             const scrollElement = scrollContainer.current;
             const parentElement = scrollContainer.current.parentElement;
 
             if(parentElement !== null){
-
                 const standardElement = parentElement.parentElement;
                 const contentsElement = scrollContainer.current.children[0];
-                const thumbElement = parentElement.children[1];
+                const thumbElement = scrollContainer.current.children[1];
 
                 if(contentsElement !== null && thumbElement !== null && standardElement !== null){
 
@@ -122,7 +118,7 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
         let targetElement: Element | null = e.target as Element;
 
         if (targetElement !== null && scrollContainer.current !== null && targetElement.parentElement !== null) {
-            const thumb = targetElement.parentElement.children[1];
+            const thumb = targetElement.children[1];
 
             if (!scrollCheck) {
                 setScrollCheck(true);
@@ -143,15 +139,15 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
 
         if(scrollContainer.current != null && el.parentElement !== null){
             const wrapper = el.children[0] as HTMLElement;
-            const thumb = el.parentElement.children[1] as HTMLElement;
+            const thumb = el.children[1] as HTMLElement;
+            const thumbH = thumb.clientHeight;
             const { clientHeight: outerH } = scrollContainer.current;
             const { clientHeight: innerH } = wrapper;
             const { top: outerTop } = scrollContainer.current.getBoundingClientRect();
             const { top: innerTop } = wrapper.getBoundingClientRect();
             const innerContainerY = outerTop - innerTop;
-            const thumbH = thumb.clientHeight;
             const scrollYFactor = (innerH - thumbH) / (innerH - outerH);
-            const maxThumbScrollY = outerH - thumbH;
+            const maxThumbScrollY = innerH - thumbH;
             const thumbScrollY = innerContainerY * scrollYFactor;
             const revisedThumbScrollY =
                 thumbScrollY < 1
@@ -172,8 +168,8 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
                     <div className={"custom-scroll-area"}>
                         {children}
                     </div>
+                    <div className={"custom-scroll-thumb"}></div>
                 </div>
-                <div className={"custom-scroll-thumb"}></div>
             </div>
         </>
     );

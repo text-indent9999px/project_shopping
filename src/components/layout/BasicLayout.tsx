@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Head from 'next/head';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import '../../styles/reset.scss';
@@ -11,7 +10,6 @@ import Popup from "@/components/popup/popup";
 import {RootState} from "@/types/types";
 import {
     checkBasketSidebarOpen,
-    checkHeaderFixed,
     detectDevice,
     checkMenuSidebarOpen,
 } from "@/actions/actions";
@@ -23,14 +21,10 @@ import {useRouter} from "next/router";
 
 interface LayoutProps {
     children: React.ReactNode;
-    metadata: {
-        title: string;
-        description: string;
-    };
     headerFixed?: boolean;
 }
 
-const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = false}) => {
+const BasicLayout: React.FC<LayoutProps> = ({ children, headerFixed = false}) => {
 
     const dispatch = useDispatch();
     const router = useRouter();
@@ -61,7 +55,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     useEffect(() => {
         if (typeof document !== 'undefined') {
             setLoading(true);
-            dispatch(checkHeaderFixed(headerFixed));
+            // dispatch(checkHeaderFixed(headerFixed));
 
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -89,7 +83,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
     }, [router.asPath]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         setCurrentMenu(router.asPath);
     },[loading, routerEvents]);
 
@@ -106,16 +100,8 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, metadata, headerFixed = 
 
     return (
         <>
-            <Head>
-                <title>{metadata.title}</title>
-                <meta name="description" content={metadata.description} />
-                <meta name="google" content="notranslate" />
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" />
-            </Head>
             <Header currentMenu={currentMenu} check={routerEvents} loading={loading}></Header>
-            <div className="contents-container">
-                {children}
-            </div>
+            {children}
             <Footer></Footer>
             <div className={`custom-go-top ${isFooter || ! isScrolled ? 'is-hide' : ''}`} onClick={goTop}>
                 <FontAwesomeIcon icon={faArrowUp} />

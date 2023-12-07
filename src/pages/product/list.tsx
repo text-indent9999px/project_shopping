@@ -11,6 +11,7 @@ const metadata = {
     title: 'Prd List Page',
     description: 'This is the test page',
 };
+import Contents from "@/components/layout/Contents";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -83,7 +84,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
     }, [cate_no]);
 
     return (
-        <BasicLayout metadata={metadata} headerFixed={true}>
+        <Contents metadata={metadata} headerFixed={true}>
             <div className="custom-page-banner-wrap" data-header-fixed="true">
                 <ul className="custom-page-banners">
                     <li className="custom-page-banner">
@@ -145,7 +146,7 @@ const PrdList: React.FC<LayoutProps> = ({ children }) => {
                     </div>}
                 </div>
             </div>
-        </BasicLayout>
+        </Contents>
     );
 }
 

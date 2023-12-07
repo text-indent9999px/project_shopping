@@ -21,6 +21,7 @@ interface summaryData {
     totalAmount: number,
     totalAmountExceptDelivery: number,
 }
+import Contents from "@/components/layout/Contents";
 
 export default function OrderBasket() {
 
@@ -32,7 +33,7 @@ export default function OrderBasket() {
     }
 
     return (
-        <BasicLayout metadata={metadata}>
+        <Contents metadata={metadata}>
             <Title title={"장바구니"} desc={""}></Title>
 
             {deviceCheck == 'PC' ? <FixedFollowLayout>
@@ -104,6 +105,6 @@ export default function OrderBasket() {
 
 
 
-        </BasicLayout>
+        </Contents>
     );
 }

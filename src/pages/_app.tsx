@@ -9,12 +9,13 @@ library.add(fas);
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import BasicLayout from "@/components/layout/BasicLayout";
 config.autoAddCss = false
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>
-            <Component {...pageProps} />
+            <BasicLayout><Component {...pageProps} /></BasicLayout>
             <GlobalCustomScrollBar></GlobalCustomScrollBar>
         </Provider>
     );
