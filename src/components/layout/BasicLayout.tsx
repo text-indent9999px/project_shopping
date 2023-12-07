@@ -83,7 +83,7 @@ const BasicLayout: React.FC<LayoutProps> = ({ children, headerFixed = false}) =>
     }, [router.asPath]);
 
     useEffect(() => {
-        // window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
         setCurrentMenu(router.asPath);
     },[loading, routerEvents]);
 

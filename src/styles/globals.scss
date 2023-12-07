@@ -159,15 +159,9 @@ body::-webkit-scrollbar {
 }
 
 
-#wrap{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: calc(var(--vh, 1vh)*100);
-
-  .contents-container{
-    flex-grow: 1;
-  }
+.contents-container{
+  flex-grow: 1;
+  background: $bg1-light;
 }
 
 .custom-text-hidden{
