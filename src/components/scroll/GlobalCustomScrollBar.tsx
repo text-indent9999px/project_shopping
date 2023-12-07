@@ -2,16 +2,7 @@ import React, { useRef, useState, useEffect, MutableRefObject } from "react";
 import { createPortal } from "react-dom";
 import './ScrollBar.scss';
 
-
-interface GlobalScrollBarThumbProps {
-    onRef: (ref: React.RefObject<HTMLDivElement>) => void;
-    onMouseDown: (e: any) => void;
-    onMouseMove: (e: any) => void;
-    onMouseUp: (e: any) => void;
-    onMouseLeave: (e: any) => void;
-}
-
-const GlobalScrollBarThumb: React.FC<GlobalScrollBarThumbProps> = ({ onRef, onMouseDown, onMouseMove, onMouseUp, onMouseLeave  }) => {
+const GlobalScrollBarThumb: React.FC<{ onRef: (ref: React.RefObject<HTMLDivElement>) => void }> = ({ onRef }) => {
     const thumbRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -20,8 +11,7 @@ const GlobalScrollBarThumb: React.FC<GlobalScrollBarThumbProps> = ({ onRef, onMo
 
     return (
         <>
-            <div className={"custom-page-scroll-thumb"} ref={thumbRef}
-                 onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} onMouseUp={onMouseUp}></div>
+            <div className={"custom-page-scroll-thumb"} ref={thumbRef}></div>
         </>
     );
 };
@@ -32,7 +22,6 @@ export default function GlobalCustomScrollBar() {
     const pageHeight = useRef<number | null>(null);
     const [windowHeight, setWindowHeight] = useState(0);
     const [scrollCheck, setScrollCheck] = useState(false);
-    const [dragging, setDragging] = useState(false);
 
     useEffect(() => {
         setFlag(true);
@@ -89,8 +78,8 @@ export default function GlobalCustomScrollBar() {
                     }, 1000);
                 }
             }
-
             document.addEventListener("scroll", calculateThumbY);
+
             return () => {
                 document.removeEventListener("scroll", calculateThumbY);
             };
@@ -103,25 +92,9 @@ export default function GlobalCustomScrollBar() {
     };
 
 
-    const handleMouseDown = (e:any) => {
-        setDragging(true);
-    };
-
-    const handleMouseUp = (e:any) => {
-        setDragging(false);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-
-    };
-
     if (flag) {
         return createPortal(
-            <GlobalScrollBarThumb onRef={handleRef}
-                                  onMouseDown={handleMouseDown}
-                                  onMouseMove={handleMouseMove}
-                                  onMouseUp={handleMouseUp}
-                                  onMouseLeave={handleMouseUp} />,
+            <GlobalScrollBarThumb onRef={handleRef}/>,
             document.body
         );
     }

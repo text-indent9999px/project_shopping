@@ -151,17 +151,12 @@ html, body{
   -ms-overflow-style: none;
   scrollbar-width: none;
   overscroll-behavior-y: none;
+  background: $bg1-light;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
-}
-
-
-.contents-container{
-  flex-grow: 1;
-  background: $bg1-light;
 }
 
 .custom-text-hidden{

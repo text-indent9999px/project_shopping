@@ -87,6 +87,9 @@ const ScrollBar: React.FC<LayoutProps> = ({ children }) => {
                                 if(chkFull){
                                     scrollElement.style.height = scrollContentMaxInnerHeight + 'px';
                                     thumbHeight = scrollContentMaxInnerHeight**2 / contentsHeight;
+                                    if(thumbHeight >= scrollContentMaxInnerHeight){
+                                        thumbHeight = 0;
+                                    }
                                 }else{
                                     if(scrollContentMaxInnerHeight <= contentsHeight) {
                                         scrollElement.style.height = scrollContentMaxInnerHeight + 'px';
